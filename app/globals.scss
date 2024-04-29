@@ -14,3 +14,7 @@ h6 {
 button {
   @apply font-dmSans;
 }
+
+.active .MuiButton-root {
+  background-color: #5640c2 !important;
+}
