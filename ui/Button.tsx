@@ -10,6 +10,10 @@ const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({
   fontSize: "16px",
   textTransform: "capitalize",
   height: "41px",
+
+  "&:hover": {
+    boxShadow: "none",
+  },
 }));
 
 export default StyledButton;

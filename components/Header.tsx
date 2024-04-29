@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import StyledButton from "./Button";
+import StyledButton from "../ui/Button";
 import { useRouter } from "next/navigation";
 
 const Header = () => {

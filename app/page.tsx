@@ -1,4 +1,4 @@
-import Header from "@/ui/Header";
+import Header from "@/components/Header";
 import { Metadata } from "next";
 import React from "react";
 

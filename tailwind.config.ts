@@ -23,9 +23,9 @@ const config: Config = {
         "900": "#3c337c",
         "950": "#241e48",
       },
-      black: "141301",
-      white: "FFFBFC",
-      grey: "626155",
+      black: "#141301",
+      white: "#FFFBFC",
+      grey: "#626155",
     },
     //custom fonts
     fontFamily: {
