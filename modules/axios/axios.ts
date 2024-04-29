@@ -1,13 +1,11 @@
 import Axios from "axios";
 
 const axios = Axios.create({
-  baseURL: process.env.BASE_BACKEND_URL,
+  baseURL: "http://localhost:8876/api/v1",
   headers: {
-    Accept: "application/json",
     "X-Requested-With": "XMLHttpRequest",
   },
   withCredentials: true,
-  withXSRFToken: true,
 });
 
 export default axios;

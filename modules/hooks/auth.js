@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import axios from "../axios";
+import axios from "../axios/axios";
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const router = useRouter();
