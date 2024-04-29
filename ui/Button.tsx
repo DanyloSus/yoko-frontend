@@ -1,5 +1,7 @@
+"use client";
+
 import Button, { ButtonProps } from "@mui/material/Button";
-import { alpha, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({
   boxShadow: "none",
