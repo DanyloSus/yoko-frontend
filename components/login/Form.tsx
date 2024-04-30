@@ -68,10 +68,18 @@ const LoginForm = () => {
         router.push("/auth/collections");
         setIsLoading(false);
       } catch (error: any) {
-        formik.setErrors({
-          email: "",
-          password: "Your credentials are incorrect",
-        });
+        if (error.response && error.response!.status === 422) {
+          formik.setErrors({
+            email: "",
+            password: "Your credentials are incorrect",
+          });
+        } else {
+          formik.setErrors({
+            email: "",
+            password: "Something went wrong",
+          });
+        }
+
         setIsLoading(false);
       }
     },

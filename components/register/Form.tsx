@@ -97,8 +97,16 @@ const RegisterForm = () => {
         router.push("/auth/collections");
         setIsLoading(false);
       } catch (error: any) {
-        if (error.response!.status === 422)
+        if (error.response && error.response!.status === 422) {
           formik.setErrors({ email: "Email is already taken" });
+        } else {
+          formik.setErrors({
+            email: "",
+            name: "",
+            surname: "",
+            password: "Something went wrong",
+          });
+        }
         setIsLoading(false);
       }
     },
@@ -114,7 +122,7 @@ const RegisterForm = () => {
             label="Name"
             type="text"
             name="name"
-            error={Boolean(formik.errors.name)}
+            error={Boolean(formik.errors.name) || formik.errors.name === ""}
             helperText={formik.errors.name ? formik.errors.name : ""}
             onChange={formik.handleChange}
             value={formik.values.name}
@@ -123,7 +131,9 @@ const RegisterForm = () => {
             label="Surname"
             type="text"
             name="surname"
-            error={Boolean(formik.errors.surname)}
+            error={
+              Boolean(formik.errors.surname) || formik.errors.surname === ""
+            }
             helperText={formik.errors.surname ? formik.errors.surname : ""}
             onChange={formik.handleChange}
             value={formik.values.surname}
@@ -133,7 +143,7 @@ const RegisterForm = () => {
           label="Email"
           type="email"
           name="email"
-          error={Boolean(formik.errors.email)}
+          error={Boolean(formik.errors.email) || formik.errors.email === ""}
           helperText={formik.errors.email ? formik.errors.email : ""}
           onChange={formik.handleChange}
           value={formik.values.email}
@@ -142,7 +152,9 @@ const RegisterForm = () => {
           label="Password"
           type="password"
           name="password"
-          error={Boolean(formik.errors.password)}
+          error={
+            Boolean(formik.errors.password) || formik.errors.password === ""
+          }
           helperText={formik.errors.password ? formik.errors.password : ""}
           onChange={formik.handleChange}
           value={formik.values.password}
