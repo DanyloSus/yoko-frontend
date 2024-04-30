@@ -21,6 +21,7 @@ const RegisterForm = () => {
     const session = fetchCookies();
 
     if (session !== null) router.replace("/auth/collections");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const formik = useFormik({

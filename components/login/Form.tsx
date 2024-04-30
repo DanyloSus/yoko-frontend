@@ -3,12 +3,26 @@
 import StyledButton from "@/ui/Button";
 import StyledTextField from "@/ui/TextField";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import axios from "axios";
 
 const LoginForm = () => {
   const router = useRouter();
+
+  useEffect(() => {
+    async function fetchCookies() {
+      const res = await axios.get("/api/cookies");
+
+      return res.data.message;
+    }
+
+    const session = fetchCookies();
+
+    if (session !== null) router.replace("/auth/collections");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -32,7 +46,24 @@ const LoginForm = () => {
     }),
     validateOnChange: false,
     onSubmit: async (value) => {
-      alert(value);
+      try {
+        const res = await axios.post(
+          "http://localhost:8876/api/v1/auth/login",
+          value
+        );
+
+        const token = res.data.data.token;
+
+        await axios.post("/api/cookies", JSON.stringify(token));
+
+        router.push("/auth/collections");
+      } catch (error: any) {
+        if (error.response!.status === 401)
+          formik.setErrors({
+            email: true,
+            password: "Your credentials are incorrect",
+          });
+      }
     },
   });
 
