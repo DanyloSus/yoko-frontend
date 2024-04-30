@@ -36,8 +36,6 @@ const LoginForm = () => {
 
       const session = res.data.message;
 
-      console.log("session", session);
-
       if (session !== null) router.replace("/auth/collections");
     }
 

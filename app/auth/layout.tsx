@@ -1,3 +1,5 @@
+"use client";
+
 import Header from "@/components/Header";
 import React from "react";
 
@@ -8,7 +10,7 @@ const AuthLayout = ({
 }>) => {
   return (
     <>
-      <Header state="signed" />
+      <Header />
       <main className="pt-[110px] px-pc">{children}</main>
     </>
   );

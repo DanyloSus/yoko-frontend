@@ -5,16 +5,14 @@ import StyledButton from "../ui/Button";
 import NavLink from "./NavLink";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Store } from "@/modules/auth/redux/store";
+import { login, userLoad } from "@/modules/auth/redux/user/userSlice";
 
-type HeaderProps = {
-  state?: "signed" | "admin";
-};
-
-const Header = (props: HeaderProps) => {
+const Header = () => {
   const [signed, setSigned] = useState(false);
 
+  const dispatch = useDispatch();
   const user = useSelector((state: Store) => state.user);
 
   useEffect(() => {
@@ -23,15 +21,38 @@ const Header = (props: HeaderProps) => {
       return;
     }
 
+    if (localStorage.getItem("user")) {
+      dispatch(userLoad());
+      console.log("Localstorage");
+    }
+
     async function fetchCookies() {
       const res = await axios.get("/api/cookies");
 
-      const session = res.data.message;
+      const { token } = res.data.message;
 
-      if (session !== null) setSigned(true);
+      if (token !== null) {
+        setSigned(true);
+
+        const { data } = await axios.get("http://localhost:8876/api/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        dispatch(
+          login({
+            email: data.email,
+            name: data.name,
+            surname: data.surname,
+            token,
+          })
+        );
+      }
     }
 
     fetchCookies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (
