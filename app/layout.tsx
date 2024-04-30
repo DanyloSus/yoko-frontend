@@ -6,7 +6,7 @@ import "./globals.scss";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/ui/theming/Theme";
 
-export const dmSans = DM_Sans({
+const dmSans = DM_Sans({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-dm-sans",
