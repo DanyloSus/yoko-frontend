@@ -9,7 +9,7 @@ const AuthLayout = ({
   return (
     <>
       <Header state="signed" />
-      <main className="pt-[110px]">{children}</main>
+      <main className="pt-[110px] px-pc">{children}</main>
     </>
   );
 };

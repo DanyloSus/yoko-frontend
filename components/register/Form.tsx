@@ -50,8 +50,8 @@ const RegisterForm = () => {
         )
         .test(
           "len",
-          "Must be from 8 to 20 characters",
-          (val) => val.length >= 8 && val.length <= 20
+          "Must be from 1 to 20 characters",
+          (val) => val.length >= 1 && val.length <= 20
         ),
       surname: Yup.string()
         .required()
@@ -62,8 +62,8 @@ const RegisterForm = () => {
         )
         .test(
           "len",
-          "Must be from 8 to 20 characters",
-          (val) => val.length >= 8 && val.length <= 20
+          "Must be from 1 to 20 characters",
+          (val) => val.length >= 1 && val.length <= 20
         ),
       email: Yup.string().required().email(),
       password: Yup.string()

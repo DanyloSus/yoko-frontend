@@ -12,8 +12,7 @@ type NavLinkProps = {
 };
 
 const NavLink = (props: NavLinkProps) => {
-  const pathname =
-    usePathname().split("/")[usePathname().split("/").length - 1];
+  const pathname = usePathname();
 
   const router = useRouter();
 
@@ -22,7 +21,7 @@ const NavLink = (props: NavLinkProps) => {
       className={pathname === props.link ? "active" : "cursor-pointer"}
       onClick={() => {
         //go to another page
-        router.replace(props.link);
+        router.push(props.link);
       }}
     >
       {props.children}
