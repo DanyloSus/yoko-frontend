@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import MovingText from "@/components/MovingText";
 import { Metadata } from "next";
 import React from "react";
 
@@ -11,12 +12,17 @@ const Landing = () => {
   return (
     <>
       <Header />
-      <main className="bg-blue-marguerite-500 w-screen h-screen flex flex-col text-blue-marguerite-50 items-center justify-center text-center">
-        <h1 className="text-[64px] leading-[64px]">Слова у Твоєму Виконанні</h1>
-        <p className="font-dmSans mt-[25px]">
-          Вивчай англійську разом із текстами користувачів Yolo
-        </p>
+      <main className="bg-blue-marguerite-500 w-screen h-screen flex flex-col text-blue-marguerite-50 items-center justify-center text-center ">
+        <div className="relative z-10">
+          <h1 className="text-[64px] leading-[64px]">
+            Слова у Твоєму Виконанні
+          </h1>
+          <p className="font-dmSans mt-[25px]">
+            Вивчай англійську разом із текстами користувачів Yolo
+          </p>
+        </div>
       </main>
+      <MovingText />
     </>
   );
 };

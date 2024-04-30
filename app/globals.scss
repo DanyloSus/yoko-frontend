@@ -18,3 +18,44 @@ button {
 .active .MuiButton-root {
   background-color: #5640c2 !important;
 }
+
+@mixin movingTextAnimation($duration: 5s) {
+  @keyframes movingText {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
+
+  animation: movingText 60s linear infinite alternate;
+}
+
+@for $i from 1 through 32 {
+  .moving-text-container > .moving-text:nth-child(#{$i}) {
+    right: #{calc($i * 10)}px;
+  }
+}
+
+.moving-text-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh; /* Adjust height as needed */
+  overflow: hidden;
+  opacity: 0.1;
+}
+
+.moving-text {
+  position: relative;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  color: white; /* Text color */
+  font-size: 24px; /* Font size */
+  font-weight: bold; /* Font weight */
+  @include movingTextAnimation();
+  user-select: none; /* Standard syntax */
+}
