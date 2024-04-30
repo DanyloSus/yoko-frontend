@@ -4,9 +4,31 @@ import StyledButton from "@/ui/Button";
 import StyledTextField from "@/ui/TextField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import React from "react";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import DeleteDialog from "./DeleteDialog";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 const SettingsForm = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -135,11 +157,12 @@ const SettingsForm = () => {
         <StyledButton
           sx={{ width: "90px" }}
           variant="contained"
-          onClick={() => {}}
+          onClick={handleOpen}
           color="error"
         >
           Delete
         </StyledButton>
+        <DeleteDialog open={open} handleClose={handleClose} />
         <StyledButton sx={{ width: "101px" }} variant="contained" type="submit">
           Confirm
         </StyledButton>
