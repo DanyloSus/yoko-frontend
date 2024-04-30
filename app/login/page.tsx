@@ -1,5 +1,5 @@
 import LoginForm from "@/components/login/Form";
-import FormWrapper from "@/ui/wrappers/FormWrapper";
+import FormWrapper from "@/components/wrappers/FormWrapper";
 import React from "react";
 
 const Login = () => {

@@ -8,14 +8,30 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { Store } from "@/modules/auth/redux/store";
+import { login } from "@/modules/auth/redux/user/userSlice";
 
 const RegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
+  const dispatch = useDispatch();
+
+  const user = useSelector((state: Store) => state.user);
+
   useEffect(() => {
     setIsLoading(true);
+
+    console.log(user);
+
+    if (user.token !== null) {
+      router.replace("/auth/collections");
+      setIsLoading(false);
+      return;
+    }
+
     async function fetchCookies() {
       const res = await axios.get("/api/cookies");
 
@@ -93,6 +109,15 @@ const RegisterForm = () => {
         const token = res.data.data.token;
 
         await axios.post("/api/cookies", JSON.stringify(token));
+
+        dispatch(
+          login({
+            email: value.email,
+            name: value.name,
+            surname: value.surname,
+            token,
+          })
+        );
 
         router.push("/auth/collections");
         setIsLoading(false);

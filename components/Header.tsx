@@ -5,6 +5,8 @@ import StyledButton from "../ui/Button";
 import NavLink from "./NavLink";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { Store } from "@/modules/auth/redux/store";
 
 type HeaderProps = {
   state?: "signed" | "admin";
@@ -13,19 +15,24 @@ type HeaderProps = {
 const Header = (props: HeaderProps) => {
   const [signed, setSigned] = useState(false);
 
+  const user = useSelector((state: Store) => state.user);
+
   useEffect(() => {
+    if (user.token !== null) {
+      setSigned(true);
+      return;
+    }
+
     async function fetchCookies() {
       const res = await axios.get("/api/cookies");
 
       const session = res.data.message;
 
-      console.log("session", session);
-
       if (session !== null) setSigned(true);
     }
 
     fetchCookies();
-  }, []);
+  }, [user]);
 
   return (
     <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 text-blue-marguerite-50 bg-blue-marguerite-500 flex px-pc items-center justify-between fixed z-50">

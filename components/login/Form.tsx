@@ -8,14 +8,29 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "@/modules/auth/redux/user/userSlice";
+import { Store } from "@/modules/auth/redux/store";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const user = useSelector((state: Store) => state.user);
 
   useEffect(() => {
     setIsLoading(true);
+
+    console.log(user);
+
+    if (user.token !== null) {
+      router.replace("/auth/collections");
+      setIsLoading(false);
+      return;
+    }
+
     async function fetchCookies() {
       const res = await axios.get("/api/cookies");
 
@@ -30,7 +45,7 @@ const LoginForm = () => {
 
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   const formik = useFormik({
     initialValues: {
@@ -64,6 +79,23 @@ const LoginForm = () => {
         const token = res.data.data.token;
 
         await axios.post("/api/cookies", JSON.stringify(token));
+
+        const { data } = await axios.get("http://localhost:8876/api/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log(data);
+
+        dispatch(
+          login({
+            email: data.email,
+            name: data.name,
+            surname: data.surname,
+            token,
+          })
+        );
 
         router.push("/auth/collections");
         setIsLoading(false);

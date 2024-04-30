@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import "./globals.scss";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/ui/theming/Theme";
+import ReduxWrapper from "@/components/wrappers/ReduxWrapper";
 
 const dmSans = DM_Sans({
   weight: "400",
@@ -29,7 +30,7 @@ export default function RootLayout({
         <body
           className={`${dmSans.className} ${dmSans.variable} ${kyiv.variable}`}
         >
-          <>{children}</>
+          <ReduxWrapper>{children}</ReduxWrapper>
         </body>
       </html>
     </ThemeProvider>

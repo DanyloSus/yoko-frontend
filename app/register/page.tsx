@@ -1,5 +1,5 @@
 import RegisterForm from "@/components/register/Form";
-import FormWrapper from "@/ui/wrappers/FormWrapper";
+import FormWrapper from "@/components/wrappers/FormWrapper";
 import React from "react";
 
 const Register = () => {
