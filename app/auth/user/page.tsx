@@ -5,9 +5,9 @@ import StyledButton from "@/ui/Button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Store } from "@/modules/auth/redux/store";
+import { Store } from "@/modules/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/modules/auth/redux/user/userSlice";
+import { logout } from "@/modules/redux/user/userSlice";
 import { CircularProgress } from "@mui/material";
 
 import dynamic from "next/dynamic";

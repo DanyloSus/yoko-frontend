@@ -3,11 +3,18 @@ import React, { ReactNode } from "react";
 type Props = {
   children: ReactNode;
   title: string;
+  isDark?: boolean;
 };
 
 const FormWrapper = (props: Props) => {
   return (
-    <div className="flex  max-w-[780px] w-full min-h-[483px] py-[12px] rounded-lg border-2 border-blue-marguerite-700  items-center justify-center  text-white">
+    <div
+      className="flex  max-w-[780px] w-full min-h-[483px] py-[12px] rounded-lg border-2 items-center justify-center  text-white"
+      style={{
+        borderColor: props.isDark ? "black" : "rgb(86, 64, 194)",
+        color: props.isDark ? "black" : "white",
+      }}
+    >
       <div className="flex flex-col gap-[24px] max-w-[381px] w-full items-center">
         <h3 className="text-h3">{props.title}</h3>
         {props.children}

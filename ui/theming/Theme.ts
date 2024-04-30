@@ -12,9 +12,6 @@ const theme = createTheme({
     primary: {
       main: "#6d64e8",
     },
-    error: {
-      main: "#FFCCCC",
-    },
   },
   typography: {
     fontFamily: dmSans.style.fontFamily,

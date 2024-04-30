@@ -6,8 +6,8 @@ import NavLink from "./NavLink";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { Store } from "@/modules/auth/redux/store";
-import { login, userLoad } from "@/modules/auth/redux/user/userSlice";
+import { Store } from "@/modules/redux/store";
+import { login, userLoad } from "@/modules/redux/user/userSlice";
 
 const Header = () => {
   const [signed, setSigned] = useState(false);

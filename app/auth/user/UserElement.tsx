@@ -1,4 +1,4 @@
-import { UserInfo } from "@/modules/auth/redux/user/userSlice";
+import { UserInfo } from "@/modules/redux/user/userSlice";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { CircularProgress } from "@mui/material";
 import React from "react";

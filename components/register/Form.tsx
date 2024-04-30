@@ -9,8 +9,8 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { Store } from "@/modules/auth/redux/store";
-import { login } from "@/modules/auth/redux/user/userSlice";
+import { Store } from "@/modules/redux/store";
+import { login } from "@/modules/redux/user/userSlice";
 
 const RegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -144,6 +144,7 @@ const RegisterForm = () => {
       <div className="flex flex-col gap-[20px] justify-stretch w-full">
         <div className="flex gap-[20px] w-full">
           <StyledTextField
+            className="primary"
             label="Name"
             type="text"
             name="name"
@@ -153,6 +154,7 @@ const RegisterForm = () => {
             value={formik.values.name}
           />
           <StyledTextField
+            className="primary"
             label="Surname"
             type="text"
             name="surname"
@@ -165,6 +167,7 @@ const RegisterForm = () => {
           />
         </div>
         <StyledTextField
+          className="primary"
           label="Email"
           type="email"
           name="email"
@@ -174,6 +177,7 @@ const RegisterForm = () => {
           value={formik.values.email}
         />
         <StyledTextField
+          className="primary"
           label="Password"
           type="password"
           name="password"
@@ -187,13 +191,13 @@ const RegisterForm = () => {
       </div>
       <div className="flex justify-between w-full">
         <StyledButton
-          sx={{ width: "102px" }}
+          sx={{ width: "80px" }}
           variant="contained"
           onClick={() => router.push("/login")}
         >
           Login
         </StyledButton>
-        <StyledButton sx={{ width: "80px" }} variant="contained" type="submit">
+        <StyledButton sx={{ width: "102px" }} variant="contained" type="submit">
           Register
         </StyledButton>
       </div>

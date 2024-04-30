@@ -9,8 +9,8 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "@/modules/auth/redux/user/userSlice";
-import { Store } from "@/modules/auth/redux/store";
+import { login } from "@/modules/redux/user/userSlice";
+import { Store } from "@/modules/redux/store";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -121,6 +121,7 @@ const LoginForm = () => {
     <form className="space-y-[24px] w-full" onSubmit={formik.handleSubmit}>
       <div className="flex flex-col gap-[20px] justify-stretch w-full">
         <StyledTextField
+          className="primary"
           label="Email"
           type="email"
           name="email"
@@ -130,6 +131,7 @@ const LoginForm = () => {
           value={formik.values.email}
         />
         <StyledTextField
+          className="primary"
           label="Password"
           type="password"
           name="password"
