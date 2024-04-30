@@ -3,24 +3,32 @@
 import StyledButton from "@/ui/Button";
 import StyledTextField from "@/ui/TextField";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
+import { CircularProgress } from "@mui/material";
 
 const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
+    setIsLoading(true);
     async function fetchCookies() {
       const res = await axios.get("/api/cookies");
 
-      return res.data.message;
+      const session = res.data.message;
+
+      console.log("session", session);
+
+      if (session !== null) router.replace("/auth/collections");
     }
 
-    const session = fetchCookies();
+    fetchCookies();
 
-    if (session !== null) router.replace("/auth/collections");
+    setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -46,6 +54,7 @@ const LoginForm = () => {
     }),
     validateOnChange: false,
     onSubmit: async (value) => {
+      setIsLoading(true);
       try {
         const res = await axios.post(
           "http://localhost:8876/api/v1/auth/login",
@@ -57,17 +66,21 @@ const LoginForm = () => {
         await axios.post("/api/cookies", JSON.stringify(token));
 
         router.push("/auth/collections");
+        setIsLoading(false);
       } catch (error: any) {
         if (error.response!.status === 401)
           formik.setErrors({
             email: true,
             password: "Your credentials are incorrect",
           });
+        setIsLoading(false);
       }
     },
   });
 
-  return (
+  return isLoading ? (
+    <CircularProgress style={{ color: "white" }} />
+  ) : (
     <form className="space-y-[24px] w-full" onSubmit={formik.handleSubmit}>
       <div className="flex flex-col gap-[20px] justify-stretch w-full">
         <StyledTextField
@@ -77,6 +90,7 @@ const LoginForm = () => {
           error={Boolean(formik.errors.email)}
           helperText={formik.errors.email ? formik.errors.email : ""}
           onChange={formik.handleChange}
+          value={formik.values.email}
         />
         <StyledTextField
           label="Password"
@@ -85,6 +99,7 @@ const LoginForm = () => {
           error={Boolean(formik.errors.password)}
           helperText={formik.errors.password ? formik.errors.password : ""}
           onChange={formik.handleChange}
+          value={formik.values.password}
         />
       </div>
       <div className="flex justify-between w-full">
