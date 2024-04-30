@@ -18,7 +18,7 @@ const Header = (props: HeaderProps) => {
       <h3 className="text-h3">Yolo</h3>
       <nav>
         <ul className="flex gap-[16px] items-center">
-          {props.state === null ? (
+          {props.state == null ? (
             <>
               <li>
                 <StyledButton

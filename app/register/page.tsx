@@ -2,7 +2,7 @@ import RegisterForm from "@/components/register/Form";
 import FormWrapper from "@/ui/wrappers/FormWrapper";
 import React from "react";
 
-const Login = () => {
+const Register = () => {
   return (
     <main className="w-screen h-screen flex justify-center items-center bg-blue-marguerite-500">
       <FormWrapper title="Register">
@@ -12,4 +12,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

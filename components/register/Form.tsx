@@ -3,13 +3,25 @@
 import StyledButton from "@/ui/Button";
 import StyledTextField from "@/ui/TextField";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import axios from "@/modules/axios/axios";
+import axios, { AxiosError } from "axios";
 
 const RegisterForm = () => {
   const router = useRouter();
+
+  useEffect(() => {
+    async function fetchCookies() {
+      const res = await axios.get("/api/cookies");
+
+      return res.data.message;
+    }
+
+    const session = fetchCookies();
+
+    if (session !== null) router.replace("/auth/collections");
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -17,6 +29,7 @@ const RegisterForm = () => {
       surname: "",
       email: "",
       password: "",
+      password_confirmation: "",
     },
     validationSchema: Yup.object({
       name: Yup.string()
@@ -59,10 +72,23 @@ const RegisterForm = () => {
     }),
     validateOnChange: false,
     onSubmit: async (value) => {
-      console.log(value);
-      //   const res = await axios.post("/auth/register");
+      value.password_confirmation = value.password;
+      // console.log(JSON.stringify(value));
+      try {
+        const res = await axios.post(
+          "http://localhost:8876/api/v1/auth/register",
+          value
+        );
 
-      //   console.log(res);
+        const token = res.data.data.token;
+
+        await axios.post("/api/cookies", JSON.stringify(token));
+
+        router.push("/auth/collections");
+      } catch (error: any) {
+        if (error.response!.status === 422)
+          formik.setErrors({ email: "Email is already taken" });
+      }
     },
   });
 
