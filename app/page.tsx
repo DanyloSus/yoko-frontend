@@ -1,5 +1,7 @@
 import Header from "@/components/Header";
 import MovingText from "@/components/MovingText";
+import NavLink from "@/components/NavLink";
+import StyledButton from "@/ui/Button";
 import { Metadata } from "next";
 import React from "react";
 
@@ -12,14 +14,26 @@ const Landing = () => {
   return (
     <>
       <Header />
-      <main className="bg-blue-marguerite-500 w-screen h-screen flex flex-col text-blue-marguerite-50 items-center justify-center text-center ">
+      <main className="bg-blue-marguerite-500 w-screen h-screen flex flex-col text-blue-marguerite-50 items-center justify-center text-center max-md:px-phone">
         <div className="relative z-10">
-          <h1 className="text-[64px] leading-[64px]">
+          <h1 className="text-h4 md:text-[64px] leading-[34px] md:leading-[64px]">
             Слова у Твоєму Виконанні
           </h1>
-          <p className="font-dmSans mt-[25px]">
+          <p className="font-dmSans my-[4px] md:mt-[25px] w-full">
             Вивчай англійську разом із текстами користувачів Yolo
           </p>
+          <div className="flex items-center justify-center gap-[20px] md:hidden">
+            <NavLink link="/register">
+              <StyledButton variant="contained" sx={{ width: "102px" }}>
+                Register
+              </StyledButton>
+            </NavLink>
+            <NavLink link="/login">
+              <StyledButton variant="contained" sx={{ width: "80px" }}>
+                Login
+              </StyledButton>
+            </NavLink>
+          </div>
         </div>
       </main>
       <MovingText />

@@ -56,10 +56,10 @@ const Header = () => {
   }, [user]);
 
   return (
-    <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 text-blue-marguerite-50 bg-blue-marguerite-500 flex px-pc items-center justify-between fixed z-50">
+    <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 text-blue-marguerite-50 bg-blue-marguerite-500 flex px-phone md:px-pc items-center justify-between fixed z-50">
       <h3 className="text-h3">Yolo</h3>
       <nav>
-        <ul className="flex gap-[16px] items-center">
+        <ul className="flex gap-[16px] items-center max-md:hidden">
           {signed ? (
             <>
               <li>

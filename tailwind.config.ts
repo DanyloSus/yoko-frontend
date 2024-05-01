@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config: Config = {
   content: [
@@ -28,11 +29,7 @@ const config: Config = {
       grey: "#626155",
       "light-grey": "#B5B2B3",
     },
-    //custom fonts
-    fontFamily: {
-      kyiv: ["var(--font-kyiv)"],
-      dmSans: ["var(--font-dm-sans)"],
-    },
+
     fontSize: {
       h1: "96px",
       h2: "60px",
@@ -47,6 +44,11 @@ const config: Config = {
       spacing: {
         pc: "130px",
         phone: "13px",
+      },
+      //custom fonts
+      fontFamily: {
+        kyiv: ["var(--font-kyiv)"],
+        dmSans: ["var(--font-dm-sans)", ...fontFamily.sans],
       },
     },
   },

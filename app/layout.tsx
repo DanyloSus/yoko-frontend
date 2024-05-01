@@ -9,6 +9,7 @@ import ReduxWrapper from "@/components/wrappers/ReduxWrapper";
 
 const dmSans = DM_Sans({
   weight: "400",
+  display: "swap",
   subsets: ["latin"],
   variable: "--font-dm-sans",
 });
