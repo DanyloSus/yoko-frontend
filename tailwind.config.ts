@@ -26,6 +26,7 @@ const config: Config = {
       black: "#141301",
       white: "#FFFBFC",
       grey: "#626155",
+      "light-grey": "#B5B2B3",
     },
     //custom fonts
     fontFamily: {
