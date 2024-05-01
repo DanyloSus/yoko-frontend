@@ -137,71 +137,86 @@ const RegisterForm = () => {
     },
   });
 
-  return isLoading ? (
-    <CircularProgress style={{ color: "white" }} />
-  ) : (
-    <form className="space-y-[24px] w-full" onSubmit={formik.handleSubmit}>
-      <div className="flex flex-col gap-[20px] justify-stretch w-full">
-        <div className="flex gap-[20px] w-full">
+  return (
+    <>
+      {isLoading ? (
+        <div className="absolute w-screen h-screen top-0 left-0 flex items-center justify-center z-10">
+          <CircularProgress style={{ color: "white" }} />
+        </div>
+      ) : null}
+      <form className="space-y-[24px] w-full" onSubmit={formik.handleSubmit}>
+        <div className="flex flex-col gap-[20px] justify-stretch w-full">
+          <div className="flex gap-[20px] w-full">
+            <StyledTextField
+              className="primary"
+              label="Name"
+              type="text"
+              name="name"
+              error={Boolean(formik.errors.name) || formik.errors.name === ""}
+              helperText={formik.errors.name ? formik.errors.name : ""}
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              disabled={isLoading}
+            />
+            <StyledTextField
+              className="primary"
+              label="Surname"
+              type="text"
+              name="surname"
+              error={
+                Boolean(formik.errors.surname) || formik.errors.surname === ""
+              }
+              helperText={formik.errors.surname ? formik.errors.surname : ""}
+              onChange={formik.handleChange}
+              value={formik.values.surname}
+              disabled={isLoading}
+            />
+          </div>
           <StyledTextField
             className="primary"
-            label="Name"
-            type="text"
-            name="name"
-            error={Boolean(formik.errors.name) || formik.errors.name === ""}
-            helperText={formik.errors.name ? formik.errors.name : ""}
+            label="Email"
+            type="email"
+            name="email"
+            error={Boolean(formik.errors.email) || formik.errors.email === ""}
+            helperText={formik.errors.email ? formik.errors.email : ""}
             onChange={formik.handleChange}
-            value={formik.values.name}
+            value={formik.values.email}
+            disabled={isLoading}
           />
           <StyledTextField
             className="primary"
-            label="Surname"
-            type="text"
-            name="surname"
+            label="Password"
+            type="password"
+            name="password"
             error={
-              Boolean(formik.errors.surname) || formik.errors.surname === ""
+              Boolean(formik.errors.password) || formik.errors.password === ""
             }
-            helperText={formik.errors.surname ? formik.errors.surname : ""}
+            helperText={formik.errors.password ? formik.errors.password : ""}
             onChange={formik.handleChange}
-            value={formik.values.surname}
+            value={formik.values.password}
+            disabled={isLoading}
           />
         </div>
-        <StyledTextField
-          className="primary"
-          label="Email"
-          type="email"
-          name="email"
-          error={Boolean(formik.errors.email) || formik.errors.email === ""}
-          helperText={formik.errors.email ? formik.errors.email : ""}
-          onChange={formik.handleChange}
-          value={formik.values.email}
-        />
-        <StyledTextField
-          className="primary"
-          label="Password"
-          type="password"
-          name="password"
-          error={
-            Boolean(formik.errors.password) || formik.errors.password === ""
-          }
-          helperText={formik.errors.password ? formik.errors.password : ""}
-          onChange={formik.handleChange}
-          value={formik.values.password}
-        />
-      </div>
-      <div className="flex justify-between w-full">
-        <StyledButton
-          sx={{ width: "80px" }}
-          variant="contained"
-          onClick={() => router.push("/login")}
-        >
-          Login
-        </StyledButton>
-        <StyledButton sx={{ width: "102px" }} variant="contained" type="submit">
-          Register
-        </StyledButton>
-      </div>
-    </form>
+        <div className="flex justify-between w-full">
+          <StyledButton
+            sx={{ width: "80px" }}
+            variant="contained"
+            onClick={() => router.push("/login")}
+            disabled={isLoading}
+          >
+            Login
+          </StyledButton>
+          <StyledButton
+            sx={{ width: "102px" }}
+            variant="contained"
+            type="submit"
+            disabled={isLoading}
+          >
+            Register
+          </StyledButton>
+        </div>
+      </form>
+    </>
   );
 };
 
