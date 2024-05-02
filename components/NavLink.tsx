@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 type NavLinkProps = {
   children: ReactNode;
   link: string;
+  className?: string;
 };
 
 const NavLink = (props: NavLinkProps) => {
@@ -24,7 +25,8 @@ const NavLink = (props: NavLinkProps) => {
   return (
     <div
       className={
-        mainWord === props.link.split("/")[2] ? "active" : "cursor-pointer"
+        (pathname === props.link ? "active" : "cursor-pointer") +
+        `${props.className}`
       }
       onClick={() => {
         //go to another page

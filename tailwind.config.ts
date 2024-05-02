@@ -28,8 +28,8 @@ const config: Config = {
       white: "#FFFBFC",
       grey: "#626155",
       "light-grey": "#B5B2B3",
+      "dark-grey": "#626155",
     },
-
     fontSize: {
       h1: "96px",
       h2: "60px",

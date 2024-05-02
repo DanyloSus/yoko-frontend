@@ -28,9 +28,7 @@ export default function RootLayout({
   return (
     <ThemeProvider theme={theme}>
       <html lang="en">
-        <body
-          className={`${dmSans.className} ${dmSans.variable} ${kyiv.variable}`}
-        >
+        <body className={`${dmSans.variable} ${kyiv.variable}`}>
           <ReduxWrapper>{children}</ReduxWrapper>
         </body>
       </html>
