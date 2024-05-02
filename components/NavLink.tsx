@@ -9,28 +9,21 @@ import { usePathname } from "next/navigation";
 type NavLinkProps = {
   children: ReactNode;
   link: string;
-  className?: string;
 };
 
 const NavLink = (props: NavLinkProps) => {
-  const pathname = usePathname();
-
-  const mainWord =
-    pathname.split("/").length > 1 ? pathname.split("/")[2] : pathname;
+  const pathname = usePathname().split("/")[2];
 
   const router = useRouter();
-
-  console.log(props.link.split("/")[2] + " " + mainWord);
 
   return (
     <div
       className={
-        (pathname === props.link ? "active" : "cursor-pointer") +
-        `${props.className}`
+        pathname === props.link.split("/")[2] ? "active" : "cursor-pointer"
       }
       onClick={() => {
         //go to another page
-        router.push(props.link);
+        router.replace(props.link);
       }}
     >
       {props.children}

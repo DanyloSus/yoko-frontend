@@ -24,8 +24,6 @@ const RegisterForm = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    console.log(user);
-
     if (user.token !== null) {
       router.replace("/auth/collections");
       setIsLoading(false);
@@ -36,8 +34,6 @@ const RegisterForm = () => {
       const res = await axios.get("/api/cookies");
 
       const session = res.data.message;
-
-      console.log("session", session);
 
       if (session !== null) router.replace("/auth/collections");
     }
@@ -99,7 +95,6 @@ const RegisterForm = () => {
     onSubmit: async (value) => {
       setIsLoading(true);
       value.password_confirmation = value.password;
-      // console.log(JSON.stringify(value));
       try {
         const res = await axios.post(
           "http://localhost:8876/api/v1/auth/register",

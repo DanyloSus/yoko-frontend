@@ -20,7 +20,7 @@ const DeleteDialog = (props: Props) => {
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
       <DialogTitle>
-        <h3 className="text-h5">Are you sure?</h3>
+        <p className="text-h5 font-kyiv">Are you sure?</p>
       </DialogTitle>
       <DialogContent>
         <p>If you delete your account you will lost all your progress.</p>

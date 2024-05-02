@@ -23,8 +23,6 @@ const LoginForm = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    console.log(user);
-
     if (user.token !== null) {
       router.replace("/auth/collections");
       setIsLoading(false);
@@ -83,8 +81,6 @@ const LoginForm = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
-        console.log(data);
 
         dispatch(
           login({

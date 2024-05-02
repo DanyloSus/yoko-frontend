@@ -26,8 +26,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     login(state, action: PayloadAction<UserInfo>) {
-      console.log("action", action.payload);
-
       try {
         localStorage.setItem("user", JSON.stringify(action.payload));
       } catch (error) {

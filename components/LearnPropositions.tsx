@@ -6,6 +6,7 @@ import NavLink from "./NavLink";
 import { usePathname } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 type Props = {
   handleClose: () => void;
@@ -30,21 +31,21 @@ const LearnPropositions = (props: Props) => {
         />
         <FormWrapper title="Choose method">
           <div className="max-w-[377px] w-full flex flex-col gap-[24px]">
-            <NavLink link={`${pathname}/exercise/text`}>
+            <Link href={`${pathname}/exercise/text`}>
               <StyledButton variant="contained" className="w-full">
                 Text
               </StyledButton>
-            </NavLink>
-            <NavLink link={`${pathname}/exercise/quiz`}>
+            </Link>
+            <Link href={`${pathname}/exercise/quiz`}>
               <StyledButton variant="contained" className="w-full">
                 Quiz
               </StyledButton>
-            </NavLink>
-            <NavLink link={`${pathname}/exercise/cards`}>
+            </Link>
+            <Link href={`${pathname}/exercise/cards`}>
               <StyledButton variant="contained" className="w-full">
                 Flash Card
               </StyledButton>
-            </NavLink>
+            </Link>
             <StyledButton variant="contained">...</StyledButton>
           </div>
         </FormWrapper>

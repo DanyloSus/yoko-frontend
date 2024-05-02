@@ -20,7 +20,7 @@ const Card = (props: CardProps) => {
       <ReactCardFlip flipDirection="horizontal" isFlipped={isFlipped}>
         <div className={style + " justify-between items-center"}>
           <div />
-          <h2 className="text-h2">{props.englishWord}</h2>
+          <h2 className="text-h2 capitalize">{props.englishWord}</h2>
           <div className="flex flex-col items-center gap-[17px]">
             <StyledButton variant="contained" className="w-[76px]">
               Save
@@ -46,7 +46,7 @@ const Card = (props: CardProps) => {
           </div>
         </div>
         <div className={style + " card-back items-center justify-center"}>
-          <h2 className="text-h2">{props.ukrainianWord}</h2>
+          <h2 className="text-h2 capitalize">{props.ukrainianWord}</h2>
           <StyledButton
             variant="text"
             sx={{ w: "77px" }}

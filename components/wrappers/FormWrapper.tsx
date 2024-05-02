@@ -15,8 +15,8 @@ const FormWrapper = (props: Props) => {
         color: props.isDark ? "black" : "white",
       }}
     >
-      <div className="flex flex-col gap-[24px] w-full items-center">
-        <h3 className="text-h3">{props.title}</h3>
+      <div className="flex max-w-[380px] w-full flex-col gap-[24px] items-center">
+        <h3 className="text-h3 whitespace-nowrap">{props.title}</h3>
         {props.children}
       </div>
     </div>

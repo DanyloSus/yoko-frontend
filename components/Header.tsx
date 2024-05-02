@@ -23,7 +23,6 @@ const Header = () => {
 
     if (localStorage.getItem("user")) {
       dispatch(userLoad());
-      console.log("Localstorage");
     }
 
     async function fetchCookies() {
