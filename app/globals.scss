@@ -11,8 +11,9 @@ h6 {
   @apply font-kyiv; //font-kyiv is custom in tailwindcss
 }
 
-button {
-  @apply font-dmSans;
+button,
+body {
+  font-family: var(--font-dm-sans), sans-serif;
 }
 
 .active .MuiButton-root {
