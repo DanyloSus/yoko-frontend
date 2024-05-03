@@ -35,7 +35,11 @@ const User = () => {
           Settings
         </StyledButton>
       </Link>
-      <StyledButton variant="outlined">Etc.</StyledButton>
+      {user.isAdmin ? (
+        <Link href="/admin/users">
+        <StyledButton variant="outlined">Etc.</StyledButton>
+        </Link>
+      ) : null}
       <StyledButton
         variant="outlined"
         onClick={async () => {

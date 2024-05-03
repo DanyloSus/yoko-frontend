@@ -5,6 +5,7 @@ export type UserInfo = {
   surname: string | null;
   email: string | null;
   token: string | null;
+  isAdmin: boolean | null;
 };
 
 let initialState: UserInfo = {
@@ -12,6 +13,7 @@ let initialState: UserInfo = {
   email: null,
   surname: null,
   token: null,
+  isAdmin: null,
 };
 
 if (typeof window !== "undefined") {
