@@ -88,6 +88,7 @@ const LoginForm = () => {
             name: data.name,
             surname: data.surname,
             token,
+            isAdmin: false,
           })
         );
 

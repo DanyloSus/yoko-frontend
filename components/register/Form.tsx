@@ -111,6 +111,7 @@ const RegisterForm = () => {
             name: value.name,
             surname: value.surname,
             token,
+            isAdmin: false,
           })
         );
 
