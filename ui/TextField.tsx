@@ -2,6 +2,13 @@
 
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
+import localFont from "next/font/local";
+
+const kyiv = localFont({
+  src: "../public/fonts/KyivTypeSerif-Bold2.woff2",
+  display: "swap",
+  variable: "--font-kyiv",
+});
 
 const StyledTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
   "& input": {
@@ -10,6 +17,14 @@ const StyledTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
   "& .MuiFormHelperText-root": {
     textTransform: "capitalize",
     whiteSpace: "nowrap",
+  },
+
+  "&.font-kyiv": {
+    "& *": { fontFamily: kyiv.style.fontFamily },
+    "& .MuiOutlinedInput-root": {
+      fontSize: "48px",
+      lineHeight: "48px",
+    },
   },
 
   "&.primary": {

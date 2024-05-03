@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
-  title: string;
+  title?: string;
   isDark?: boolean;
 };
 
@@ -16,7 +16,9 @@ const FormWrapper = (props: Props) => {
       }}
     >
       <div className="flex max-w-[380px] w-full flex-col gap-[24px] items-center">
-        <h3 className="text-h3 whitespace-nowrap">{props.title}</h3>
+        {props.title ? (
+          <h3 className="text-h3 whitespace-nowrap">{props.title}</h3>
+        ) : null}
         {props.children}
       </div>
     </div>
