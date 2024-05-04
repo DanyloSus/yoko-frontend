@@ -7,27 +7,46 @@
   },
   "Login": {
     "header": "Login",
-    "email": "Email",
-    "password": "Password",
-    "register": "Register",
-    "login": "Login"
-  },
-  "Register": {
-    "header": "Register",
     "texts": {
-      "name": "Name",
-      "surname": "Surname",
       "email": "Email",
       "password": "Password",
       "login": "Login",
       "register": "Register"
     },
     "errors": {
-      "emailTaken": "Email is already taken",
-      "somethingWrong": "Something went wrong",
-      "latin": "Must be latin characters",
-      "len": "Must be from 1 to 20 characters",
-      "lenPassword": "Must be from 8 to 20 characters"
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "passwordRequired": "Password is required",
+      "passwordLen": "Password must be between 8 and 20 characters",
+      "passwordLat": "Password must contain only Latin letters",
+      "loginFailed": "Login failed, check your credentials",
+      "serverError": "Server error, please try again later"
+    }
+  },
+  "Register": {
+    "header": "Register",
+    "texts": {
+      "name": "Ім'я",
+      "surname": "Прізвище",
+      "email": "Електронна пошта",
+      "password": "Пароль",
+      "login": "Увійти",
+      "register": "Зареєструватися"
+    },
+    "errors": {
+      "nameRequired": "Name is required",
+      "nameLen": "Name must be between 1 and 20 characters",
+      "nameLat": "Name must contain only Latin letters",
+      "surnameRequired": "Surname is required",
+      "surnameLen": "Surname must be between 1 and 20 characters",
+      "surnameLat": "Surname must contain only Latin letters",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "emailExists": "Email already exists",
+      "passwordRequired": "Password is required",
+      "passwordLen": "Password must be between 8 and 20 characters",
+      "passwordLat": "Password must contain only Latin letters",
+      "serverError": "Server error, please try again later"
     }
   }
 }

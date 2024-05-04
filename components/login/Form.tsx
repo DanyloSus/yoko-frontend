@@ -12,16 +12,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/modules/redux/user/userSlice";
 import { Store } from "@/modules/redux/store";
 
-type LoginFormProp = {
+type LoginTexts = {
   texts: {
     email: string;
     password: string;
-    register: string;
     login: string;
+    register: string;
+  };
+  errors: {
+    emailRequired: string;
+    emailInvalid: string;
+    passwordRequired: string;
+    passwordLen: string;
+    passwordLat: string;
+    loginFailed: string;
+    serverError: string;
   };
 };
 
-const LoginForm = ({ texts }: LoginFormProp) => {
+const LoginForm = ({ texts, errors }: LoginTexts) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -85,17 +94,15 @@ const LoginForm = ({ texts }: LoginFormProp) => {
       password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string().required().email(),
+      email: Yup.string()
+        .required(errors.emailRequired)
+        .email(errors.emailInvalid),
       password: Yup.string()
-        .required()
-        .test(
-          "latin",
-          "Must be latin characters",
-          (val) => !/^[a-zA-Z]$/.test(val)
-        )
+        .required(errors.passwordRequired)
+        .test("latin", errors.passwordLat, (val) => !/^[a-zA-Z]$/.test(val))
         .test(
           "len",
-          "Must be from 1 to 20 characters",
+          errors.passwordLen,
           (val) => val.length >= 1 && val.length <= 20
         ),
     }),
@@ -135,7 +142,7 @@ const LoginForm = ({ texts }: LoginFormProp) => {
         if (error.response && error.response!.status === 422) {
           formik.setErrors({
             email: "",
-            password: "Your credentials are incorrect",
+            password: errors.loginFailed,
           });
         } else {
           try {
@@ -164,7 +171,7 @@ const LoginForm = ({ texts }: LoginFormProp) => {
           } catch (error) {
             formik.setErrors({
               email: "",
-              password: "Something went wrong",
+              password: errors.serverError,
             });
           }
         }
