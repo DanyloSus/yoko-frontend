@@ -1,43 +1,61 @@
-import NavLink from "@/components/NavLink";
-import Sort from "@/components/sort/Sort";
-import StyledButton from "@/ui/Button";
-import Link from "next/link";
-import React from "react";
+"use client";
 
-const Store = () => {
+import CollectionTitle from "@/components/CollectionTitle";
+import Sort from "@/components/sort/Sort";
+import { CircularProgress } from "@mui/material";
+import axios from "axios";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import StyledButton from "@/ui/Button";
+
+type Collection = {
+  id: number;
+  title: string;
+};
+
+const StorePage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [collections, setCollections] = useState<Collection[]>([]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    async function fetchCollections() {
+      const res = await axios.get("http://localhost:8876/api/v1/collections");
+      console.log(res);
+
+      setCollections(res.data);
+      setIsLoading(false);
+    }
+
+    fetchCollections();
+  }, []);
+
   return (
     <div className="w-full flex flex-col gap-[24px] relative">
       <div className="absolute top-0 right-0">
-        <NavLink link="store/add">
+        <Link href="store/add">
           <StyledButton variant="contained">Add</StyledButton>
-        </NavLink>
+        </Link>
       </div>
       <h1 className="text-h1 text-center">Store</h1>
       <Sort />
-      <div className="grid gap-[20px] grid-cols-4">
-        <Link
-          href="/collection/1"
-          className="max-w-[280px] w-full h-[200px] bg-blue-marguerite-500"
-        />
-        <Link
-          href="/collection/1"
-          className="max-w-[280px] w-full h-[200px] bg-blue-marguerite-500"
-        />
-        <Link
-          href="/collection/1"
-          className="max-w-[280px] w-full h-[200px] bg-blue-marguerite-500"
-        />
-        <Link
-          href="/collection/1"
-          className="max-w-[280px] w-full h-[200px] bg-blue-marguerite-500"
-        />
-        <Link
-          href="/collection/1"
-          className="max-w-[280px] w-full h-[200px] bg-blue-marguerite-500"
-        />
-      </div>
+      {isLoading ? (
+        <CircularProgress color="primary" className="mx-auto" />
+      ) : collections.length > 0 ? (
+        <div className="grid gap-4 grid-cols-4">
+          {...collections.map((collection) => (
+            <CollectionTitle
+              key={collection.id}
+              id={collection.id}
+              title={collection.title}
+            />
+          ))}
+        </div>
+      ) : (
+        <h3 className="text-center text-h3">It&apos;s nothing here yet</h3>
+      )}
     </div>
   );
 };
 
-export default Store;
+export default StorePage;

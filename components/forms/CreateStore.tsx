@@ -3,25 +3,46 @@
 import StyledButton from "@/ui/Button";
 import StyledTextField from "@/ui/TextField";
 import { Checkbox } from "@mui/material";
+import axios from "axios";
 import { useFormik } from "formik";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import * as Yup from "yup";
 
 const CreateStore = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(false);
+
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
-      header: "",
-      content: "",
+      name: "",
+      text: "",
     },
     validationSchema: Yup.object({
-      header: Yup.string().required(),
-      content: Yup.string().required(),
+      name: Yup.string().required(),
+      text: Yup.string().required(),
     }),
     validateOnChange: false,
-    onSubmit: () => {},
+    onSubmit: async (value) => {
+      setIsLoading(true);
+
+      const data = {
+        ...value,
+        status: isPrivate ? "private" : "pending",
+      };
+
+      try {
+        await axios.post("http://localhost:8876/api/v1/collections", data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        router.push(`/auth/thanks?is=${isPrivate ? "private" : "pending"}`);
+        setIsLoading(false);
+      }
+    },
   });
 
   return (
@@ -31,26 +52,30 @@ const CreateStore = () => {
         className="font-kyiv"
         label="Header"
         type="text"
-        name="header"
-        error={Boolean(formik.errors.header) || formik.errors.header === ""}
-        helperText={formik.errors.header ? formik.errors.header : ""}
+        name="name"
+        error={Boolean(formik.errors.name) || formik.errors.name === ""}
+        helperText={formik.errors.name ? formik.errors.name : ""}
         onChange={formik.handleChange}
-        value={formik.values.header}
+        value={formik.values.name}
         disabled={isLoading}
       />
       <StyledTextField
         multiline
         label="Content"
         type="text"
-        name="content"
-        error={Boolean(formik.errors.content) || formik.errors.content === ""}
-        helperText={formik.errors.content ? formik.errors.content : ""}
+        name="text"
+        error={Boolean(formik.errors.text) || formik.errors.text === ""}
+        helperText={formik.errors.text ? formik.errors.text : ""}
         onChange={formik.handleChange}
-        value={formik.values.content}
+        value={formik.values.text}
         disabled={isLoading}
       />
       <div className="flex items-center">
-        <Checkbox color="primary" />
+        <Checkbox
+          color="primary"
+          value={isPrivate}
+          onChange={() => setIsPrivate((state) => !state)}
+        />
         <p>Private</p>
       </div>
       <div className="flex items-center justify-between">
