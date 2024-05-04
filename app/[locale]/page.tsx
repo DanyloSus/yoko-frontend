@@ -4,6 +4,7 @@ import NavLink from "@/components/NavLink";
 import StyledButton from "@/ui/Button";
 import { Metadata } from "next";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -11,26 +12,28 @@ export const metadata: Metadata = {
 };
 
 const Landing = () => {
+  const t = useTranslations("Landing");
+
   return (
     <>
       <Header />
       <main className="bg-blue-marguerite-500 w-screen h-screen flex flex-col text-blue-marguerite-50 items-center justify-center text-center max-md:px-phone">
         <div className="relative z-10">
           <h1 className="text-h4 md:text-[64px] leading-[34px] md:leading-[64px]">
-            Слова у Твоєму Виконанні
+            {t("heading")}
           </h1>
           <p className="font-dmSans my-[4px] md:mt-[25px] w-full">
-            Вивчай англійську разом із текстами користувачів Yolo
+            {t("description")}
           </p>
           <div className="flex items-center justify-center gap-[20px] md:hidden">
             <NavLink link="/register">
               <StyledButton variant="contained" sx={{ width: "102px" }}>
-                Register
+                {t("register")}
               </StyledButton>
             </NavLink>
             <NavLink link="/login">
               <StyledButton variant="contained" sx={{ width: "80px" }}>
-                Login
+                {t("login")}
               </StyledButton>
             </NavLink>
           </div>

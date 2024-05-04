@@ -11,8 +11,11 @@ import { CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/modules/redux/user/userSlice";
 import { Store } from "@/modules/redux/store";
+import { useTranslations } from "next-intl";
 
 const LoginForm = () => {
+  const t = useTranslations("Landing");
+
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -176,7 +179,7 @@ const LoginForm = () => {
         <div className="flex flex-col gap-[20px] justify-stretch w-full">
           <StyledTextField
             className="primary"
-            label="Email"
+            label={t("email")}
             type="email"
             name="email"
             error={Boolean(formik.errors.email) || formik.errors.email === ""}
@@ -187,7 +190,7 @@ const LoginForm = () => {
           />
           <StyledTextField
             className="primary"
-            label="Password"
+            label={t("password")}
             type="password"
             name="password"
             error={Boolean(formik.errors.password)}
@@ -204,7 +207,7 @@ const LoginForm = () => {
             onClick={() => router.push("/register")}
             disabled={isLoading}
           >
-            Register
+            {t("register")}
           </StyledButton>
           <StyledButton
             sx={{ width: "80px" }}
@@ -212,7 +215,7 @@ const LoginForm = () => {
             type="submit"
             disabled={isLoading}
           >
-            Login
+            {t("login")}
           </StyledButton>
         </div>
       </form>

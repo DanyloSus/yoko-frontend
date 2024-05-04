@@ -78,6 +78,11 @@ const Header = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.token]);
 
+  // const pathname = usePathname();
+  // const router = useRouter();
+
+  // router.replace(pathname, {locale: 'de'});
+
   return (
     <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 text-blue-marguerite-50 bg-blue-marguerite-500 flex px-phone md:px-pc items-center justify-between fixed z-50">
       <h3 className="text-h3">{isAdminPage ? "Yolo admin" : "Yolo"}</h3>

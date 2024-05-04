@@ -1,0 +1,15 @@
+{
+  "Landing": {
+    "heading": "Words in Your Fulfillment",
+    "description": "Learn English with Yolo's user-generated texts",
+    "register": "Register",
+    "login": "Login"
+  },
+  "Login": {
+    "header": "Login",
+    "email": "Email",
+    "password": "Password",
+    "register": "Register",
+    "login": "Login"
+  }
+}
