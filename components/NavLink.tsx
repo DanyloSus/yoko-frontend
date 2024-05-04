@@ -2,8 +2,8 @@
 
 //import from libraries
 import React, { ReactNode } from "react";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { Link } from "@/modules/internationalization/navigation";
 
 //props for the active link
 type NavLinkProps = {
@@ -14,20 +14,15 @@ type NavLinkProps = {
 const NavLink = (props: NavLinkProps) => {
   const pathname = usePathname().split("/")[2];
 
-  const router = useRouter();
-
   return (
-    <div
+    <Link
       className={
         pathname === props.link.split("/")[2] ? "active" : "cursor-pointer"
       }
-      onClick={() => {
-        //go to another page
-        router.replace(props.link);
-      }}
+      href={props.link}
     >
       {props.children}
-    </div>
+    </Link>
   );
 };
 

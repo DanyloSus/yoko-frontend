@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
 import { login, userLoad } from "@/modules/redux/user/userSlice";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/modules/internationalization/navigation";
 
 const Header = () => {
   const [signed, setSigned] = useState(false);

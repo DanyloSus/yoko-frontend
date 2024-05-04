@@ -11,5 +11,23 @@
     "password": "Password",
     "register": "Register",
     "login": "Login"
+  },
+  "Register": {
+    "header": "Register",
+    "texts": {
+      "name": "Name",
+      "surname": "Surname",
+      "email": "Email",
+      "password": "Password",
+      "login": "Login",
+      "register": "Register"
+    },
+    "errors": {
+      "emailTaken": "Email is already taken",
+      "somethingWrong": "Something went wrong",
+      "latin": "Must be latin characters",
+      "len": "Must be from 1 to 20 characters",
+      "lenPassword": "Must be from 8 to 20 characters"
+    }
   }
 }

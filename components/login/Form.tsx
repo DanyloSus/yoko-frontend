@@ -2,7 +2,7 @@
 
 import StyledButton from "@/ui/Button";
 import StyledTextField from "@/ui/TextField";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/modules/internationalization/navigation";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";

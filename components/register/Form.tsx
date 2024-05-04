@@ -2,7 +2,7 @@
 
 import StyledButton from "@/ui/Button";
 import StyledTextField from "@/ui/TextField";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/modules/internationalization/navigation";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -12,7 +12,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
 import { login } from "@/modules/redux/user/userSlice";
 
-const RegisterForm = () => {
+type Texts = {
+  texts: {
+    name: string;
+    surname: string;
+    email: string;
+    password: string;
+    login: string;
+    register: string;
+  };
+  errors: {
+    emailTaken: string;
+    somethingWrong: string;
+    latin: string;
+    len: string;
+    lenPassword: string;
+  };
+};
+
+const RegisterForm = (props: Texts) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -80,39 +98,27 @@ const RegisterForm = () => {
     validationSchema: Yup.object({
       name: Yup.string()
         .required()
-        .test(
-          "latin",
-          "Must be latin characters",
-          (val) => !/^[a-zA-Z]$/.test(val)
-        )
+        .test("latin", props.errors.latin, (val) => !/^[a-zA-Z]$/.test(val))
         .test(
           "len",
-          "Must be from 1 to 20 characters",
+          props.errors.len,
           (val) => val.length >= 1 && val.length <= 20
         ),
       surname: Yup.string()
         .required()
-        .test(
-          "latin",
-          "Must be latin characters",
-          (val) => !/^[a-zA-Z]$/.test(val)
-        )
+        .test("latin", props.errors.latin, (val) => !/^[a-zA-Z]$/.test(val))
         .test(
           "len",
-          "Must be from 1 to 20 characters",
+          props.errors.len,
           (val) => val.length >= 1 && val.length <= 20
         ),
       email: Yup.string().required().email(),
       password: Yup.string()
         .required()
-        .test(
-          "latin",
-          "Must be latin characters",
-          (val) => !/^[a-zA-Z]$/.test(val)
-        )
+        .test("latin", props.errors.latin, (val) => !/^[a-zA-Z]$/.test(val))
         .test(
           "len",
-          "Must be from 8 to 20 characters",
+          props.errors.lenPassword,
           (val) => val.length >= 8 && val.length <= 20
         ),
     }),
@@ -145,13 +151,13 @@ const RegisterForm = () => {
         setIsLoading(false);
       } catch (error: any) {
         if (error.response && error.response!.status === 422) {
-          formik.setErrors({ email: "Email is already taken" });
+          formik.setErrors({ email: props.errors.emailTaken });
         } else {
           formik.setErrors({
             email: "",
             name: "",
             surname: "",
-            password: "Something went wrong",
+            password: props.errors.somethingWrong,
           });
         }
         setIsLoading(false);
@@ -171,7 +177,7 @@ const RegisterForm = () => {
           <div className="flex gap-[20px] w-full">
             <StyledTextField
               className="primary"
-              label="Name"
+              label={props.texts.name}
               type="text"
               name="name"
               error={Boolean(formik.errors.name) || formik.errors.name === ""}
@@ -182,7 +188,7 @@ const RegisterForm = () => {
             />
             <StyledTextField
               className="primary"
-              label="Surname"
+              label={props.texts.surname}
               type="text"
               name="surname"
               error={
@@ -196,7 +202,7 @@ const RegisterForm = () => {
           </div>
           <StyledTextField
             className="primary"
-            label="Email"
+            label={props.texts.email}
             type="email"
             name="email"
             error={Boolean(formik.errors.email) || formik.errors.email === ""}
@@ -207,7 +213,7 @@ const RegisterForm = () => {
           />
           <StyledTextField
             className="primary"
-            label="Password"
+            label={props.texts.password}
             type="password"
             name="password"
             error={
@@ -226,7 +232,7 @@ const RegisterForm = () => {
             onClick={() => router.push("/login")}
             disabled={isLoading}
           >
-            Login
+            {props.texts.login}
           </StyledButton>
           <StyledButton
             sx={{ width: "102px" }}
@@ -234,7 +240,7 @@ const RegisterForm = () => {
             type="submit"
             disabled={isLoading}
           >
-            Register
+            {props.texts.register}
           </StyledButton>
         </div>
       </form>
