@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
 import { login, userLoad } from "@/modules/redux/user/userSlice";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const Header = () => {
   const [signed, setSigned] = useState(false);
@@ -29,28 +30,38 @@ const Header = () => {
     }
 
     async function fetchCookies() {
-      const res = await axios.get("/api/cookies");
+      try {
+        const res = await axios.get("/api/cookies");
 
-      const { token } = res.data.message;
+        let token;
 
-      if (token !== null) {
-        setSigned(true);
+        if (res.data.message.token !== null) {
+          token = res.data.message.token;
+        } else {
+          token = null;
+        }
 
-        const { data } = await axios.get("http://localhost:8876/api/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        if (token !== null) {
+          const { data } = await axios.get("http://localhost:8876/api/user", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-        dispatch(
-          login({
-            email: data.email,
-            name: data.name,
-            surname: data.surname,
-            token,
-            isAdmin: false,
-          })
-        );
+          dispatch(
+            login({
+              email: data.email,
+              name: data.name,
+              surname: data.surname,
+              token,
+              isAdmin: false,
+            })
+          );
+
+          setSigned(true);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
 
@@ -113,7 +124,7 @@ const Header = () => {
           ) : (
             <>
               <li>
-                <NavLink link="/login">
+                <Link href="/login">
                   <StyledButton
                     variant="contained"
                     sx={{
@@ -122,10 +133,10 @@ const Header = () => {
                   >
                     Login
                   </StyledButton>
-                </NavLink>
+                </Link>
               </li>
               <li>
-                <NavLink link="/register">
+                <Link href="/register">
                   <StyledButton
                     variant="contained"
                     sx={{
@@ -134,7 +145,7 @@ const Header = () => {
                   >
                     Register
                   </StyledButton>
-                </NavLink>
+                </Link>
               </li>
             </>
           )}

@@ -28,7 +28,7 @@ const User = () => {
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[360px] w-full flex flex-col items-stretch  gap-[16px]"
       suppressHydrationWarning={true}
     >
-      <UserElement user={user} />
+      {user.isAdmin ? null : <UserElement user={user} />}
       <StyledButton variant="outlined">Your Collections</StyledButton>
       <Link href="/auth/user/settings" className="w-full">
         <StyledButton variant="outlined" className="w-full">
@@ -36,8 +36,10 @@ const User = () => {
         </StyledButton>
       </Link>
       {user.isAdmin ? (
-        <Link href="/admin/users">
-        <StyledButton variant="outlined">Etc.</StyledButton>
+        <Link href="/admin/users" className="w-full">
+          <StyledButton variant="outlined" className="w-full">
+            Etc.
+          </StyledButton>
         </Link>
       ) : null}
       <StyledButton
@@ -49,7 +51,7 @@ const User = () => {
             },
           });
           dispatch(logout());
-          router.push("/login");
+          router.push("/");
         }}
       >
         Exit

@@ -33,9 +33,33 @@ const RegisterForm = () => {
     async function fetchCookies() {
       const res = await axios.get("/api/cookies");
 
-      const session = res.data.message;
+      const { token } = res.data.message;
 
-      if (session !== null) router.replace("/auth/collections");
+      if (token !== null) {
+        try {
+          const { data } = await axios.get("http://localhost:8876/api/user", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          dispatch(
+            login({
+              email: data.email,
+              name: data.name,
+              surname: data.surname,
+              token,
+              isAdmin: false,
+            })
+          );
+
+          router.replace("/auth/collections");
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
     }
 
     fetchCookies();

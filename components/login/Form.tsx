@@ -30,18 +30,44 @@ const LoginForm = () => {
     }
 
     async function fetchCookies() {
-      const res = await axios.get("/api/cookies");
+      try {
+        const res = await axios.get("/api/cookies");
 
-      const session = res.data.message;
+        const { token } = res.data.message;
 
-      if (session !== null) router.replace("/auth/collections");
+        if (token !== null) {
+          const { data } = await axios.get("http://localhost:8876/api/user", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          console.log(data);
+
+          dispatch(
+            login({
+              email: data.email,
+              name: data.name,
+              surname: data.surname,
+              token,
+              isAdmin: false,
+            })
+          );
+
+          router.replace("/auth/collections");
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     fetchCookies();
 
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -101,10 +127,34 @@ const LoginForm = () => {
             password: "Your credentials are incorrect",
           });
         } else {
-          formik.setErrors({
-            email: "",
-            password: "Something went wrong",
-          });
+          try {
+            const res = await axios.post(
+              "http://localhost:8876/api/v1/auth/admin-login",
+              value
+            );
+
+            const token = res.data.data.token;
+
+            const dataAdmin = res.data.data.user;
+
+            dispatch(
+              login({
+                email: dataAdmin.email,
+                name: null,
+                surname: null,
+                token,
+                isAdmin: true,
+              })
+            );
+
+            router.push("/auth/collections");
+            setIsLoading(false);
+          } catch (error) {
+            formik.setErrors({
+              email: "",
+              password: "Something went wrong",
+            });
+          }
         }
 
         setIsLoading(false);
@@ -130,6 +180,7 @@ const LoginForm = () => {
             helperText={formik.errors.email ? formik.errors.email : ""}
             onChange={formik.handleChange}
             value={formik.values.email}
+            disabled={isLoading}
           />
           <StyledTextField
             className="primary"
@@ -140,6 +191,7 @@ const LoginForm = () => {
             helperText={formik.errors.password ? formik.errors.password : ""}
             onChange={formik.handleChange}
             value={formik.values.password}
+            disabled={isLoading}
           />
         </div>
         <div className="flex justify-between w-full">
@@ -147,6 +199,7 @@ const LoginForm = () => {
             sx={{ width: "102px" }}
             variant="contained"
             onClick={() => router.push("/register")}
+            disabled={isLoading}
           >
             Register
           </StyledButton>
@@ -154,6 +207,7 @@ const LoginForm = () => {
             sx={{ width: "80px" }}
             variant="contained"
             type="submit"
+            disabled={isLoading}
           >
             Login
           </StyledButton>
