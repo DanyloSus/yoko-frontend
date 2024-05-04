@@ -15,7 +15,9 @@ const StyledTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
     padding: "16.5px 12px",
   },
   "& .MuiFormHelperText-root": {
-    textTransform: "capitalize",
+    "&:first-letter": {
+      textTransform: "uppercase",
+    },
     whiteSpace: "nowrap",
   },
 

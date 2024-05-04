@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export type UserInfo = {
+  id: number | null;
   name: string | null;
   surname: string | null;
   email: string | null;
@@ -9,6 +10,7 @@ export type UserInfo = {
 };
 
 let initialState: UserInfo = {
+  id: null,
   name: null,
   email: null,
   surname: null,
@@ -39,7 +41,7 @@ const userSlice = createSlice({
     logout(state) {
       localStorage.removeItem("user");
 
-      return initialState;
+      return { ...state, ...initialState };
     },
     userLoad(state) {
       const userFromLocalStorage = localStorage.getItem("user");

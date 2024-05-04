@@ -45,6 +45,7 @@ const RegisterForm = () => {
 
           dispatch(
             login({
+              id: data.id,
               email: data.email,
               name: data.name,
               surname: data.surname,
@@ -131,6 +132,7 @@ const RegisterForm = () => {
 
         dispatch(
           login({
+            id: res.data.data.user.id,
             email: value.email,
             name: value.name,
             surname: value.surname,

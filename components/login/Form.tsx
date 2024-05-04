@@ -46,6 +46,7 @@ const LoginForm = () => {
 
           dispatch(
             login({
+              id: data.id,
               email: data.email,
               name: data.name,
               surname: data.surname,
@@ -110,6 +111,7 @@ const LoginForm = () => {
 
         dispatch(
           login({
+            id: data.id,
             email: data.email,
             name: data.name,
             surname: data.surname,
@@ -139,6 +141,7 @@ const LoginForm = () => {
 
             dispatch(
               login({
+                id: dataAdmin.id,
                 email: dataAdmin.email,
                 name: null,
                 surname: null,

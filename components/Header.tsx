@@ -50,6 +50,7 @@ const Header = () => {
 
           dispatch(
             login({
+              id: data.id,
               email: data.email,
               name: data.name,
               surname: data.surname,
