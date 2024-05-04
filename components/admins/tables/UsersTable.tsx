@@ -17,7 +17,7 @@ const UsersTable = (props: TableProps) => {
       <Cell>Users&apos; Collections</Cell>
       {...props.users.map((user, index) => (
         <>
-          <Cell isMarked={user.isAdmin ? true : undefined}>{index}</Cell>
+          <Cell isMarked={user.isAdmin ? true : undefined}>{user.id}</Cell>
           <Cell isMarked={user.isAdmin ? true : undefined}>{user.name}</Cell>
           <Cell isMarked={user.isAdmin ? true : undefined}>{user.surname}</Cell>
           <Cell isMarked={user.isAdmin ? true : undefined}>{user.email}</Cell>

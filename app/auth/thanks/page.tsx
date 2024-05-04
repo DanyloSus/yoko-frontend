@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 
 const ThanksPage = () => {
   const searchParams = useSearchParams();
@@ -18,4 +18,12 @@ const ThanksPage = () => {
   );
 };
 
-export default ThanksPage;
+const CorrectThanksPage = () => {
+  return (
+    <Suspense>
+      <ThanksPage />
+    </Suspense>
+  );
+};
+
+export default CorrectThanksPage;

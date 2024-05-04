@@ -5,6 +5,7 @@ import { UserInfo } from "@/modules/redux/user/userSlice";
 const UsersAdminPage = () => {
   const users: UserInfo[] = [
     {
+      id: 1,
       email: "john@doe",
       isAdmin: true,
       name: "John",
@@ -12,6 +13,7 @@ const UsersAdminPage = () => {
       token: null,
     },
     {
+      id: 2,
       email: "jane@doe",
       isAdmin: false,
       name: "Jane",

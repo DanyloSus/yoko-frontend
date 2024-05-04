@@ -38,10 +38,16 @@ const userSlice = createSlice({
 
       return { ...state, ...action.payload };
     },
-    logout(state) {
+    logout() {
       localStorage.removeItem("user");
-
-      return { ...state, ...initialState };
+      return {
+        id: null,
+        name: null,
+        email: null,
+        surname: null,
+        token: null,
+        isAdmin: null,
+      };
     },
     userLoad(state) {
       const userFromLocalStorage = localStorage.getItem("user");

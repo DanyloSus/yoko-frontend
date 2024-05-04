@@ -20,13 +20,20 @@ const Header = () => {
   const user = useSelector((state: Store) => state.user);
 
   useEffect(() => {
+    console.log("Signed state:", signed);
+  }, [signed]);
+
+  useEffect(() => {
     if (user.token !== null) {
+      console.log("I'm gay 1");
       setSigned(true);
       return;
     }
 
     if (localStorage.getItem("user")) {
       dispatch(userLoad());
+      setSigned(true);
+      return;
     }
 
     async function fetchCookies() {
@@ -59,6 +66,7 @@ const Header = () => {
             })
           );
 
+          console.log("I'm gay 2");
           setSigned(true);
         }
       } catch (error) {
@@ -68,7 +76,7 @@ const Header = () => {
 
     fetchCookies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user.token]);
 
   return (
     <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 text-blue-marguerite-50 bg-blue-marguerite-500 flex px-phone md:px-pc items-center justify-between fixed z-50">

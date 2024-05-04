@@ -51,7 +51,7 @@ const User = () => {
             },
           });
           dispatch(logout());
-          router.push("/");
+          router.replace("/");
         }}
       >
         Exit

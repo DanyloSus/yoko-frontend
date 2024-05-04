@@ -31,12 +31,12 @@ const RegisterForm = () => {
     }
 
     async function fetchCookies() {
-      const res = await axios.get("/api/cookies");
+      try {
+        const res = await axios.get("/api/cookies");
 
-      const { token } = res.data.message;
+        const { token } = res.data.message;
 
-      if (token !== null) {
-        try {
+        if (token !== null) {
           const { data } = await axios.get("http://localhost:8876/api/user", {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -55,11 +55,11 @@ const RegisterForm = () => {
           );
 
           router.replace("/auth/collections");
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setIsLoading(false);
         }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
