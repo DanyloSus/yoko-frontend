@@ -11,11 +11,17 @@ import { CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/modules/redux/user/userSlice";
 import { Store } from "@/modules/redux/store";
-import { useTranslations } from "next-intl";
 
-const LoginForm = () => {
-  const t = useTranslations("Landing");
+type LoginFormProp = {
+  texts: {
+    email: string;
+    password: string;
+    register: string;
+    login: string;
+  };
+};
 
+const LoginForm = ({ texts }: LoginFormProp) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -179,7 +185,7 @@ const LoginForm = () => {
         <div className="flex flex-col gap-[20px] justify-stretch w-full">
           <StyledTextField
             className="primary"
-            label={t("email")}
+            label={texts.email}
             type="email"
             name="email"
             error={Boolean(formik.errors.email) || formik.errors.email === ""}
@@ -190,7 +196,7 @@ const LoginForm = () => {
           />
           <StyledTextField
             className="primary"
-            label={t("password")}
+            label={texts.password}
             type="password"
             name="password"
             error={Boolean(formik.errors.password)}
@@ -202,12 +208,11 @@ const LoginForm = () => {
         </div>
         <div className="flex justify-between w-full">
           <StyledButton
-            sx={{ width: "102px" }}
             variant="contained"
             onClick={() => router.push("/register")}
             disabled={isLoading}
           >
-            {t("register")}
+            {texts.register}
           </StyledButton>
           <StyledButton
             sx={{ width: "80px" }}
@@ -215,7 +220,7 @@ const LoginForm = () => {
             type="submit"
             disabled={isLoading}
           >
-            {t("login")}
+            {texts.login}
           </StyledButton>
         </div>
       </form>

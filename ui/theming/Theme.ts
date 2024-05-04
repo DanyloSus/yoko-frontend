@@ -14,7 +14,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: dmSans.style.fontFamily,
+    fontFamily: dmSans.style.fontFamily + ", sans-serif",
   },
 });
 
