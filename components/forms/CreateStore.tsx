@@ -1,16 +1,30 @@
 "use client";
 
+import { Link } from "@/modules/internationalization/navigation";
 import StyledButton from "@/ui/Button";
 import StyledTextField from "@/ui/TextField";
 import { Checkbox } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import * as Yup from "yup";
 
-const CreateStore = () => {
+type CreateTexts = {
+  texts: {
+    name: string;
+    text: string;
+    private: string;
+    cancel: string;
+    post: string;
+  };
+  errors: {
+    nameRequired: string;
+    textRequired: string;
+  };
+};
+
+const CreateStore = ({ texts, errors }: CreateTexts) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
 
@@ -22,8 +36,8 @@ const CreateStore = () => {
       text: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required(),
-      text: Yup.string().required(),
+      name: Yup.string().required(errors.nameRequired),
+      text: Yup.string().required(errors.textRequired),
     }),
     validateOnChange: false,
     onSubmit: async (value) => {
@@ -50,7 +64,7 @@ const CreateStore = () => {
       <StyledTextField
         multiline
         className="font-kyiv"
-        label="Header"
+        label={texts.name}
         type="text"
         name="name"
         error={Boolean(formik.errors.name) || formik.errors.name === ""}
@@ -61,7 +75,7 @@ const CreateStore = () => {
       />
       <StyledTextField
         multiline
-        label="Content"
+        label={texts.text}
         type="text"
         name="text"
         error={Boolean(formik.errors.text) || formik.errors.text === ""}
@@ -76,16 +90,16 @@ const CreateStore = () => {
           value={isPrivate}
           onChange={() => setIsPrivate((state) => !state)}
         />
-        <p>Private</p>
+        <p>{texts.private}</p>
       </div>
       <div className="flex items-center justify-between">
         <Link href="/auth/store">
           <StyledButton variant="outlined" className="w-[93px]">
-            Cancel
+            {texts.cancel}
           </StyledButton>
         </Link>
         <StyledButton variant="contained" type="submit" className="w-[73px]">
-          Post
+          {texts.post}
         </StyledButton>
       </div>
     </form>

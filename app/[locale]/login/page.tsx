@@ -20,7 +20,7 @@ const Login = () => {
 
   return (
     <main className="w-screen h-screen flex justify-center items-center bg-blue-marguerite-500">
-      <FormWrapper title={t("header")}>
+      <FormWrapper title={t("heading")}>
         <LoginForm
           texts={overkill(
             ["texts.email", "texts.password", "texts.login", "texts.register"],

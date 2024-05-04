@@ -1,36 +1,39 @@
 import React from "react";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useFormik } from "formik";
-import { Box, Button, Typography } from "@mui/material";
-import axios from "axios";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import * as Yup from "yup";
 import StyledButton from "@/ui/Button";
+
+type DialogTexts = {
+  texts: {
+    delete: string;
+    dialogHeading: string;
+    dialogContent: string;
+    cancel: string;
+  };
+};
 
 type Props = {
   open: boolean;
   handleClose: () => void;
 };
 
-const DeleteDialog = (props: Props) => {
+const DeleteDialog = (props: Props & DialogTexts) => {
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
       <DialogTitle>
-        <p className="text-h5 font-kyiv">Are you sure?</p>
+        <p className="text-h5 font-kyiv">{props.texts.dialogHeading}</p>
       </DialogTitle>
       <DialogContent>
-        <p>If you delete your account you will lost all your progress.</p>
+        <p>{props.texts.dialogContent}</p>
       </DialogContent>
       <DialogActions>
         <StyledButton variant="text" onClick={props.handleClose}>
-          Cancel
+          {props.texts.cancel}
         </StyledButton>
         <StyledButton variant="contained" color="error">
-          Delete
+          {props.texts.delete}
         </StyledButton>
       </DialogActions>
     </Dialog>

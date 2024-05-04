@@ -9,7 +9,7 @@ const Register = () => {
 
   return (
     <main className="w-screen h-screen flex justify-center items-center bg-blue-marguerite-500">
-      <FormWrapper title={t("header")}>
+      <FormWrapper title={t("heading")}>
         <RegisterForm
           errors={overkill(
             [

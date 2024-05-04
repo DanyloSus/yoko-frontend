@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import StyledButton from "@/ui/Button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -8,15 +8,23 @@ import Link from "next/link";
 import { Store } from "@/modules/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/modules/redux/user/userSlice";
-import { CircularProgress } from "@mui/material";
 
 import dynamic from "next/dynamic";
 
-const UserElement = dynamic(() => import("@/app/auth/user/UserElement"), {
+type UserTexts = {
+  texts: {
+    collections: string;
+    settings: string;
+    admin: string;
+    exit: string;
+  };
+};
+
+const UserElement = dynamic(() => import("@/components/users/UserElement"), {
   ssr: false,
 });
 
-const User = () => {
+const UserContent = ({ texts }: UserTexts) => {
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -29,16 +37,16 @@ const User = () => {
       suppressHydrationWarning={true}
     >
       {user.isAdmin ? null : <UserElement user={user} />}
-      <StyledButton variant="outlined">Your Collections</StyledButton>
+      <StyledButton variant="outlined">{texts.collections}</StyledButton>
       <Link href="/auth/user/settings" className="w-full">
         <StyledButton variant="outlined" className="w-full">
-          Settings
+          {texts.settings}
         </StyledButton>
       </Link>
       {user.isAdmin ? (
         <Link href="/admin/users" className="w-full">
           <StyledButton variant="outlined" className="w-full">
-            Etc.
+            {texts.admin}
           </StyledButton>
         </Link>
       ) : null}
@@ -54,10 +62,10 @@ const User = () => {
           router.replace("/");
         }}
       >
-        Exit
+        {texts.exit}
       </StyledButton>
     </div>
   );
 };
 
-export default User;
+export default UserContent;

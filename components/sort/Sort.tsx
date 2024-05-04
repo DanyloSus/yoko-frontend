@@ -7,7 +7,16 @@ import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import AbcOutlinedIcon from "@mui/icons-material/AbcOutlined";
 import SortElement from "./SortElement";
 
-const Sort = () => {
+type SortText = {
+  texts: {
+    sort: string;
+    views: string;
+    likes: string;
+    difficult: string;
+  };
+};
+
+const Sort = ({ texts }: SortText) => {
   const [modal, setModal] = useState(false);
 
   return (
@@ -17,19 +26,19 @@ const Sort = () => {
           <SortElement
             icon={<VisibilityOutlinedIcon />}
             value="views"
-            text="By views"
+            text={texts.views}
             onClick={() => setModal(false)}
           />
           <SortElement
             icon={<ThumbUpAltOutlinedIcon />}
             value="likes"
-            text="By likes"
+            text={texts.likes}
             onClick={() => setModal(false)}
           />
           <SortElement
             icon={<AbcOutlinedIcon />}
             value="difficult"
-            text="By difficult"
+            text={texts.difficult}
             onClick={() => setModal(false)}
           />
         </div>
@@ -38,7 +47,7 @@ const Sort = () => {
         className="flex items-center justify-end gap-[10px] cursor-pointer"
         onClick={() => setModal((value) => !value)}
       >
-        <p className="text-p">Sort</p>
+        <p className="text-p">{texts.sort}</p>
         <FilterAltOutlinedIcon />
       </div>
     </div>

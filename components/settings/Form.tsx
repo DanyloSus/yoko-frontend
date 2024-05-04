@@ -18,19 +18,37 @@ import { login } from "@/modules/redux/user/userSlice";
 import { useRouter } from "next/navigation";
 import { CircularProgress } from "@mui/material";
 
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
+type SettingsTexts = {
+  texts: {
+    name: string;
+    surname: string;
+    newPassword: string;
+    passwordConfirm: string;
+    delete: string;
+    confirm: string;
+    dialogHeading: string;
+    dialogContent: string;
+    cancel: string;
+  };
+  errors: {
+    nameRequired: string;
+    nameLen: string;
+    nameLat: string;
+    surnameRequired: string;
+    surnameLen: string;
+    surnameLat: string;
+    newPasswordLen: string;
+    newPasswordLat: string;
+    passwordConfirmationsLen: string;
+    passwordConfirmationsLat: string;
+    writeNew: string;
+    writeConfirmation: string;
+    dontMatch: string;
+    serverError: string;
+  };
 };
 
-const SettingsForm = () => {
+const SettingsForm = ({ texts, errors }: SettingsTexts) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -61,44 +79,36 @@ const SettingsForm = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string()
-        .required()
-        .test(
-          "latin",
-          "Must be latin characters",
-          (val) => !/^[a-zA-Z]$/.test(val)
-        )
+        .required(errors.nameRequired)
+        .test("latin", errors.nameLat, (val) => !/^[a-zA-Z]$/.test(val))
         .test(
           "len",
-          "Must be from 1 to 20 characters",
+          errors.nameLen,
           (val) => val.length >= 1 && val.length <= 20
         ),
       surname: Yup.string()
-        .required()
-        .test(
-          "latin",
-          "Must be latin characters",
-          (val) => !/^[a-zA-Z]$/.test(val)
-        )
+        .required(errors.surnameRequired)
+        .test("latin", errors.surnameLat, (val) => !/^[a-zA-Z]$/.test(val))
         .test(
           "len",
-          "Must be from 1 to 20 characters",
+          errors.surnameLen,
           (val) => val.length >= 1 && val.length <= 20
         ),
       new_password: Yup.string()
-        .test("latin", "Must be latin characters", (val) => {
+        .test("latin", errors.newPasswordLat, (val) => {
           if (val) return !/^[a-zA-Z]$/.test(val);
           return true;
         })
-        .test("len", "Must be from 8 to 20 characters", (val) => {
+        .test("len", errors.newPasswordLen, (val) => {
           if (val) return val.length >= 8 && val.length <= 20;
           return true;
         }),
       password_confirmation: Yup.string()
-        .test("latin", "Must be latin characters", (val) => {
+        .test("latin", errors.passwordConfirmationsLat, (val) => {
           if (val) return !/^[a-zA-Z]$/.test(val);
           return true;
         })
-        .test("len", "Must be from 8 to 20 characters", (val) => {
+        .test("len", errors.passwordConfirmationsLen, (val) => {
           if (val) return val.length >= 8 && val.length <= 20;
           return true;
         }),
@@ -109,7 +119,7 @@ const SettingsForm = () => {
       if (value.new_password.length && !value.password_confirmation.length) {
         formik.setErrors({
           new_password: "",
-          password_confirmation: "Write password confirmation",
+          password_confirmation: errors.writeConfirmation,
         });
         setIsLoading(false);
         return;
@@ -118,7 +128,7 @@ const SettingsForm = () => {
         !value.new_password.length
       ) {
         formik.setErrors({
-          new_password: "Write new password",
+          new_password: errors.writeNew,
           password_confirmation: "",
         });
         setIsLoading(false);
@@ -126,7 +136,7 @@ const SettingsForm = () => {
       } else if (value.new_password !== value.password_confirmation) {
         formik.setErrors({
           new_password: "",
-          password_confirmation: "Passwords don't match",
+          password_confirmation: errors.dontMatch,
         });
         setIsLoading(false);
         return;
@@ -180,7 +190,7 @@ const SettingsForm = () => {
           name: "",
           surname: "",
           new_password: "",
-          password_confirmation: "Something went wrong",
+          password_confirmation: errors.serverError,
         });
       } finally {
         setIsLoading(false);
@@ -200,7 +210,7 @@ const SettingsForm = () => {
           <div className="flex gap-[20px] w-full">
             <StyledTextField
               disabled={isLoading}
-              label="Name"
+              label={texts.name}
               type="text"
               name="name"
               error={Boolean(formik.errors.name) || formik.errors.name === ""}
@@ -210,7 +220,7 @@ const SettingsForm = () => {
             />
             <StyledTextField
               disabled={isLoading}
-              label="Surname"
+              label={texts.surname}
               type="text"
               name="surname"
               error={
@@ -223,7 +233,7 @@ const SettingsForm = () => {
           </div>
           <StyledTextField
             disabled={isLoading}
-            label="New Password"
+            label={texts.newPassword}
             type="password"
             name="new_password"
             error={
@@ -238,7 +248,7 @@ const SettingsForm = () => {
           />
           <StyledTextField
             disabled={isLoading}
-            label="Confirm Password"
+            label={texts.passwordConfirm}
             type="password"
             name="password_confirmation"
             error={
@@ -262,16 +272,25 @@ const SettingsForm = () => {
             color="error"
             disabled={isLoading}
           >
-            Delete
+            {texts.delete}
           </StyledButton>
-          <DeleteDialog open={open} handleClose={handleClose} />
+          <DeleteDialog
+            open={open}
+            handleClose={handleClose}
+            texts={{
+              cancel: texts.cancel,
+              delete: texts.delete,
+              dialogContent: texts.dialogContent,
+              dialogHeading: texts.dialogHeading,
+            }}
+          />
           <StyledButton
             sx={{ width: "101px" }}
             variant="contained"
             type="submit"
             disabled={isLoading}
           >
-            Confirm
+            {texts.confirm}
           </StyledButton>
         </div>
       </form>

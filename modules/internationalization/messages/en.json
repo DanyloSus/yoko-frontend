@@ -6,7 +6,7 @@
     "login": "Login"
   },
   "Login": {
-    "header": "Login",
+    "heading": "Login",
     "texts": {
       "email": "Email",
       "password": "Password",
@@ -24,14 +24,14 @@
     }
   },
   "Register": {
-    "header": "Register",
+    "heading": "Register",
     "texts": {
-      "name": "Ім'я",
-      "surname": "Прізвище",
-      "email": "Електронна пошта",
-      "password": "Пароль",
-      "login": "Увійти",
-      "register": "Зареєструватися"
+      "name": "Name",
+      "surname": "Surname",
+      "email": "Email",
+      "password": "Password",
+      "login": "Login",
+      "register": "Register"
     },
     "errors": {
       "nameRequired": "Name is required",
@@ -46,6 +46,83 @@
       "passwordRequired": "Password is required",
       "passwordLen": "Password must be between 8 and 20 characters",
       "passwordLat": "Password must contain only Latin letters",
+      "serverError": "Server error, please try again later"
+    }
+  },
+  "Collections": {
+    "heading": "Collections",
+    "texts": {
+      "sort": "Sort",
+      "difficult": "By difficult",
+      "likes": "By likes",
+      "views": "By views",
+      "null": "It's nothing here yet"
+    }
+  },
+  "Store": {
+    "heading": "Store",
+    "texts": {
+      "add": "Add",
+      "sort": "Sort",
+      "difficult": "By difficult",
+      "likes": "By likes",
+      "views": "By views",
+      "null": "It's nothing here yet"
+    }
+  },
+  "AddCollection": {
+    "heading": "Add Your Collection",
+    "texts": {
+      "name": "Heading",
+      "text": "Content",
+      "private": "Private",
+      "cancel": "Cancel",
+      "post": "Post"
+    },
+    "errors": {
+      "nameRequired": "Heading is required field",
+      "textRequired": "Content is required field"
+    }
+  },
+  "Thanks": {
+    "heading": "Thanks for Your Collection",
+    "description": "Administration will check your collection."
+  },
+  "User": {
+    "texts": {
+      "collections": "Your Collections",
+      "settings": "Settings",
+      "admin": "Etc.",
+      "exit": "Exit"
+    }
+  },
+  "UserSettings": {
+    "heading": "Update Info",
+    "texts": {
+      "name": "Name",
+      "surname": "Surname",
+      "newPassword": "New Password",
+      "passwordConfirm": "Confirm Password",
+      "delete": "Delete",
+      "confirm": "Confirm",
+      "dialogHeading": "Are you sure?",
+      "dialogContent": "If you delete your account you will lost all your progress.",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "nameRequired": "Name is required",
+      "nameLen": "Name must be between 1 and 20 characters",
+      "nameLat": "Name must contain only Latin letters",
+      "surnameRequired": "Surname is required",
+      "surnameLen": "Surname must be between 1 and 20 characters",
+      "surnameLat": "Surname must contain only Latin letters",
+      "newPasswordLen": "New password must be between 8 and 20 characters",
+      "newPasswordLat": "New password must contain only Latin letters",
+      "passwordConfirmationsLen": "Password confirmation must be between 8 and 20 characters",
+      "passwordConfirmationsLat": "Password confirmation must contain only Latin letters",
+      "writeNew": "Write new password",
+      "writeConfirmation": "Write password confirmation",
+      "dontMatch": "Passwords don't match",
       "serverError": "Server error, please try again later"
     }
   }
