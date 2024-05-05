@@ -1,11 +1,28 @@
+// external imports
+import React from "react";
+import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+
+// internal imports
 import Collections from "@/components/collections/Collections";
 import Sort from "@/components/sort/Sort";
-import { useTranslations } from "next-intl";
-import React from "react";
-import { overkill } from "../../login/page";
+import { overkill } from "@/modules/internationalization/navigation";
 
+// create multilanguage dynamic metadata
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("collections.title"),
+    descriptions: t("collections.description"),
+  };
+}
 const CollectionsPage = () => {
-  const t = useTranslations("Collections");
+  const t = useTranslations("Collections"); // get page translation
 
   return (
     <div className="w-full flex flex-col gap-[24px]">

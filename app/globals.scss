@@ -13,7 +13,7 @@ h6 {
 
 button,
 body {
-  @apply font-dmSans;
+  @apply font-dmSans; //font-dmSans is custom in tailwindcss
 }
 
 .active .MuiButton-root {

@@ -1,7 +1,14 @@
+// hooks needs CSR
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+// external imports
 import React, { ReactNode } from "react";
+
+// internal imports
+import {
+  usePathname,
+  useRouter,
+} from "@/modules/internationalization/navigation";
 
 type SortElementProps = {
   icon: ReactNode;
@@ -11,7 +18,9 @@ type SortElementProps = {
 };
 
 const SortElement = (props: SortElementProps) => {
+  // router for changing page by code
   const router = useRouter();
+  // pathname to get pathname
   const pathname = usePathname();
 
   return (

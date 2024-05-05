@@ -1,11 +1,28 @@
-import { overkill } from "@/app/[locale]/login/page";
-import SettingsForm from "@/components/settings/Form";
-import FormWrapper from "@/components/wrappers/FormWrapper";
-import { useTranslations } from "next-intl";
+// external imports
 import React from "react";
+import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+
+// internal imports
+import SettingsForm from "@/components/forms/settings/Form";
+import { overkill } from "@/modules/internationalization/navigation";
+import FormWrapper from "@/components/wrappers/FormWrapper";
+
+// create multilanguage dynamic metadata
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("settings.title"),
+  };
+}
 
 const UserSettings = () => {
-  const t = useTranslations("UserSettings");
+  const t = useTranslations("UserSettings"); // get page translation
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[780px] w-full">

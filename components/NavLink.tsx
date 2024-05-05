@@ -1,14 +1,16 @@
+// use pathname needs CSR
 "use client";
 
-//import from libraries
+// external imports
 import React, { ReactNode } from "react";
-import { usePathname } from "next/navigation";
-import { Link } from "@/modules/internationalization/navigation";
 
-//props for the active link
+// internal imports
+import { Link, usePathname } from "@/modules/internationalization/navigation";
+
+//props for the nav link
 type NavLinkProps = {
   children: ReactNode;
-  link: string;
+  link: string; // the best way start link with /
 };
 
 const NavLink = (props: NavLinkProps) => {

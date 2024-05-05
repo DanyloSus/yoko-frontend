@@ -1,16 +1,21 @@
+// styled needs CSR
 "use client";
 
-import TextField, { TextFieldProps } from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
+// external imports
 import localFont from "next/font/local";
+import { styled } from "@mui/material/styles";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
 
+// get local kyiv font
 const kyiv = localFont({
   src: "../public/fonts/KyivTypeSerif-Bold2.woff2",
   display: "swap",
   variable: "--font-kyiv",
 });
 
+// create custom textfield's style
 const StyledTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
+  // applying base style
   "& input": {
     padding: "16.5px 12px",
   },
@@ -21,14 +26,24 @@ const StyledTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
     whiteSpace: "nowrap",
   },
 
+  // class for heading in create collection
   "&.font-kyiv": {
-    "& *": { fontFamily: kyiv.style.fontFamily },
-    "& .MuiOutlinedInput-root": {
+    "& *": {
+      fontFamily: kyiv.style.fontFamily,
+    },
+    "& .MuiInputBase-input": {
       fontSize: "48px",
       lineHeight: "48px",
     },
+    "& .MuiFormLabel-root": {
+      fontSize: "48px",
+      "&.Mui-focused": {
+        fontSize: "16px",
+      },
+    },
   },
 
+  // applying style with primary color
   "&.primary": {
     "& .MuiFormLabel-root": {
       color: "white",

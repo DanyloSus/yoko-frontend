@@ -1,12 +1,14 @@
+// external imports
 import React, { ReactNode } from "react";
 
-type Props = {
+type FormProps = {
   children: ReactNode;
   title?: string;
   isDark?: boolean;
 };
 
-const FormWrapper = (props: Props) => {
+// basic form use primary colors so if you want normal black borders use "isDark"
+const FormWrapper = (props: FormProps) => {
   return (
     <div
       className="flex mx-auto max-w-[780px] w-full min-h-[483px] py-[32px] rounded-lg border-2 items-center justify-center text-center"

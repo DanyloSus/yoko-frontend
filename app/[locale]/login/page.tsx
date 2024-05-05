@@ -1,22 +1,29 @@
-import LoginForm from "@/components/login/Form";
-import FormWrapper from "@/components/wrappers/FormWrapper";
-import { useTranslations } from "next-intl";
+// external imports
 import React from "react";
+import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-export const overkill = (params: string[], t: any) => {
-  let values: any = {};
+// internal imports
+import LoginForm from "@/components/forms/login/Form";
+import FormWrapper from "@/components/wrappers/FormWrapper";
+import { overkill } from "@/modules/internationalization/navigation";
 
-  params.forEach((param) => {
-    values[param.split(".")[1]] = t(param);
-  });
+// create multilanguage dynamic metadata
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
 
-  console.log(values);
-
-  return values;
-};
+  return {
+    title: t("login.title"),
+    descriptions: t("login.description"),
+  };
+}
 
 const Login = () => {
-  const t = useTranslations("Login");
+  const t = useTranslations("Login"); // get page translation
 
   return (
     <main className="w-screen h-screen flex justify-center items-center bg-blue-marguerite-500">

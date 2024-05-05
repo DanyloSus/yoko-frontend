@@ -125,5 +125,103 @@
       "dontMatch": "Passwords don't match",
       "serverError": "Server error, please try again later"
     }
+  },
+  "Collection": {
+    "texts": {
+      "start": "Start To Learn",
+      "likes": "Likes",
+      "views": "Views",
+      "propositionHeading": "Choose method",
+      "textExercise": "Text",
+      "quizExercise": "Quiz",
+      "cardsExercise": "Flash Cards"
+    }
+  },
+  "Header": {
+    "texts": {
+      "logo": "Yolo",
+      "logoAdmin": "Yolo Admin",
+      "store": "Store",
+      "collections": "Collections",
+      "login": "Login",
+      "register": "Register"
+    }
+  },
+  "Exercises": {
+    "cards": {
+      "save": "Save",
+      "translate": "Show Translate",
+      "texts": {}
+    },
+    "quiz": {},
+    "text": {
+      "bubbleText": "Add word",
+      "texts": {}
+    }
+  },
+  "Admin": {
+    "words": {
+      "en": "Word EN",
+      "uk": "Word UK"
+    },
+    "users": {
+      "names": "Names",
+      "surnames": "Surnames",
+      "emails": "Emails",
+      "usersWords": "Users' Words",
+      "usersCollections": "Users' Collections"
+    },
+    "collections": {
+      "headings": "Headings",
+      "contents": "Content",
+      "states": "States",
+      "userId": "User's id"
+    }
+  },
+  "Metadata": {
+    "landing": {
+      "title": "Yoko",
+      "description": "Learn English through a diverse collection of texts in English and Ukrainian in Yoko. Improve your language skills with engaging content and bilingual support."
+    },
+    "register": {
+      "title": "Register",
+      "description": "Yoko's register page"
+    },
+    "login": {
+      "title": "Login",
+      "description": "Yoko's login page"
+    },
+    "exercises": {
+      "text": {
+        "title": "Text Exercise"
+      },
+      "quiz": {
+        "title": "Quiz Exercise"
+      },
+      "cards": {
+        "title": "Word Cards"
+      }
+    },
+    "user": {
+      "title": "User's page"
+    },
+    "settings": {
+      "title": "Settings"
+    },
+    "thanks": {
+      "title": "Thank You!"
+    },
+    "store": {
+      "title": "Store",
+      "description": "Yoko's store page where you can find the best collections for learning English."
+    },
+    "addCollection": {
+      "title": "Add Collection",
+      "description": "Page where You can share your collection with community or create only for yourself."
+    },
+    "collections": {
+      "title": "Collections",
+      "description": "User's collections."
+    }
   }
 }

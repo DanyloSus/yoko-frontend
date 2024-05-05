@@ -1,19 +1,26 @@
-"use client";
+// external imports
+import React from "react";
 
+// internal imports
 import StyledButton from "@/ui/Button";
 import TranslateTooltip from "@/ui/Tooltip";
-import React from "react";
-import "react-tooltip/dist/react-tooltip.css";
 
 type BubbleProps = {
   englishText: string[];
   ukrainianText: string[];
 };
 
-const TranslationBubble = (props: BubbleProps) => {
+type Texts = {
+  bubbleText: string;
+};
+
+const TranslationBubble = ({ bubbleText, ...props }: BubbleProps & Texts) => {
   return (
     <div>
       {props.englishText.map((word, index) => (
+        // here we sift english words to make
+        // sentence but on hover every word show tooltip
+        // with tranlation
         <TranslateTooltip
           arrow
           placement="top"
@@ -24,7 +31,7 @@ const TranslationBubble = (props: BubbleProps) => {
                 variant="contained"
                 className="w-[100px] h-[16px] text-label whitespace-nowrap font-dmSans"
               >
-                Додати слово
+                {bubbleText}
               </StyledButton>
               <div className="flex items-center gap-[10px]">
                 {index !== 0 ? (

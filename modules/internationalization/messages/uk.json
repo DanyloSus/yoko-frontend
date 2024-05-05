@@ -6,7 +6,7 @@
     "login": "Увійти"
   },
   "Login": {
-    "header": "Увійти",
+    "heading": "Увійти",
     "texts": {
       "email": "Електронна пошта",
       "password": "Пароль",
@@ -24,7 +24,7 @@
     }
   },
   "Register": {
-    "header": "Реєстрація",
+    "heading": "Реєстрація",
     "texts": {
       "name": "Ім'я",
       "surname": "Прізвище",
@@ -124,6 +124,17 @@
       "writeConfirmation": "Введіть підтвердження паролю",
       "dontMatch": "Паролі не співпадають",
       "serverError": "Помилка сервера, спробуйте ще раз пізніше"
+    }
+  },
+  "Collection": {},
+  "Header": {
+    "texts": {
+      "logo": "Yolo",
+      "logoAdmin": "Yolo Admin",
+      "store": "Магазин",
+      "collections": "Колекції",
+      "login": "Увійти",
+      "register": "Зареєструватися"
     }
   }
 }

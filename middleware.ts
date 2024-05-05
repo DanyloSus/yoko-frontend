@@ -1,18 +1,23 @@
+// external imports
 import { NextRequest } from "next/server";
-import { updateSession } from "./modules/auth/auth";
 import createMiddleware from "next-intl/middleware";
+
+// internal imports
+import { updateSession } from "./modules/auth/auth";
 import {
   locales,
   localePrefix,
 } from "@/modules/internationalization/navigation";
 
+// start before page content
 export default async function middleware(request: NextRequest) {
+  // update session in cookies
   await updateSession(request);
+
   return createMiddleware({
-    // Used when no locale matches
-    defaultLocale: "en",
-    localePrefix,
-    locales,
+    defaultLocale: "en", // Used when no locale matches
+    localePrefix, // start pathnames with the locale
+    locales, // suported locales [en, uk]
   })(request);
 }
 

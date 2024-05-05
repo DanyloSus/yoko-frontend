@@ -1,9 +1,12 @@
+// custom theme needs CSR
 "use client";
 
-import "./globals.scss";
+// external imports
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "@/ui/theming/Theme";
+// internal imports
+import "./globals.scss";
 import ReduxWrapper from "@/components/wrappers/ReduxWrapper";
+import theme from "@/ui/theming/Theme";
 
 export default function RootLayout({
   children,

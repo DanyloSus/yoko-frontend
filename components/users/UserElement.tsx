@@ -1,9 +1,14 @@
-import { UserInfo } from "@/modules/redux/user/userSlice";
+// external imports
+import React from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { CircularProgress } from "@mui/material";
-import React from "react";
+
+// internal imports
+import { UserInfo } from "@/modules/redux/user/userSlice";
 
 const UserElement = ({ user }: { user: UserInfo }) => {
+  // if user fetched then we show his name
+  // else we show loading circle
   return user.name ? (
     <div
       className="flex flex-col items-center justify-center"

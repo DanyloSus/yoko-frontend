@@ -1,4 +1,7 @@
+// external imports
 import React from "react";
+
+// internal imports
 import Cell from "./Cell";
 
 export type Collection = {
@@ -12,14 +15,23 @@ type TableProps = {
   collections: Collection[];
 };
 
-const CollectionsTable = (props: TableProps) => {
+type Texts = {
+  texts: {
+    headings: string;
+    contents: string;
+    states: string;
+    userId: string;
+  };
+};
+
+const CollectionsTable = ({ texts, ...props }: TableProps & Texts) => {
   return (
     <div className="grid grid-cols-5">
       <Cell />
-      <Cell>Heading</Cell>
-      <Cell>Content</Cell>
-      <Cell>State</Cell>
-      <Cell>User&apos;s id</Cell>
+      <Cell>{texts.headings}</Cell>
+      <Cell>{texts.contents}</Cell>
+      <Cell>{texts.states}</Cell>
+      <Cell>{texts.userId}</Cell>
       {...props.collections.map((collection, index) => (
         <>
           <Cell>{index}</Cell>

@@ -1,5 +1,8 @@
-import Link from "next/link";
+// external imports
 import React from "react";
+
+// internal imports
+import { Link } from "@/modules/internationalization/navigation";
 
 type CollectionProps = {
   id: number;

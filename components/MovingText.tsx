@@ -1,5 +1,7 @@
-import React from "react";
+// external imports
+import React, { ReactNode } from "react";
 
+// dummy list of words
 const words = `
 a
 ability
@@ -1005,19 +1007,25 @@ yourself
   .trim()
   .split("\n");
 
-const MovingText = () => {
-  const movingTexts = [];
+// list of words elements
+const movingTexts: ReactNode[] = [];
 
-  for (let i = 0; i < 32; i++) {
-    const randomWords = [];
-    for (let i = 0; i < 35; i++) {
-      randomWords.push(words[Math.floor(Math.random() * words.length)]);
-    }
-    movingTexts.push(
-      <div className="moving-text">{randomWords.join(" ")}</div>
-    );
+// 73 is count of lines for vertical 4k monitor
+for (let i = 0; i < 73; i++) {
+  const randomWords = [];
+
+  // 60 is count of words for horizontal 4k monitor
+  for (let i = 0; i < 60; i++) {
+    randomWords.push(words[Math.floor(Math.random() * words.length)]); // push random words
   }
 
+  // push to moving element random words
+  movingTexts.push(
+    <div className="moving-text lowercase">{randomWords.join(" ")}</div>
+  );
+}
+
+const MovingText = () => {
   return <div className="moving-text-container">{...movingTexts}</div>;
 };
 

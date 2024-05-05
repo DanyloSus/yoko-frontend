@@ -1,13 +1,30 @@
-import Sort from "@/components/sort/Sort";
+// external imports
 import React from "react";
-import StyledButton from "@/ui/Button";
-import Collections from "@/components/collections/Collections";
-import { overkill } from "../../login/page";
-import { Link } from "@/modules/internationalization/navigation";
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+
+// internal imports
+import Sort from "@/components/sort/Sort";
+import Collections from "@/components/collections/Collections";
+import { Link, overkill } from "@/modules/internationalization/navigation";
+import StyledButton from "@/ui/Button";
+
+// create multilanguage dynamic metadata
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("store.title"),
+    descriptions: t("store.description"),
+  };
+}
 
 const StorePage = () => {
-  const t = useTranslations("Store");
+  const t = useTranslations("Store"); // get page translation
 
   return (
     <div className="w-full flex flex-col gap-[24px] relative">

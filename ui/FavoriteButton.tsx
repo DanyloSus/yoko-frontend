@@ -1,8 +1,10 @@
+// use state needs CSR
 "use client";
 
+// external imports
 import React, { useState } from "react";
-import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import GradeIcon from "@mui/icons-material/Grade";
+import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import { AnimatePresence, motion } from "framer-motion";
 
 const FavoriteButton = () => {
@@ -10,6 +12,7 @@ const FavoriteButton = () => {
 
   return (
     <div className="relative">
+      {/* Animate presence is for applying exit animation on dom changes */}
       <AnimatePresence>
         {isFavorite ? (
           <motion.div

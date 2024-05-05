@@ -1,6 +1,8 @@
+// external imports
 import { DM_Sans } from "next/font/google";
 import localFont from "next/font/local";
 
+// get google font, DM Sans
 const dmSans = DM_Sans({
   weight: "400",
   display: "swap",
@@ -8,6 +10,7 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
 });
 
+// get local kyiv font
 const kyiv = localFont({
   src: "../../public/fonts/KyivTypeSerif-Bold2.woff2",
   display: "swap",

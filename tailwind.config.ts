@@ -1,8 +1,10 @@
+// external imports
 import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config: Config = {
   content: [
+    // path where styles will apply
     "./ui/**/*.{js,ts,jsx,tsx,mdx}",
     "./modules/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,6 +13,7 @@ const config: Config = {
   theme: {
     //custom colors
     colors: {
+      // or else primary
       "blue-marguerite": {
         "50": "#eff2fe",
         "100": "#e2e6fd",
@@ -31,6 +34,7 @@ const config: Config = {
       "dark-grey": "#626155",
     },
     fontSize: {
+      // [font-size, line-height]
       h1: ["96px", "96px"],
       h2: ["60px", "60px"],
       h3: ["48px", "48px"],
@@ -42,23 +46,13 @@ const config: Config = {
     },
     extend: {
       spacing: {
-        pc: "130px",
-        phone: "13px",
+        pc: "130px", // spacing for desktops
+        phone: "13px", // spacing for phones
       },
       //custom fonts
       fontFamily: {
         kyiv: ["var(--font-kyiv)"],
-        dmSans: ["var(--font-dm-sans)", ...fontFamily.sans],
-      },
-      lineHeight: {
-        h1: "96px",
-        h2: "60px",
-        h3: "48px",
-        h4: "34px",
-        h5: "24px",
-        h6: "20px",
-        p: "16px",
-        label: "12px",
+        dmSans: ["var(--font-dm-sans)", ...fontFamily.sans], // if dmSans doesn't work then applies sans' fonts
       },
     },
   },

@@ -1,59 +1,53 @@
+// external imports
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+// user's info type
 export type UserInfo = {
-  id: number | null;
-  name: string | null;
-  surname: string | null;
-  email: string | null;
-  token: string | null;
-  isAdmin: boolean | null;
+  id?: number;
+  name?: string;
+  surname?: string;
+  email?: string;
+  token?: string;
+  isAdmin?: boolean;
 };
 
-let initialState: UserInfo = {
-  id: null,
-  name: null,
-  email: null,
-  surname: null,
-  token: null,
-  isAdmin: null,
-};
+// initial values
+let initialState: UserInfo = {};
 
+// check is dom ready
 if (typeof window !== "undefined") {
+  // if yes then check does user exist in local storage
   const userFromLocalStorage = localStorage.getItem("user");
+
   initialState = userFromLocalStorage
-    ? JSON.parse(userFromLocalStorage)
-    : initialState;
+    ? JSON.parse(userFromLocalStorage) // if yes then set user from local storage
+    : initialState; // if no then set undefined user
 }
 
+// create slice
 const userSlice = createSlice({
-  name: "user",
-  initialState,
+  name: "user", // slice's name
+  initialState, // slice's initial values
+  // actions
   reducers: {
     login(state, action: PayloadAction<UserInfo>) {
-      try {
-        localStorage.setItem("user", JSON.stringify(action.payload));
-      } catch (error) {
-        console.error("Error storing user data in localStorage:", error);
-      }
+      // on login we save user to local storage
+      localStorage.setItem("user", JSON.stringify(action.payload));
 
+      // and set his values
       return { ...state, ...action.payload };
     },
     logout() {
+      // on logout we remove user from local storage
       localStorage.removeItem("user");
-      return {
-        id: null,
-        name: null,
-        email: null,
-        surname: null,
-        token: null,
-        isAdmin: null,
-      };
+      return {};
     },
-    userLoad(state) {
+    userLoad() {
+      // here we load user from local storage
       const userFromLocalStorage = localStorage.getItem("user");
       return userFromLocalStorage
-        ? JSON.parse(userFromLocalStorage)
-        : initialState;
+        ? JSON.parse(userFromLocalStorage) // if user exists in local storage then set him
+        : initialState; // if no then set undefined user
     },
   },
 });

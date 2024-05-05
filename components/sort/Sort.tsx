@@ -1,13 +1,17 @@
+// useState needs CSR
 "use client";
 
+// external imports
 import React, { useState } from "react";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import AbcOutlinedIcon from "@mui/icons-material/AbcOutlined";
+
+// internal imports
 import SortElement from "./SortElement";
 
-type SortText = {
+type Text = {
   texts: {
     sort: string;
     views: string;
@@ -16,8 +20,8 @@ type SortText = {
   };
 };
 
-const Sort = ({ texts }: SortText) => {
-  const [modal, setModal] = useState(false);
+const Sort = ({ texts }: Text) => {
+  const [modal, setModal] = useState(false); // state for checking is modal open
 
   return (
     <div className="relative">

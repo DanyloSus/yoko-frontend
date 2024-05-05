@@ -1,7 +1,13 @@
-import StyledButton from "@/ui/Button";
+// useState needs CSR
+"use effect";
+
+// external imports
 import React, { useState } from "react";
-import ReactCardFlip from "react-card-flip";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
+import ReactCardFlip from "react-card-flip";
+
+// internal imports
+import StyledButton from "@/ui/Button";
 
 type CardProps = {
   englishWord: string;
@@ -10,10 +16,19 @@ type CardProps = {
   back: () => void;
 };
 
-const Card = (props: CardProps) => {
-  const [isFlipped, setIsFlipped] = useState(false);
-  const style =
-    "card  min-h-[474px] rounded-[16px] shadow-md flex flex-col border-2 border-dark-grey p-[24px]";
+type Texts = {
+  texts: {
+    save: string;
+    translate: string;
+  };
+};
+
+// basic card style
+const style =
+  "card  min-h-[474px] rounded-[16px] shadow-md flex flex-col border-2 border-dark-grey p-[24px]";
+
+const Card = ({ texts, ...props }: CardProps & Texts) => {
+  const [isFlipped, setIsFlipped] = useState(false); // state to check is card flipped
 
   return (
     <div className="mx-auto max-w-[580px] w-full">
@@ -23,14 +38,14 @@ const Card = (props: CardProps) => {
           <h2 className="text-h2 capitalize">{props.englishWord}</h2>
           <div className="flex flex-col items-center gap-[17px]">
             <StyledButton variant="contained" className="w-[76px]">
-              Save
+              {texts.save}
             </StyledButton>
             <StyledButton
               variant="text"
               className="w-[154px]"
               onClick={() => setIsFlipped((state) => !state)}
             >
-              Show Translate
+              {texts.translate}
             </StyledButton>
           </div>
           <div className="flex justify-between w-full">

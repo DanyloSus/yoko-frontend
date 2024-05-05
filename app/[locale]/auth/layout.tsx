@@ -1,5 +1,8 @@
-import Header from "@/components/Header";
+// external imports
 import React from "react";
+
+// internal imports
+import TranslatedHeader from "@/components/header/TranslatedHeader";
 
 const AuthLayout = ({
   children,
@@ -8,7 +11,7 @@ const AuthLayout = ({
 }>) => {
   return (
     <>
-      <Header />
+      <TranslatedHeader />
       <main className="pt-[110px] px-pc">{children}</main>
     </>
   );

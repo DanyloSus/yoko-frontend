@@ -1,18 +1,33 @@
+// usePathname needs CSR
+"use client";
+
+// external imports
 import React from "react";
-import Portal from "./wrappers/Portal";
-import FormWrapper from "./wrappers/FormWrapper";
-import StyledButton from "@/ui/Button";
-import NavLink from "./NavLink";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { motion } from "framer-motion";
-import Link from "next/link";
 
+// internal imports
+import FormWrapper from "./wrappers/FormWrapper";
+import Portal from "./wrappers/Portal";
+import StyledButton from "@/ui/Button";
+
+// Props for element
 type Props = {
   handleClose: () => void;
 };
 
-const LearnPropositions = (props: Props) => {
+type Texts = {
+  texts: {
+    propositionHeading: string;
+    textExercise: string;
+    quizExercise: string;
+    cardsExercise: string;
+  };
+};
+
+const LearnPropositions = ({ texts, ...props }: Props & Texts) => {
   const pathname = usePathname();
 
   return (
@@ -25,25 +40,27 @@ const LearnPropositions = (props: Props) => {
         key={"Modal"}
         className="absolute top-[70px] w-screen h-screen bg-blue-marguerite-500 z-10 text-white flex items-center  pb-[70px] px-pc"
       >
+        {/* Button for closing modal */}
         <ArrowBackIcon
           className="absolute text-white top-0 w-[48px] h-[48px] cursor-pointer"
           onClick={props.handleClose}
         />
-        <FormWrapper title="Choose method">
+        <FormWrapper title={texts.propositionHeading}>
           <div className="max-w-[377px] w-full flex flex-col gap-[24px]">
+            {/* List of varianst to learn */}
             <Link href={`${pathname}/exercise/text`}>
               <StyledButton variant="contained" className="w-full">
-                Text
+                {texts.textExercise}
               </StyledButton>
             </Link>
             <Link href={`${pathname}/exercise/quiz`}>
               <StyledButton variant="contained" className="w-full">
-                Quiz
+                {texts.quizExercise}
               </StyledButton>
             </Link>
             <Link href={`${pathname}/exercise/cards`}>
               <StyledButton variant="contained" className="w-full">
-                Flash Card
+                {texts.cardsExercise}
               </StyledButton>
             </Link>
             <StyledButton variant="contained">...</StyledButton>

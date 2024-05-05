@@ -1,8 +1,12 @@
+// hooks need CSR
 "use client";
 
-import { CircularProgress } from "@mui/material";
-import axios from "axios";
+// external imports
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { CircularProgress } from "@mui/material";
+
+// internal imports
 import CollectionTitle from "./CollectionTitle";
 
 type Collection = {
@@ -10,21 +14,22 @@ type Collection = {
   title: string;
 };
 
-type CollectionsTexts = {
+type Texts = {
   texts: {
     null: string;
   };
 };
 
-const Collections = ({ texts }: CollectionsTexts) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [collections, setCollections] = useState<Collection[]>([]);
+const Collections = ({ texts }: Texts) => {
+  const [isLoading, setIsLoading] = useState(true); // state to load while fetching collections
+  const [collections, setCollections] = useState<Collection[]>([]); // state of collections' array
 
+  // fetching collections
   useEffect(() => {
     setIsLoading(true);
+
     async function fetchCollections() {
       const res = await axios.get("http://localhost:8876/api/v1/collections");
-      console.log(res);
 
       setCollections(res.data);
       setIsLoading(false);
@@ -46,6 +51,7 @@ const Collections = ({ texts }: CollectionsTexts) => {
       ))}
     </div>
   ) : (
+    // if collections' length is 0 then show text
     <h3 className="text-center text-h3">{texts.null}</h3>
   );
 };
