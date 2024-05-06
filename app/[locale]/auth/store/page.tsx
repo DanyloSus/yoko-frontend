@@ -28,12 +28,12 @@ const StorePage = () => {
 
   return (
     <div className="w-full flex flex-col gap-[24px] relative">
-      <div className="absolute top-0 right-0">
+      <div className="absolute top-[-20px] right-0">
         <Link href="store/add">
           <StyledButton variant="contained">{t("texts.add")}</StyledButton>
         </Link>
       </div>
-      <h1 className="text-h1 text-center">{t("heading")}</h1>
+      <h1 className="text-h2 sm:text-h1 text-center">{t("heading")}</h1>
       <Sort
         texts={overkill(
           ["texts.sort", "texts.views", "texts.likes", "texts.difficult"],

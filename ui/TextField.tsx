@@ -37,7 +37,7 @@ const StyledTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
     },
     "& .MuiFormLabel-root": {
       fontSize: "48px",
-      "&.Mui-focused": {
+      "&.MuiInputLabel-shrink": {
         fontSize: "16px",
       },
     },

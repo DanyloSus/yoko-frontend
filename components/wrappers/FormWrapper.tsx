@@ -11,7 +11,7 @@ type FormProps = {
 const FormWrapper = (props: FormProps) => {
   return (
     <div
-      className="flex mx-auto sm:max-w-[676px] lg:max-w-[780px] w-full min-h-[483px] py-[32px] rounded-lg  sm:border-2 items-center justify-center text-center"
+      className="flex mx-auto sm:max-w-[676px] lg:max-w-[780px] w-full sm:min-h-[483px] sm:py-[32px] rounded-lg  sm:border-2 items-center justify-center text-center relative"
       style={{
         borderColor: props.isDark ? "black" : "rgb(86, 64, 194)",
         color: props.isDark ? "black" : "white",

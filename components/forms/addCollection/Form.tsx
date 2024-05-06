@@ -5,7 +5,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
-import { Checkbox } from "@mui/material";
+import { Checkbox, CircularProgress } from "@mui/material";
 import * as Yup from "yup";
 
 // internal imports
@@ -73,6 +73,11 @@ const CreateStore = ({ texts, errors }: Texts) => {
 
   return (
     <form className="flex flex-col gap-[20px]" onSubmit={formik.handleSubmit}>
+      {isLoading ? (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+          <CircularProgress color="primary" />
+        </div>
+      ) : null}
       <StyledTextField
         multiline
         className="font-kyiv"
@@ -100,17 +105,24 @@ const CreateStore = ({ texts, errors }: Texts) => {
         <Checkbox
           color="primary"
           value={isPrivate}
+          disabled={isLoading}
           onChange={() => setIsPrivate((state) => !state)}
         />
         <p>{texts.private}</p>
       </div>
       <div className="flex items-center justify-between">
-        <Link href="/auth/store">
-          <StyledButton variant="outlined" className="w-[93px]">
+        {isLoading ? (
+          <StyledButton variant="outlined" disabled className="w-[93px]">
             {texts.cancel}
           </StyledButton>
-        </Link>
-        <StyledButton variant="contained" type="submit" className="w-[73px]">
+        ) : (
+          <Link href="/auth/store">
+            <StyledButton variant="outlined" className="w-[93px]">
+              {texts.cancel}
+            </StyledButton>
+          </Link>
+        )}
+        <StyledButton variant="contained" type="submit" disabled={isLoading}>
           {texts.post}
         </StyledButton>
       </div>

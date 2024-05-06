@@ -27,7 +27,7 @@ const AddCollectionPage = () => {
 
   return (
     <div className="w-full flex flex-col gap-[24px] text-center">
-      <h1 className="text-h1 leading-[96px]">{t("heading")}</h1>
+      <h1 className="text-h2 lg:text-h1 ">{t("heading")}</h1>
       <FormWrapper isDark>
         <CreateStore
           errors={overkill(["errors.nameRequired", "errors.textRequired"], t)}
