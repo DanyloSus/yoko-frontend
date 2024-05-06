@@ -25,6 +25,7 @@ const TranslationBubble = ({ bubbleText, ...props }: BubbleProps & Texts) => {
           arrow
           placement="top"
           key={index}
+          enterTouchDelay={0}
           title={
             <div className="flex flex-col items-center p-[4px] font-dmSans">
               <StyledButton

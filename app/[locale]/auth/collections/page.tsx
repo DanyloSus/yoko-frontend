@@ -26,7 +26,7 @@ const CollectionsPage = () => {
 
   return (
     <div className="w-full flex flex-col gap-[24px]">
-      <h1 className="text-h1 text-center">{t("heading")}</h1>
+      <h1 className="text-h2 sm:text-h1 text-center">{t("heading")}</h1>
       <Sort
         texts={overkill(
           ["texts.sort", "texts.views", "texts.likes", "texts.difficult"],

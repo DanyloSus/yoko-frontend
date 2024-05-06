@@ -12,7 +12,9 @@ const AuthLayout = ({
   return (
     <>
       <TranslatedHeader />
-      <main className="pt-[110px] px-pc">{children}</main>
+      <main className="pt-[110px] px-phone sm:px-tablet md:px-pc">
+        {children}
+      </main>
     </>
   );
 };

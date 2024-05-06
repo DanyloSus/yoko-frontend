@@ -17,6 +17,7 @@ type Texts = {
   texts: {
     save: string;
     translate: string;
+    back: string;
   };
 };
 

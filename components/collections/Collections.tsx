@@ -41,7 +41,7 @@ const Collections = ({ texts }: Texts) => {
   return isLoading ? (
     <CircularProgress color="primary" className="mx-auto" />
   ) : collections.length > 0 ? (
-    <div className="grid gap-4 grid-cols-4">
+    <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-4 lg:grid-cols-4">
       {...collections.map((collection) => (
         <CollectionTitle
           key={collection.id}
@@ -52,7 +52,7 @@ const Collections = ({ texts }: Texts) => {
     </div>
   ) : (
     // if collections' length is 0 then show text
-    <h3 className="text-center text-h3">{texts.null}</h3>
+    <h3 className="text-center text-h4 sm:text-h3">{texts.null}</h3>
   );
 };
 

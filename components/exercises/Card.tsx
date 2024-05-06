@@ -20,6 +20,7 @@ type Texts = {
   texts: {
     save: string;
     translate: string;
+    back: string;
   };
 };
 
@@ -42,7 +43,6 @@ const Card = ({ texts, ...props }: CardProps & Texts) => {
             </StyledButton>
             <StyledButton
               variant="text"
-              className="w-[154px]"
               onClick={() => setIsFlipped((state) => !state)}
             >
               {texts.translate}
@@ -67,7 +67,7 @@ const Card = ({ texts, ...props }: CardProps & Texts) => {
             sx={{ w: "77px" }}
             onClick={() => setIsFlipped((state) => !state)}
           >
-            Back
+            {texts.back}
           </StyledButton>
         </div>
       </ReactCardFlip>

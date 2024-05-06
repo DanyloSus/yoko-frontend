@@ -2,18 +2,19 @@
 "use client";
 
 // external imports
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
 // internal imports
-import StyledButton from "@/ui/Button";
-import LearnPropositions from "@/components/LearnPropositions";
-import FavoriteButton from "@/ui/FavoriteButton";
-import PieStatistic from "./statistic/Pie";
-import ColumnStatistic from "./statistic/Column";
 import Comment from "./Comment";
+import ColumnStatistic from "./statistic/Column";
+import PieStatistic from "./statistic/Pie";
+import LearnPropositions from "@/components/LearnPropositions";
+import useScrollBlock from "@/modules/hooks/useScrollBlock";
+import StyledButton from "@/ui/Button";
+import FavoriteButton from "@/ui/FavoriteButton";
 
 type Texts = {
   texts: {
@@ -29,6 +30,17 @@ type Texts = {
 
 const CollectionContent = ({ texts }: Texts) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // state ro check is modal open
+
+  const [blockScroll, allowScroll] = useScrollBlock();
+
+  useEffect(() => {
+    if (isModalOpen) {
+      blockScroll();
+    } else {
+      allowScroll();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isModalOpen]);
 
   return (
     <div className="w-screen min-h-screen overflow-hidden">

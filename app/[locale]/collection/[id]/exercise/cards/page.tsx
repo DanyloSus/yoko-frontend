@@ -28,7 +28,7 @@ const CardExercise = () => {
 
   return (
     <CardComponents
-      texts={overkill(["cards.save", "cards.translate"], t)}
+      texts={overkill(["cards.save", "cards.translate", "cards.back"], t)}
       englishText={englishText}
       ukrainianText={ukrainianText}
     />

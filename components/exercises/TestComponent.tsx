@@ -103,7 +103,7 @@ const TestComponent = (props: ComponentProps) => {
       <h1 className="text-h2 mb-[31px] capitalize">
         {props.englishText[step]}
       </h1>
-      <div className="grid grid-cols-2 gap-[40px]">
+      <div className="flex flex-col sm:grid grid-cols-2 gap-[16px] sm:gap-[40px]">
         {buttons.map((button, index) => (
           <React.Fragment key={index}>{button}</React.Fragment>
         ))}

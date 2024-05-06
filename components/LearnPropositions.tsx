@@ -38,7 +38,7 @@ const LearnPropositions = ({ texts, ...props }: Props & Texts) => {
         exit={{ x: "100%" }}
         transition={{ ease: "easeInOut" }}
         key={"Modal"}
-        className="absolute top-[70px] w-screen h-screen bg-blue-marguerite-500 z-10 text-white flex items-center  pb-[70px] px-pc"
+        className="fixed top-[70px] w-screen h-screen bg-blue-marguerite-500 z-10 text-white flex items-center pb-[70px] px-phone sm:px-tablet md:px-pc"
       >
         {/* Button for closing modal */}
         <ArrowBackIcon

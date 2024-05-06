@@ -18,7 +18,7 @@ const TranslateTooltip = styled(({ className, ...props }: TooltipProps) => (
     color: "black",
   },
   ["& .MuiTooltip-arrow "]: {
-    boxShadow: "0px 0px 4px rgba(0,0,0,0.25)",
+    textShadow: "0px 0px 4px rgba(0,0,0,0.25)",
     color: "#F0F0FD", // arrow is span so we change its color
   },
 }));
