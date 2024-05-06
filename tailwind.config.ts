@@ -47,6 +47,7 @@ const config: Config = {
     extend: {
       spacing: {
         pc: "130px", // spacing for desktops
+        tablet: "58px", // spacing for tablets
         phone: "13px", // spacing for phones
       },
       //custom fonts

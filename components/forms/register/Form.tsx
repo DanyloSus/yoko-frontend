@@ -172,10 +172,10 @@ const RegisterForm = ({ texts, errors }: Texts) => {
         </div>
       ) : null}
       <form className="space-y-[24px] w-full" onSubmit={formik.handleSubmit}>
-        <div className="flex flex-col gap-[20px] justify-stretch w-full">
+        <div className="flex flex-col gap-[10px] lg:gap-[20px] justify-stretch w-full">
           <div className="flex gap-[20px] w-full">
             <StyledTextField
-              className="primary"
+              className="primary w-full"
               label={texts.name}
               type="text"
               name="name"
@@ -186,7 +186,7 @@ const RegisterForm = ({ texts, errors }: Texts) => {
               disabled={isLoading}
             />
             <StyledTextField
-              className="primary"
+              className="primary w-full"
               label={texts.surname}
               type="text"
               name="surname"
@@ -233,12 +233,7 @@ const RegisterForm = ({ texts, errors }: Texts) => {
           >
             {texts.login}
           </StyledButton>
-          <StyledButton
-            sx={{ width: "102px" }}
-            variant="contained"
-            type="submit"
-            disabled={isLoading}
-          >
+          <StyledButton variant="contained" type="submit" disabled={isLoading}>
             {texts.register}
           </StyledButton>
         </div>

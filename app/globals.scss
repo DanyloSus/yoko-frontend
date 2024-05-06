@@ -16,6 +16,10 @@ body {
   @apply font-dmSans; //font-dmSans is custom in tailwindcss
 }
 
+body {
+  overflow-x: hidden;
+}
+
 .active .MuiButton-root {
   background-color: #5640c2 !important;
 }

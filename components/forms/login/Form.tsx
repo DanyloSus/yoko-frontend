@@ -116,10 +116,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
         setIsLoading(false);
       } catch (error: any) {
         // error handling
-        if (
-          error.response &&
-          (error.response!.status === 422 || error.response!.status === 401)
-        ) {
+        if (error.response && error.response!.status === 422) {
           formik.setErrors({
             email: "",
             password: errors.loginFailed,
@@ -150,12 +147,22 @@ const LoginForm = ({ texts, errors }: Texts) => {
             // change page
             router.push("/auth/collections");
             setIsLoading(false);
-          } catch (error) {
+          } catch (error: any) {
             // error handling
-            formik.setErrors({
-              email: "",
-              password: errors.serverError,
-            });
+            if (
+              error.response &&
+              (error.response!.status === 422 || error.response!.status === 401)
+            ) {
+              formik.setErrors({
+                email: "",
+                password: errors.loginFailed,
+              });
+            } else {
+              formik.setErrors({
+                email: "",
+                password: errors.serverError,
+              });
+            }
           }
         }
 

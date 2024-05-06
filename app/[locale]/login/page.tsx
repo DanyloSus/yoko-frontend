@@ -26,7 +26,7 @@ const Login = () => {
   const t = useTranslations("Login"); // get page translation
 
   return (
-    <main className="w-screen h-screen flex justify-center items-center bg-blue-marguerite-500">
+    <main className="w-screen h-screen flex justify-center items-center bg-blue-marguerite-500 px-phone sm:px-tablet md:px-pc">
       <FormWrapper title={t("heading")}>
         <LoginForm
           texts={overkill(

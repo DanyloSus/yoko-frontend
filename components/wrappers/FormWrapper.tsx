@@ -11,15 +11,17 @@ type FormProps = {
 const FormWrapper = (props: FormProps) => {
   return (
     <div
-      className="flex mx-auto max-w-[780px] w-full min-h-[483px] py-[32px] rounded-lg border-2 items-center justify-center text-center"
+      className="flex mx-auto sm:max-w-[676px] lg:max-w-[780px] w-full min-h-[483px] py-[32px] rounded-lg  sm:border-2 items-center justify-center text-center"
       style={{
         borderColor: props.isDark ? "black" : "rgb(86, 64, 194)",
         color: props.isDark ? "black" : "white",
       }}
     >
-      <div className="flex max-w-[380px] w-full flex-col gap-[24px] items-center">
+      <div className="flex sm:max-w-[429px] lg:max-w-[380px] w-full flex-col gap-[10px] md:gap-[20px] lg:gap-[24px] max-md:px-phone items-center">
         {props.title ? (
-          <h3 className="text-h3 whitespace-nowrap">{props.title}</h3>
+          <h3 className="text-h4 sm:text-h3 whitespace-nowrap">
+            {props.title}
+          </h3>
         ) : null}
         {props.children}
       </div>

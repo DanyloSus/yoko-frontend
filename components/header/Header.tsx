@@ -57,10 +57,10 @@ const Header = ({ texts }: Texts) => {
   // router.replace(pathname, {locale: 'de'});
 
   return (
-    <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 text-blue-marguerite-50 bg-blue-marguerite-500 flex px-phone md:px-pc items-center justify-between fixed z-50">
+    <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 text-blue-marguerite-50 bg-blue-marguerite-500 flex px-phone sm:px-tablet md:px-pc items-center justify-between fixed z-50">
       <h3 className="text-h3">{isAdminPage ? texts.logoAdmin : texts.logo}</h3>
       <nav>
-        <ul className="flex gap-[16px] items-center max-md:hidden">
+        <ul className="flex gap-[16px] items-center max-sm:hidden">
           {signed ? (
             <>
               {isAdminPage ? null : (
@@ -79,12 +79,7 @@ const Header = ({ texts }: Texts) => {
                   </li>
                   <li>
                     <NavLink link="/auth/collections">
-                      <StyledButton
-                        variant="contained"
-                        sx={{
-                          width: "102px",
-                        }}
-                      >
+                      <StyledButton variant="contained">
                         {texts.collections}
                       </StyledButton>
                     </NavLink>
@@ -124,12 +119,7 @@ const Header = ({ texts }: Texts) => {
               </li>
               <li>
                 <Link href="/register">
-                  <StyledButton
-                    variant="contained"
-                    sx={{
-                      width: "102px",
-                    }}
-                  >
+                  <StyledButton variant="contained">
                     {texts.register}
                   </StyledButton>
                 </Link>
