@@ -11,7 +11,7 @@ import CollectionTitle from "./CollectionTitle";
 
 type Collection = {
   id: number;
-  title: string;
+  name: string;
 };
 
 type Texts = {
@@ -46,7 +46,7 @@ const Collections = ({ texts }: Texts) => {
         <CollectionTitle
           key={collection.id}
           id={collection.id}
-          title={collection.title}
+          title={collection.name}
         />
       ))}
     </div>

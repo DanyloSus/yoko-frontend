@@ -18,13 +18,13 @@ export async function generateMetadata({
   };
 }
 
-const QuizExercise = () => {
-  const englishText = ["I", "love", "learning", "new", "languages."]; // dummy data
-  const ukrainianText = ["Я", "люблю", "вивчати", "нові", "мови."]; // dummy data
+const QuizExercise = ({ params }: { params: { id: string } }) => {
+  // const englishText = ["I", "love", "learning", "new", "languages."]; // dummy data
+  // const ukrainianText = ["Я", "люблю", "вивчати", "нові", "мови."]; // dummy data
 
   return (
     <div>
-      <TestComponent englishText={englishText} ukrainianText={ukrainianText} />
+      <TestComponent collectionId={params.id} />
     </div>
   );
 };

@@ -6,75 +6,43 @@ import React, { useEffect, useState, ReactNode } from "react";
 
 // internal imports
 import StyledButton from "@/ui/Button";
+import { CircularProgress } from "@mui/material";
+import axios from "axios";
 
 type ComponentProps = {
-  ukrainianText: string[];
-  englishText: string[];
+  // ukrainianText: string[];
+  // englishText: string[];
+  collectionId: string;
+};
+
+type VariantOfAnswer = {
+  id: number;
+  translation: string;
+  isAnswer: boolean;
+};
+
+type Question = {
+  word: string;
+  answers: VariantOfAnswer[];
+};
+
+type QuizResponse = {
+  data: Question[];
 };
 
 const TestComponent = (props: ComponentProps) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [step, setStep] = useState(0); // step of array
   const [buttons, setButtons] = useState<ReactNode[]>([]); // state of answers' buttons
 
-  useEffect(() => {
-    // reset buttons to an empty array on each step change
-    setButtons([]);
-
-    // generate a random index to place the correct answer
-    const randomNumber = Math.round(Math.random() * 3);
-
-    // create buttons for each answer option
-    for (
-      let i = 0;
-      // ensure we generate buttons for all answers, or just as many as available
-      i < 4 || (props.englishText.length < 4 && i < props.englishText.length);
-      i++
-    ) {
-      // shuffle the ukrainian words to randomize the order of answer options
-      let shuffled;
-      do {
-        shuffled = [...props.ukrainianText].sort(() => Math.random() - 0.5);
-      } while (props.ukrainianText[step] === shuffled[i]);
-
-      // create a button for the correct answer at the random index
-      if (randomNumber === i) {
-        setButtons((state) => [
-          ...state,
-          <StyledButton
-            variant="outlined"
-            key={i}
-            onClick={() => checkAnswer(props.ukrainianText[step], step)}
-          >
-            {props.ukrainianText[step]}
-          </StyledButton>,
-        ]);
-        continue;
-      }
-
-      // create buttons for the shuffled answers
-      setButtons((state) => [
-        ...state,
-        <StyledButton
-          variant="outlined"
-          key={i}
-          onClick={() => checkAnswer(shuffled[i], i)}
-        >
-          {shuffled[i]}
-        </StyledButton>,
-      ]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.englishText.length, props.ukrainianText, step]);
+  const [questions, setQuestions] = useState<QuizResponse>();
 
   // function to check answer
-  function checkAnswer(value: string, buttonIndex: number) {
-    // find the index of the selected ukrainian word in the original array
-    const mainWordIndex = props.ukrainianText.indexOf(value);
-
+  function checkAnswer(isAnswer: boolean, buttonIndex: number) {
     // check if the selected answer matches the correct english translation
-    if (props.englishText[step] === props.englishText[mainWordIndex]) {
+    if (isAnswer) {
       // if the answer is correct and it's the last question, reset the step to 0
-      if (step === props.englishText.length - 1) {
+      if (questions && step === questions.data.length - 1) {
         setStep(0);
         return;
       }
@@ -98,10 +66,77 @@ const TestComponent = (props: ComponentProps) => {
     );
   }
 
-  return (
+  useEffect(() => {
+    setIsLoading(true);
+
+    async function fetchQuiz() {
+      try {
+        setButtons([]);
+        const { data }: { data: QuizResponse } = await axios.get(
+          "http://localhost:8876/api/v1/collections/1/quiz"
+        );
+
+        setQuestions(data);
+        console.log(data);
+
+        let buttonsArray = [];
+        for (let i = 0; i < 4; i++) {
+          buttonsArray.push(
+            <StyledButton
+              variant="outlined"
+              tabIndex={i}
+              key={i}
+              onClick={() =>
+                checkAnswer(data.data[step].answers[i].isAnswer, i)
+              }
+            >
+              {data.data[step].answers[i].translation}
+            </StyledButton>
+          );
+        }
+
+        setButtons(buttonsArray);
+      } catch (error) {}
+    }
+
+    fetchQuiz();
+    setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (questions) {
+      setButtons([]);
+      let buttonsArray = [];
+      for (let i = 0; i < 4; i++) {
+        buttonsArray.push(
+          <StyledButton
+            variant="outlined"
+            tabIndex={i}
+            key={i}
+            onClick={() =>
+              checkAnswer(questions.data[step].answers[i].isAnswer, i)
+            }
+          >
+            {questions.data[step].answers[i].translation}
+          </StyledButton>
+        );
+      }
+
+      setButtons(buttonsArray);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
+
+  return isLoading || questions === undefined ? (
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+      <CircularProgress color="primary" />
+    </div>
+  ) : (
     <div className="text-center relative">
       <h1 className="text-h2 mb-[31px] capitalize">
-        {props.englishText[step]}
+        {/* {props.englishText[step]} */}
+        {questions.data[step].word}
       </h1>
       <div className="flex flex-col sm:grid grid-cols-2 gap-[16px] sm:gap-[40px]">
         {buttons.map((button, index) => (

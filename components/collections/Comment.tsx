@@ -9,7 +9,7 @@ type CommentProps = {
 
 const Comment = (props: CommentProps) => {
   return (
-    <div className="max-w-[573px] flex flex-col p-[8px] w-full shadow-md border-2 border-light-grey">
+    <div className=" flex flex-col p-[8px] w-full shadow-md border-2 border-light-grey rounded-[8px]">
       <div className="flex items-center gap-[4px]">
         <AccountCircleOutlinedIcon />
         <h6 className="text-h6">{props.name}</h6>

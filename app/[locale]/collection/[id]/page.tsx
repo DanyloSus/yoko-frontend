@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Collection's name",
 };
 
-const CollectionPage = () => {
+const CollectionPage = ({ params }: { params: { id: string } }) => {
   const t = useTranslations("Collection"); // get page translation
 
   return (
@@ -30,6 +30,7 @@ const CollectionPage = () => {
           ],
           t
         )}
+        collectionId={params.id}
       />
     </>
   );
