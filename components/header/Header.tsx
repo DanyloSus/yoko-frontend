@@ -5,6 +5,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
 // internal imports
 import NavLink from "../NavLink";
@@ -12,6 +14,8 @@ import StyledButton from "../../ui/Button";
 import { Link, usePathname } from "@/modules/internationalization/navigation";
 import { Store } from "@/modules/redux/store";
 import useUserAuthed from "@/modules/auth/hooks/useUserAuthed";
+import { AnimatePresence } from "framer-motion";
+import MobileMenu from "../admins/MobileMenu";
 
 type Texts = {
   texts: {
@@ -27,6 +31,7 @@ type Texts = {
 const Header = ({ texts }: Texts) => {
   // state for checking is user authed
   const [signed, setSigned] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // const for checking is it an admin page
   const isAdminPage = usePathname().split("/")[1] === "admin";
@@ -57,13 +62,65 @@ const Header = ({ texts }: Texts) => {
   // router.replace(pathname, {locale: 'de'});
 
   return (
-    <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 text-blue-marguerite-50 bg-blue-marguerite-500 flex px-phone sm:px-tablet md:px-pc items-center justify-between fixed z-50">
-      <h3 className="text-h3">{isAdminPage ? texts.logoAdmin : texts.logo}</h3>
+    <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 text-blue-marguerite-50 bg-blue-marguerite-500 flex px-phone md:px-tablet lg:px-pc items-center justify-between fixed z-50">
+      <h3 className="text-h3 whitespace-nowrap">
+        {isAdminPage ? texts.logoAdmin : texts.logo}
+      </h3>
       <nav>
+        {isAdminPage ? (
+          <div className="max-vsm:hidden sm:hidden">
+            <AnimatePresence>
+              {isModalOpen ? <MobileMenu /> : null}
+            </AnimatePresence>
+            <div className="md:hidden cursor-pointer">
+              {isModalOpen ? (
+                <CloseOutlinedIcon
+                  sx={{
+                    width: "40px",
+                    height: "40px",
+                  }}
+                  onClick={() => setIsModalOpen(false)}
+                />
+              ) : (
+                <MenuOutlinedIcon
+                  sx={{
+                    width: "40px",
+                    height: "40px",
+                  }}
+                  onClick={() => setIsModalOpen(true)}
+                />
+              )}
+            </div>
+          </div>
+        ) : null}
         <ul className="flex gap-[16px] items-center max-sm:hidden">
           {signed ? (
             <>
-              {isAdminPage ? null : (
+              {isAdminPage ? (
+                <li className="md:hidden">
+                  {isModalOpen ? (
+                    <>
+                      <CloseOutlinedIcon
+                        sx={{
+                          width: "40px",
+                          height: "40px",
+                        }}
+                        onClick={() => setIsModalOpen(false)}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <MenuOutlinedIcon
+                        sx={{
+                          width: "40px",
+                          height: "40px",
+                        }}
+                        onClick={() => setIsModalOpen(true)}
+                      />
+                    </>
+                  )}
+                </li>
+              ) : (
                 <>
                   <li>
                     <NavLink link="/auth/store">

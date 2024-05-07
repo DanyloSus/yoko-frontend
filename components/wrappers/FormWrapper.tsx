@@ -19,7 +19,7 @@ const FormWrapper = (props: FormProps) => {
     >
       <div className="flex sm:max-w-[429px] lg:max-w-[380px] w-full flex-col gap-[10px] md:gap-[20px] lg:gap-[24px] max-md:px-phone items-center">
         {props.title ? (
-          <h3 className="text-h4 sm:text-h3 whitespace-nowrap">
+          <h3 className="text-h4 sm:text-h3 sm:whitespace-nowrap">
             {props.title}
           </h3>
         ) : null}

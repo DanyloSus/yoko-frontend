@@ -21,12 +21,11 @@ type Texts = {
 
 const UsersTable = ({ texts, ...props }: TableProps & Texts) => {
   return (
-    <div className="grid grid-cols-6">
+    <div className="grid grid-cols-[repeat(5,_minmax(180px,_1fr))] md:grid-cols-5 overflow-x-auto min-w-0 min-h-0">
       <Cell />
       <Cell>{texts.names}</Cell>
       <Cell>{texts.surnames}</Cell>
       <Cell>{texts.emails}</Cell>
-      <Cell>{texts.usersWords}</Cell>
       <Cell>{texts.usersCollections}</Cell>
       {...props.users.map((user, index) => (
         <>
@@ -34,7 +33,6 @@ const UsersTable = ({ texts, ...props }: TableProps & Texts) => {
           <Cell isMarked={user.isAdmin ? true : undefined}>{user.name}</Cell>
           <Cell isMarked={user.isAdmin ? true : undefined}>{user.surname}</Cell>
           <Cell isMarked={user.isAdmin ? true : undefined}>{user.email}</Cell>
-          <Cell isMarked={user.isAdmin ? true : undefined}>Words</Cell>
           <Cell isMarked={user.isAdmin ? true : undefined}>Collections</Cell>
         </>
       ))}

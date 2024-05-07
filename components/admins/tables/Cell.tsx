@@ -9,7 +9,7 @@ type CellProps = {
 const Cell = (props: CellProps) => {
   return (
     <div
-      className="w-full h-[80px] border border-dark-grey text-center"
+      className="w-full overflow-hidden h-[80px] border border-dark-grey text-center"
       style={{
         backgroundColor: props.isMarked ? "#F0F0FD" : "white",
         display: "grid",

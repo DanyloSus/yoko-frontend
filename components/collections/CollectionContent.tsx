@@ -50,7 +50,7 @@ const CollectionContent = ({ texts }: Texts) => {
           {texts.start}
         </StyledButton>
       </div>
-      <div className="px-phone sm:px-tablet md:px-pc mt-[16px]">
+      <div className="px-phone md:px-tablet lg:px-pc mt-[16px]">
         <div className="flex items-center justify-center sm:justify-end gap-[10px] text-dark-grey text-center">
           <div className="flex items-center gap-[4px]">
             <p className="text-label">999m. {texts.likes}</p>
@@ -78,7 +78,7 @@ const CollectionContent = ({ texts }: Texts) => {
       <div className="flex flex-col items-center mt-[40px]">
         <h2 className="text-h3 sm:text-h2">Comments</h2>
         <hr className="border-light-grey w-full border-t-2" />
-        <div className="px-phone sm:px-tablet md:px-pc flex flex-col items-center gap-[16px] mt-[16px] w-full">
+        <div className="px-phone md:px-tablet lg:px-pc flex flex-col items-center gap-[16px] mt-[16px] w-full">
           <Comment content="sdasd" name="SAdasd" />
           <Comment content="sdasd" name="SAdasd" />
           <Comment content="sdasd" name="SAdasd" />

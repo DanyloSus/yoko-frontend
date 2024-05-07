@@ -226,6 +226,7 @@ const SettingsForm = ({ texts, errors }: Texts) => {
               label={texts.name}
               type="text"
               name="name"
+              className="w-full"
               error={Boolean(formik.errors.name) || formik.errors.name === ""}
               helperText={formik.errors.name ? formik.errors.name : ""}
               onChange={formik.handleChange}
@@ -234,6 +235,7 @@ const SettingsForm = ({ texts, errors }: Texts) => {
             <StyledTextField
               disabled={isLoading}
               label={texts.surname}
+              className="w-full"
               type="text"
               name="surname"
               error={

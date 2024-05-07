@@ -55,6 +55,9 @@ const config: Config = {
         kyiv: ["var(--font-kyiv)"],
         dmSans: ["var(--font-dm-sans)", ...fontFamily.sans], // if dmSans doesn't work then applies sans' fonts
       },
+      screens: {
+        vsm: "330px",
+      },
     },
   },
   plugins: [],

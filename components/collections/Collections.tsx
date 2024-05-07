@@ -41,7 +41,7 @@ const Collections = ({ texts }: Texts) => {
   return isLoading ? (
     <CircularProgress color="primary" className="mx-auto" />
   ) : collections.length > 0 ? (
-    <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-4 lg:grid-cols-4">
+    <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-2 lg:grid-cols-4">
       {...collections.map((collection) => (
         <CollectionTitle
           key={collection.id}

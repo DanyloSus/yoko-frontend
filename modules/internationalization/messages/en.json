@@ -161,6 +161,8 @@
     }
   },
   "Admin": {
+    "phoneIssue": "It's better to do from pc",
+    "back": "Back",
     "words": {
       "en": "Word EN",
       "uk": "Word UK"

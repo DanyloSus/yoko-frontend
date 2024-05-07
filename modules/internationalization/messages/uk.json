@@ -161,6 +161,8 @@
     }
   },
   "Admin": {
+    "phoneIssue": "Це краще робити з комп'ютера",
+    "back": "Назад",
     "words": {
       "en": "Word EN",
       "uk": "Word UK"
