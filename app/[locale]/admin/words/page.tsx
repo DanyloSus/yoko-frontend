@@ -14,21 +14,20 @@ export const metadata: Metadata = {
 const UsersAdminPage = () => {
   const t = useTranslations("Admin"); // get page translation
 
-  // dummy data
-  const words: Word[] = [
-    {
-      EN: "Hello",
-      UK: ["Вітаю", "Привіт"],
-    },
-    {
-      EN: "New",
-      UK: ["Новий"],
-    },
-  ];
+  // // dummy data
+  // const words: Word[] = [
+  //   {
+  //     EN: "Hello",
+  //     UK: ["Вітаю", "Привіт"],
+  //   },
+  //   {
+  //     EN: "New",
+  //     UK: ["Новий"],
+  //   },
+  // ];
 
   return (
     <WordsTable
-      words={words}
       texts={{
         en: t("words.en"),
         uk: t("words.uk"),

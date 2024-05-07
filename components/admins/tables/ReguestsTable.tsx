@@ -31,14 +31,16 @@ type Texts = {
   };
 };
 
-const CollectionsTable = ({ texts, ...props }: Texts) => {
+const RequestsTable = ({ texts, ...props }: Texts) => {
   const [collections, setCollections] = useState<Collection[]>([]);
 
   useEffect(() => {
     async function fetchCollections() {
       try {
-        const res = await axios.get("http://localhost:8876/api/v1/collections");
-        setCollections(res.data);
+        const res = await axios.get(
+          "http://localhost:8876/api/v1/collections/requests"
+        );
+        setCollections(res.data.data);
       } catch (error) {
         console.log(error);
       }
@@ -53,21 +55,25 @@ const CollectionsTable = ({ texts, ...props }: Texts) => {
       <Cell>{texts.contents}</Cell>
       <Cell>{texts.states}</Cell>
       <Cell>{texts.userId}</Cell>
-      {...collections.map((collection, index) => (
-        <>
-          <Cell>
-            <Link href={`/admin/collections/${collection.id}`}>
-              {collection.id}
-            </Link>
-          </Cell>
-          <Cell>{collection.name}</Cell>
-          <Cell>{collection.text.text}</Cell>
-          <Cell>{collection.status}</Cell>
-          <Cell>{collection.id ? collection.id : "null"}</Cell>
-        </>
-      ))}
+      {collections.length ? (
+        collections.map((collection, index) => (
+          <>
+            <Cell>
+              <Link href={`/admin/collections/${collection.id}`}>
+                {collection.id}
+              </Link>
+            </Cell>
+            <Cell>{collection.name}</Cell>
+            <Cell>{collection.text.text}</Cell>
+            <Cell>{collection.status}</Cell>
+            <Cell>{collection.id ? collection.id : "null"}</Cell>
+          </>
+        ))
+      ) : (
+        <h1>It&apos;s nothing here</h1>
+      )}
     </div>
   );
 };
 
-export default CollectionsTable;
+export default RequestsTable;

@@ -16,27 +16,27 @@ export const metadata: Metadata = {
 const UsersAdminPage = () => {
   const t = useTranslations("Admin"); // get page translation
 
-  // dummy data
-  const users: UserInfo[] = [
-    {
-      id: 1,
-      email: "john@doe",
-      isAdmin: true,
-      name: "John",
-      surname: "Doe",
-    },
-    {
-      id: 2,
-      email: "jane@doe",
-      isAdmin: false,
-      name: "Jane",
-      surname: "Doe",
-    },
-  ];
+  // // dummy data
+  // const users: UserInfo[] = [
+  //   {
+  //     id: 1,
+  //     email: "john@doe",
+  //     isAdmin: true,
+  //     name: "John",
+  //     surname: "Doe",
+  //   },
+  //   {
+  //     id: 2,
+  //     email: "jane@doe",
+  //     isAdmin: false,
+  //     name: "Jane",
+  //     surname: "Doe",
+  //   },
+  // ];
 
   return (
     <UsersTable
-      users={users}
+      // users={users}
       texts={overkill(
         [
           "users.names",

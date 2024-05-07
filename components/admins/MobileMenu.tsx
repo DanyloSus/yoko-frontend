@@ -18,6 +18,7 @@ const MobileMenu = () => {
         <MenuTitle link="/admin/users" text="Users" />
         <MenuTitle link="/admin/collections" text="Collections" />
         <MenuTitle link="/admin/words" text="Words" />
+        <MenuTitle link="/admin/requests" text="Requests" />
       </motion.div>
     </Portal>
   );

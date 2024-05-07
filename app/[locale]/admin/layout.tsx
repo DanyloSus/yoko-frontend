@@ -18,10 +18,10 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
         <TranslatedHeader />
         <div className="flex md:pr-tablet lg:pr-pc">
           <AdminMenu />
-          <div className="pt-[70px] w-full">{children}</div>
+          <div className="pt-[70px] w-full relative h-screen">{children}</div>
         </div>
       </div>
-      <div className="vsm:hidden px-phone absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center">
+      <div className="vsm:hidden px-phone absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center w-full">
         <h3 className="text-h3">{t("phoneIssue")}</h3>
         <Link href="/auth/user">{t("back")}</Link>
       </div>
