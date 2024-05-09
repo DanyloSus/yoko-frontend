@@ -12,6 +12,7 @@ import CollectionTitle from "./CollectionTitle";
 type Collection = {
   id: number;
   name: string;
+  posterUrl: string;
 };
 
 type Texts = {
@@ -29,7 +30,10 @@ const Collections = ({ texts }: Texts) => {
     setIsLoading(true);
 
     async function fetchCollections() {
-      const res = await axios.get("http://localhost:8876/api/v1/collections");
+      const res = await axios.get(
+        "http://localhost:8876/api/v1/collections/public",
+        {}
+      );
 
       setCollections(res.data);
       setIsLoading(false);
@@ -41,7 +45,7 @@ const Collections = ({ texts }: Texts) => {
   return isLoading ? (
     <CircularProgress color="primary" className="mx-auto" />
   ) : collections.length > 0 ? (
-    <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-2 lg:grid-cols-4">
+    <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
       {...collections.map((collection) => (
         <CollectionTitle
           key={collection.id}

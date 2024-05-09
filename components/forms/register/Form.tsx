@@ -76,7 +76,6 @@ const RegisterForm = ({ texts, errors }: Texts) => {
       surname: "",
       email: "",
       password: "",
-      password_confirmation: "",
     },
     // validation
     validationSchema: Yup.object({
@@ -112,9 +111,6 @@ const RegisterForm = ({ texts, errors }: Texts) => {
     // on submit function
     onSubmit: async (value) => {
       setIsLoading(true);
-
-      // back needs password_confirmation we don't check it, so we set it manualy
-      value.password_confirmation = value.password;
 
       try {
         // send post request to create user

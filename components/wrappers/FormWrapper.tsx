@@ -14,7 +14,7 @@ const FormWrapper = (props: FormProps) => {
     <div
       className={
         (props.removeBorder ? "" : "  sm:border-2 ") +
-        "flex mx-auto sm:max-w-[676px] lg:max-w-[780px] w-full sm:min-h-[483px] sm:py-[32px] rounded-lg items-center justify-center text-center relative"
+        "flex mx-auto sm:max-w-[676px] lg:max-w-[780px] w-full sm:min-h-[483px] sm:py-[32px] rounded-lg items-center justify-center text-center"
       }
       style={{
         borderColor: props.isDark ? "black" : "rgb(86, 64, 194)",
