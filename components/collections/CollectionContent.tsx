@@ -9,7 +9,6 @@ import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
 // internal imports
-import Comment from "./Comment";
 import ColumnStatistic from "./statistic/Column";
 import PieStatistic from "./statistic/Pie";
 import LearnPropositions from "@/components/LearnPropositions";
@@ -33,14 +32,29 @@ type Texts = {
   };
 };
 
+type Collection = {
+  name: string;
+  bannerUrl: string;
+  likes: number;
+  views: number;
+  wordsCount: number;
+  wordsLearned: number;
+  comments: {
+    id: number;
+    content: string;
+    user: {
+      name: string;
+    };
+  }[];
+};
+
 const CollectionContent = ({
   texts,
   ...props
 }: Texts & { collectionId: string }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [heading, setHeading] = useState("");
-  const [comments, setComments] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false); // state ro check is modal open
+  const [collection, setCollection] = useState<Collection | undefined>();
 
   const [blockScroll, allowScroll] = useScrollBlock();
 
@@ -58,10 +72,12 @@ const CollectionContent = ({
   async function fetchCollection() {
     setIsLoading(true);
     try {
-      const res = await axios.get("http://localhost:8876/api/v1/collections/1");
+      const res = await axios.get(
+        `http://localhost:8876/api/v1/collections/${props.collectionId}`,
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
 
-      setHeading(res.data.data[0].name);
-      setComments(res.data.data[1]);
+      setCollection(res.data.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -71,26 +87,42 @@ const CollectionContent = ({
 
   useEffect(() => {
     fetchCollection();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addCollection = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:8876/api/v1/users/${user.id}/startCollection/${props.collectionId}`
+        `http://localhost:8876/api/v1/users/startCollection/${props.collectionId}`,
+        undefined,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
     } catch (error) {
       console.log(error);
     }
   };
 
-  return isLoading ? (
+  return isLoading || !collection ? (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
       <CircularProgress color="primary" />
     </div>
   ) : (
     <div className="w-screen min-h-screen overflow-hidden">
-      <div className="w-screen h-[230px] sm:h-[374px] flex flex-col justify-center items-center gap-[10px] text-center bg-blue-marguerite-500">
-        <h1 className=" w-full text-white text-h2 sm:text-h1">{heading}</h1>
+      <div
+        className="w-screen h-[230px] sm:h-[374px] flex flex-col justify-center items-center gap-[10px] text-center"
+        style={{
+          backgroundImage: `radial-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3)), url(${collection.bannerUrl})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <h1 className=" w-full text-white text-h2 sm:text-h1 [text-shadow:0px_0px_4px_#000]">
+          {collection.name}
+        </h1>
         <StyledButton
           variant="contained"
           onClick={() => {
@@ -104,18 +136,25 @@ const CollectionContent = ({
       <div className="px-phone md:px-tablet lg:px-pc mt-[16px]">
         <div className="flex items-center justify-center sm:justify-end gap-[10px] text-dark-grey text-center">
           <div className="flex items-center gap-[4px]">
-            <p className="text-label">999m. {texts.likes}</p>
+            <p className="text-label">
+              {collection.likes} {texts.likes}
+            </p>
             <ThumbUpAltOutlinedIcon sx={{ width: "36px", height: "36px" }} />
           </div>
           <div className="flex items-center gap-[4px]">
-            <p className="text-label">3m. {texts.views}</p>
+            <p className="text-label">
+              {collection.views} {texts.views}
+            </p>
             <VisibilityOutlinedIcon sx={{ width: "36px", height: "36px" }} />
           </div>
           <FavoriteButton />
         </div>
         <div className="text-center flex flex-wrap max-md:flex-col items-center justify-between gap-[20px]">
-          <PieStatistic />
-          <ColumnStatistic />
+          <PieStatistic
+            wordsLearned={collection.wordsLearned}
+            wordsCount={collection.wordsCount}
+          />
+          {/* <ColumnStatistic /> */}
         </div>
       </div>
       <AnimatePresence>
@@ -127,9 +166,10 @@ const CollectionContent = ({
         ) : null}
       </AnimatePresence>
       <CommentSection
+        collectionId={props.collectionId}
         fetchCollection={fetchCollection}
         userId={user.id ? user.id.toString() : ""}
-        comments={comments}
+        comments={collection.comments}
       />
     </div>
   );

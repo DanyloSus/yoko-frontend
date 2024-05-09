@@ -63,6 +63,11 @@ const LearnPropositions = ({ texts, ...props }: Props & Texts) => {
                 {texts.cardsExercise}
               </StyledButton>
             </Link>
+            <Link href={`${pathname}/exercise/aiTalk`}>
+              <StyledButton variant="contained" className="w-full">
+                AI
+              </StyledButton>
+            </Link>
             <StyledButton variant="contained">...</StyledButton>
           </div>
         </FormWrapper>

@@ -23,7 +23,7 @@ type Texts = {
   };
 };
 
-const Collections = ({ texts }: Texts) => {
+const StoreContent = ({ texts }: Texts) => {
   const [isLoading, setIsLoading] = useState(true); // state to load while fetching collections
   const [collections, setCollections] = useState<Collection[]>([]); // state of collections' array
 
@@ -35,7 +35,7 @@ const Collections = ({ texts }: Texts) => {
 
     async function fetchCollections() {
       const res = await axios.get(
-        "http://localhost:8876/api/v1/users/collections",
+        "http://localhost:8876/api/v1/collections/public",
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -69,4 +69,4 @@ const Collections = ({ texts }: Texts) => {
   );
 };
 
-export default Collections;
+export default StoreContent;

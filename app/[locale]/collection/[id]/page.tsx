@@ -4,8 +4,8 @@ import { Metadata } from "next";
 import { useTranslations } from "next-intl";
 
 // internal imports
-import CollectionContent from "@/components/collections/CollectionContent";
 import { overkill } from "@/modules/internationalization/navigation";
+import CollectionContent from "@/components/collections/CollectionContent";
 
 // create static metadata
 export const metadata: Metadata = {

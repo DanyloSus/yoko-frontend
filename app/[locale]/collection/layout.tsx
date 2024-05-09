@@ -1,6 +1,5 @@
 // external imports
 import React, { ReactNode } from "react";
-import { useTranslations } from "next-intl";
 
 // internal imports
 import TranslatedHeader from "@/components/header/TranslatedHeader";

@@ -32,6 +32,7 @@ const config: Config = {
       grey: "#626155",
       "light-grey": "#B5B2B3",
       "dark-grey": "#626155",
+      error: "#d32f2f",
     },
     fontSize: {
       // [font-size, line-height]

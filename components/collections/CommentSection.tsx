@@ -20,6 +20,7 @@ type SectionProps = {
   comments?: Comment[];
   fetchCollection: () => Promise<void>;
   userId: string;
+  collectionId: string;
 };
 
 const CommentSection = (props: SectionProps) => {

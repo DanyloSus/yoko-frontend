@@ -141,16 +141,6 @@ const SettingsForm = ({ texts, errors }: Texts) => {
         return;
       }
 
-      // if passwords don't equal validation
-      if (value.new_password !== value.password_confirmation) {
-        formik.setErrors({
-          new_password: "",
-          password_confirmation: errors.dontMatch,
-        });
-        setIsLoading(false);
-        return;
-      }
-
       // data which will be sent to server
       let data: {
         name: string;
@@ -248,21 +238,6 @@ const SettingsForm = ({ texts, errors }: Texts) => {
           </div>
           <StyledTextField
             disabled={isLoading}
-            label={texts.newPassword}
-            type="password"
-            name="new_password"
-            error={
-              Boolean(formik.errors.new_password) ||
-              formik.errors.new_password === ""
-            }
-            helperText={
-              formik.errors.new_password ? formik.errors.new_password : ""
-            }
-            onChange={formik.handleChange}
-            value={formik.values.new_password}
-          />
-          <StyledTextField
-            disabled={isLoading}
             label={texts.passwordConfirm}
             type="password"
             name="password_confirmation"
@@ -277,6 +252,21 @@ const SettingsForm = ({ texts, errors }: Texts) => {
             }
             onChange={formik.handleChange}
             value={formik.values.password_confirmation}
+          />
+          <StyledTextField
+            disabled={isLoading}
+            label={texts.newPassword}
+            type="password"
+            name="new_password"
+            error={
+              Boolean(formik.errors.new_password) ||
+              formik.errors.new_password === ""
+            }
+            helperText={
+              formik.errors.new_password ? formik.errors.new_password : ""
+            }
+            onChange={formik.handleChange}
+            value={formik.values.new_password}
           />
         </div>
         <div className="flex justify-between w-full">

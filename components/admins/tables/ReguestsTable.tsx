@@ -12,10 +12,7 @@ export type Collection = {
   id: number;
   name: string;
   status: string;
-  text: {
-    text: string;
-    translation_uk: string;
-  };
+  text: string;
 };
 
 // type TableProps = {
@@ -64,7 +61,7 @@ const RequestsTable = ({ texts, ...props }: Texts) => {
               </Link>
             </Cell>
             <Cell>{collection.name}</Cell>
-            <Cell>{collection.text.text}</Cell>
+            <Cell>{collection.text}</Cell>
             <Cell>{collection.status}</Cell>
             <Cell>{collection.id ? collection.id : "null"}</Cell>
           </>

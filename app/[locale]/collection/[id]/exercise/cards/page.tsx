@@ -20,17 +20,18 @@ export async function generateMetadata({
   };
 }
 
-const CardExercise = () => {
+const CardExercise = ({ params }: { params: { id: string } }) => {
   const t = useTranslations("Exercises"); // get page translation
 
-  const englishText = ["I", "love", "learning", "new", "languages."]; // dummy data
-  const ukrainianText = ["Я", "люблю", "вивчати", "нові", "мови."]; // dummy data
+  // const englishText = ["I", "love", "learning", "new", "languages."]; // dummy data
+  // const ukrainianText = ["Я", "люблю", "вивчати", "нові", "мови."]; // dummy data
 
   return (
     <CardComponents
       texts={overkill(["cards.save", "cards.translate", "cards.back"], t)}
-      englishText={englishText}
-      ukrainianText={ukrainianText}
+      collectionId={params.id}
+      // englishText={englishText}
+      // ukrainianText={ukrainianText}
     />
   );
 };

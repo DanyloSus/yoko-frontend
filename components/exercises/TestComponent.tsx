@@ -73,7 +73,7 @@ const TestComponent = (props: ComponentProps) => {
       try {
         setButtons([]);
         const { data }: { data: QuizResponse } = await axios.get(
-          "http://localhost:8876/api/v1/collections/1/quiz"
+          `http://localhost:8876/api/v1/collections/${props.collectionId}/quiz`
         );
 
         setQuestions(data);

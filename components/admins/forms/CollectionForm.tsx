@@ -2,11 +2,13 @@
 
 import FormWrapper from "@/components/wrappers/FormWrapper";
 import { useRouter } from "@/modules/internationalization/navigation";
+import { Store } from "@/modules/redux/store";
 import StyledButton from "@/ui/Button";
 import StyledTextField from "@/ui/TextField";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import * as Yup from "yup";
 
 type CollectionFormProps = {
@@ -18,19 +20,26 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
   const [toStatus, setToStatus] = useState("pending");
   const [id, setId] = useState();
 
+  const user = useSelector((state: Store) => state.user);
+
   useEffect(() => {
     async function fetchCollection() {
       const res = await axios.get(
-        `http://localhost:8876/api/v1/collections/${params.id}`
+        `http://localhost:8876/api/v1/collections/${params.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
 
-      setStatus(res.data.data[0].status);
-      setId(res.data.data[0].id);
+      setStatus(res.data.data.status);
+      setId(res.data.data.id);
 
       formik.setValues({
-        name: res.data.data[0].name,
-        text: res.data.data[0].name,
-        text_uk: res.data.data[0].name,
+        name: res.data.data.name,
+        text: res.data.data.name,
+        text_uk: res.data.data.name,
       });
     }
 
@@ -113,11 +122,11 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
                   setToStatus("private");
                   formik.handleSubmit();
                 }
-                router.back();
+                router.push("/admin/collections");
               }}
               color="error"
             >
-              Delete
+              {status === "pending" ? "Discard" : "Delete"}
             </StyledButton>
             <StyledButton
               variant="contained"
@@ -128,7 +137,7 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
                 formik.handleSubmit();
               }}
             >
-              Confirm
+              {status === "pending" ? "Public" : "Confirm"}
             </StyledButton>
           </div>
         </FormWrapper>

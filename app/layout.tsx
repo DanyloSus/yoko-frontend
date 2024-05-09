@@ -16,7 +16,12 @@ export default function RootLayout({
   return (
     <ThemeProvider theme={theme}>
       <html>
-        <body>
+        <body
+          style={{
+            position: "initial",
+            paddingRight: "0px",
+          }}
+        >
           <ReduxWrapper>{children}</ReduxWrapper>
         </body>
       </html>

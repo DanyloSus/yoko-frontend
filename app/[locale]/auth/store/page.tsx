@@ -5,9 +5,9 @@ import { getTranslations } from "next-intl/server";
 
 // internal imports
 import Sort from "@/components/sort/Sort";
-import Collections from "@/components/collections/Collections";
 import { Link, overkill } from "@/modules/internationalization/navigation";
 import StyledButton from "@/ui/Button";
+import StoreContent from "@/components/collections/Store";
 
 // create multilanguage dynamic metadata
 export async function generateMetadata({
@@ -40,7 +40,7 @@ const StorePage = () => {
           t
         )}
       />
-      <Collections texts={{ null: t("texts.null") }} />
+      <StoreContent texts={{ null: t("texts.null") }} />
     </div>
   );
 };

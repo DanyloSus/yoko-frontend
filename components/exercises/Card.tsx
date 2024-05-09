@@ -32,15 +32,14 @@ const Card = ({ texts, ...props }: CardProps & Texts) => {
   const [isFlipped, setIsFlipped] = useState(false); // state to check is card flipped
 
   return (
-    <div className="mx-auto max-w-[580px] w-full">
+    <div className="w-full">
       <ReactCardFlip flipDirection="horizontal" isFlipped={isFlipped}>
         <div className={style + " justify-between items-center"}>
           <div />
-          <h2 className="text-h2 capitalize">{props.englishWord}</h2>
           <div className="flex flex-col items-center gap-[17px]">
-            <StyledButton variant="contained" className="w-[76px]">
-              {texts.save}
-            </StyledButton>
+            <h2 className="text-h3 capitalize break-all text-center">
+              {props.englishWord}
+            </h2>
             <StyledButton
               variant="text"
               onClick={() => setIsFlipped((state) => !state)}
@@ -61,7 +60,9 @@ const Card = ({ texts, ...props }: CardProps & Texts) => {
           </div>
         </div>
         <div className={style + " card-back items-center justify-center"}>
-          <h2 className="text-h2 capitalize">{props.ukrainianWord}</h2>
+          <h2 className="text-h3 capitalize break-all text-center">
+            {props.ukrainianWord}
+          </h2>
           <StyledButton
             variant="text"
             sx={{ w: "77px" }}
