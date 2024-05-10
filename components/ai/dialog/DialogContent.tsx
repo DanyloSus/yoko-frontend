@@ -24,24 +24,27 @@ type Props = {
 const DialogContent = (props: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [words, setWords] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchFirstQuestion() {
-      let res = await axios.get(
-        `http://localhost:8876/api/v1/collections/${props.params.id}`
-      );
+      try {
+        let res = await axios.get(
+          `http://localhost:8876/api/v1/collections/${props.params.id}`
+        );
 
-      console.log(res.data);
+        const words = res.data.data[0].words;
 
-      const words = res.data.data[0].words;
+        setWords(words);
 
-      setWords(words);
+        res = await axios.post("/api/ai/dialog", { words: words });
 
-      res = await axios.post("/api/ai/dialog", { words: words });
-
-      setMessages([res.data.message]);
-
-      console.log(res.data.message);
+        setMessages([res.data.message]);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     fetchFirstQuestion();
@@ -57,6 +60,7 @@ const DialogContent = (props: Props) => {
     validateOnChange: false,
     onSubmit: async (value) => {
       try {
+        setIsLoading(true);
         formik.setValues({
           prompt: "",
         });
@@ -102,6 +106,8 @@ const DialogContent = (props: Props) => {
         setMessages((state) => [...state, res.data.message]);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     },
   });
@@ -111,24 +117,40 @@ const DialogContent = (props: Props) => {
       {messages.length
         ? messages.map((message, index) => (
             <div key={index}>
-              <p>{message.message.role}</p>
+              <h6 className="text-h6">
+                {message.message.role === "assistant" ? "AI" : "You"}
+              </h6>
               <p className="whitespace-pre-line">{message.message.content}</p>
             </div>
           ))
         : null}
 
-      <form onSubmit={formik.handleSubmit}>
-        <StyledTextField
-          multiline
-          label="Your answer"
-          type="text"
-          name="prompt"
-          error={Boolean(formik.errors.prompt) || formik.errors.prompt === ""}
-          helperText={formik.errors.prompt ? formik.errors.prompt : ""}
-          onChange={formik.handleChange}
-          value={formik.values.prompt}
-        />
-        <StyledButton type="submit">Send</StyledButton>
+      <form
+        onSubmit={formik.handleSubmit}
+        className="fixed bottom-0 left-1/2 -translate-x-1/2 py-3 flex items-center w-full  px-phone md:px-tablet lg:px-pc bg-white border-t-2 border-light-grey shadow-md"
+      >
+        <div className="w-full relative">
+          {messages.length === 1 ? (
+            <p className="text-label opacity-50 absolute -top-12">
+              remember, the more you write, the better the result will be*
+            </p>
+          ) : null}
+          <StyledTextField
+            multiline
+            label="Your answer"
+            type="text"
+            name="prompt"
+            error={Boolean(formik.errors.prompt) || formik.errors.prompt === ""}
+            helperText={formik.errors.prompt ? formik.errors.prompt : ""}
+            onChange={formik.handleChange}
+            value={formik.values.prompt}
+            className="w-full"
+            disabled={isLoading}
+          />
+        </div>
+        <StyledButton type="submit" disabled={isLoading}>
+          Send
+        </StyledButton>
       </form>
     </div>
   );

@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import AnswerDialog from "./AnswerDialog";
+import { CircularProgress } from "@mui/material";
 
 type Message = {
   index: number;
@@ -20,17 +21,23 @@ const CheckLevelContent = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [dialog, setDialog] = useState(false);
   const [level, setLevel] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchFirstQuestion() {
-      const res = await axios.get("/api/ai/checkLevel");
+      try {
+        const res = await axios.get("/api/ai/checkLevel");
 
-      setMessages([res.data.message]);
-
-      console.log(res.data.message);
+        setMessages([res.data.message]);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     fetchFirstQuestion();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const formik = useFormik({
@@ -42,6 +49,7 @@ const CheckLevelContent = () => {
     }),
     validateOnChange: false,
     onSubmit: async (value) => {
+      setIsLoading(true);
       try {
         formik.setValues({
           prompt: "",
@@ -85,40 +93,70 @@ const CheckLevelContent = () => {
         setMessages((state) => [...state, res.data.message]);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     },
   });
 
   return (
-    <div>
-      {messages.length
-        ? messages.map((message) => (
-            <div key={message.index}>
-              <p>{message.message.role}</p>
-              <p>{message.message.content}</p>
-            </div>
-          ))
-        : null}
+    <>
+      {isLoading ? (
+        <CircularProgress className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+      ) : null}
+      <div
+        className="pb-[82px]"
+        style={{
+          opacity: isLoading ? "0.5" : "1",
+        }}
+      >
+        {messages.length
+          ? messages.map((message) => (
+              <div key={message.index}>
+                <h6 className="text-h6">
+                  {message.message.role === "assistant" ? "AI" : "You"}
+                </h6>
+                <p>{message.message.content}</p>
+              </div>
+            ))
+          : null}
 
-      <form onSubmit={formik.handleSubmit}>
-        <StyledTextField
-          multiline
-          label="Your answer"
-          type="text"
-          name="prompt"
-          error={Boolean(formik.errors.prompt) || formik.errors.prompt === ""}
-          helperText={formik.errors.prompt ? formik.errors.prompt : ""}
-          onChange={formik.handleChange}
-          value={formik.values.prompt}
+        <form
+          onSubmit={formik.handleSubmit}
+          className="fixed bottom-0 left-1/2 -translate-x-1/2 py-3 flex items-center w-full  px-phone md:px-tablet lg:px-pc bg-white border-t-2 border-light-grey shadow-md"
+        >
+          <div className="w-full relative">
+            {messages.length === 1 ? (
+              <p className="text-label opacity-50 absolute -top-12">
+                remember, the more you write, the better the result will be*
+              </p>
+            ) : null}
+            <StyledTextField
+              multiline
+              label="Your answer"
+              type="text"
+              name="prompt"
+              error={
+                Boolean(formik.errors.prompt) || formik.errors.prompt === ""
+              }
+              helperText={formik.errors.prompt ? formik.errors.prompt : ""}
+              onChange={formik.handleChange}
+              value={formik.values.prompt}
+              className="w-full"
+              disabled={isLoading}
+            />
+          </div>
+          <StyledButton type="submit" disabled={isLoading}>
+            Send
+          </StyledButton>
+        </form>
+        <AnswerDialog
+          handleClose={() => setDialog(false)}
+          level={level}
+          open={dialog}
         />
-        <StyledButton type="submit">Send</StyledButton>
-      </form>
-      <AnswerDialog
-        handleClose={() => setDialog(false)}
-        level={level}
-        open={dialog}
-      />
-    </div>
+      </div>
+    </>
   );
 };
 

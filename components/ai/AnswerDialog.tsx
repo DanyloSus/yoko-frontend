@@ -7,6 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 // internal imports
 import StyledButton from "@/ui/Button";
+import { Link } from "@/modules/internationalization/navigation";
 
 // type Texts = {
 //   texts: {
@@ -25,7 +26,7 @@ type DialogProps = {
 
 const AnswerDialog = ({ ...props }: DialogProps) => {
   return (
-    <Dialog open={props.open} onClose={props.handleClose}>
+    <Dialog open={props.open}>
       <DialogTitle>
         <p className="text-h5 font-kyiv">Your Result</p>
       </DialogTitle>
@@ -33,7 +34,9 @@ const AnswerDialog = ({ ...props }: DialogProps) => {
         <p>You have {props.level} level</p>
       </DialogContent>
       <DialogActions>
-        <StyledButton variant="contained">Great!</StyledButton>
+        <Link href="/login">
+          <StyledButton variant="contained">Login</StyledButton>
+        </Link>
       </DialogActions>
     </Dialog>
   );
