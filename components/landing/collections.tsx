@@ -56,7 +56,7 @@ const CollectionsSection = () => {
       text="Welcome to our Collections section, where language learning meets creativity! Dive into a world of curated texts, carefully crafted to enhance your vocabulary. Browse through collections created by the community, or forge your path by crafting your own."
       mobileText="Welcome to our Collections section, where language learning meets creativity! Dive into a world of curated texts, carefully crafted to enhance your vocabulary."
     >
-      <div className="flex item-center justify-between mt-10">
+      <div className="max-sm:flex-col flex item-center justify-between mt-10 max-sm:text-center">
         <div className="flex flex-col max-w-[580px] justify-center gap-5">
           {sectionText.map((text, index) => (
             <div key={index}>
@@ -66,10 +66,10 @@ const CollectionsSection = () => {
             </div>
           ))}
         </div>
-        <div className="relative max-w-[480px]  justify-center w-full flex flex-col items-end">
+        <div className="relative max-w-[480px]  justify-center w-full flex flex-col items-end mx-auto">
           {sectionCollections.map((collection, index) => (
             <div
-              className=" max-w-[280px] w-full relative"
+              className=" max-w-[280px] w-full relative max-sm:hidden"
               style={{
                 bottom: 42 * index + "px",
                 marginRight: index % 2 === 1 ? "auto" : "",
@@ -85,6 +85,54 @@ const CollectionsSection = () => {
               />
             </div>
           ))}
+          <div className="sm:hidden w-full ">
+            <div
+              className=" max-w-[280px] w-full relative"
+              key={0}
+              style={{
+                marginLeft: "auto",
+              }}
+            >
+              <CollectionTitle
+                id={0}
+                title={sectionCollections[0].title}
+                isNotLink
+                gradient={
+                  sectionCollections[0].gradient
+                    ? sectionCollections[0].gradient
+                    : undefined
+                }
+                image={
+                  sectionCollections[0].image
+                    ? sectionCollections[0].image
+                    : undefined
+                }
+              />
+            </div>
+            <div
+              className=" max-w-[280px] w-full relative"
+              style={{
+                bottom: "42px",
+              }}
+              key={1}
+            >
+              <CollectionTitle
+                id={1}
+                title={sectionCollections[1].title}
+                isNotLink
+                gradient={
+                  sectionCollections[1].gradient
+                    ? sectionCollections[1].gradient
+                    : undefined
+                }
+                image={
+                  sectionCollections[1].image
+                    ? sectionCollections[1].image
+                    : undefined
+                }
+              />
+            </div>
+          </div>
         </div>
       </div>
     </SectionWrapper>

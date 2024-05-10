@@ -14,6 +14,7 @@ type CardProps = {
   ukrainianWord: string;
   forward: () => void;
   back: () => void;
+  isSmall?: boolean;
 };
 
 type Texts = {
@@ -24,11 +25,12 @@ type Texts = {
   };
 };
 
-// basic card style
-const style =
-  "card  min-h-[474px] rounded-[16px] shadow-md flex flex-col border-2 border-dark-grey p-[24px]";
-
 const Card = ({ texts, ...props }: CardProps & Texts) => {
+  // basic card style
+  const style = `card ${
+    props.isSmall ? "min-h-[294px]" : "min-h-[474px]"
+  }  rounded-[16px] shadow-md flex flex-col border-2 border-dark-grey p-[24px]`;
+
   const [isFlipped, setIsFlipped] = useState(false); // state to check is card flipped
 
   return (

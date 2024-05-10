@@ -6,6 +6,7 @@ type WrapperProps = {
   text?: string;
   mobileText?: string;
   fullScreen?: boolean;
+  className?: string;
 };
 
 const SectionWrapper = (props: WrapperProps) => {
@@ -13,10 +14,11 @@ const SectionWrapper = (props: WrapperProps) => {
     <div
       className={
         (props.fullScreen ? "min-h-screen " : "") +
-        "border-t-2 border-b-2 border-blue-marguerite-700 px-phone md:px-tablet lg:px-pc pt-[70px]"
+        (props.className ? `${props.className} ` : "") +
+        "border-t-2 border-b-2 border-blue-marguerite-700 px-phone md:px-tablet lg:px-pc pt-[70px] pb-5"
       }
     >
-      <div className="text-center flex flex-col items-center">
+      <div className="text-center flex flex-col items-center mb-5">
         <h2 className="text-h3 sm:text-h2 max-w-[580px] w-full">
           {props.title}
         </h2>

@@ -10,6 +10,10 @@ import StyledButton from "@/ui/Button";
 import { Link } from "@/modules/internationalization/navigation";
 import MainSection from "@/components/landing/main";
 import CollectionsSection from "@/components/landing/collections";
+import WaysSection from "@/components/landing/ways";
+import ReviewsSection from "@/components/landing/reviews";
+import FinalSection from "@/components/landing/final";
+import Footer from "@/components/Footer";
 
 // create multilanguage dynamic metadata
 export async function generateMetadata({
@@ -34,6 +38,10 @@ const Landing = () => {
       <main>
         <MainSection />
         <CollectionsSection />
+        <WaysSection />
+        <ReviewsSection />
+        <FinalSection />
+        <Footer />
       </main>
     </>
   );
