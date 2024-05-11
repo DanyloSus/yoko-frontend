@@ -56,7 +56,7 @@ const RegisterForm = ({ texts, errors }: Texts) => {
 
   // getting function to check is user authed and if it is true then redirect to another page
   const { checkUser } = useAuthedReplace({
-    page: "/auth/collections",
+    page: "/authed/collections",
     setIsLoading: (val: boolean) => setIsLoading(val),
     user: user,
     replacePageIfUserAuthed: true,
@@ -138,7 +138,7 @@ const RegisterForm = ({ texts, errors }: Texts) => {
         );
 
         // change page
-        router.push("/auth/collections");
+        router.push("/authed/collections");
         setIsLoading(false);
       } catch (error: any) {
         // error handling
@@ -224,7 +224,7 @@ const RegisterForm = ({ texts, errors }: Texts) => {
           <StyledButton
             sx={{ width: "80px" }}
             variant="contained"
-            onClick={() => router.push("/login")}
+            onClick={() => router.push("/authentification/login")}
             disabled={isLoading}
           >
             {texts.login}

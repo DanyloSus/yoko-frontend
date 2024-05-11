@@ -186,7 +186,7 @@ const SettingsForm = ({ texts, errors }: Texts) => {
           })
         );
 
-        router.push("/auth/user");
+        router.push("/authed/user");
       } catch (error) {
         console.log(error);
         formik.setErrors({

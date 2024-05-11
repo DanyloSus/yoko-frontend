@@ -87,7 +87,7 @@ const CreateStore = ({ texts, errors }: Texts) => {
       } finally {
         // go to thank's page where we have query
         // query depends is collection private
-        router.push(`/auth/theanks?is=${isPrivate ? "private" : "pending"}`);
+        router.push(`/authed/theanks?is=${isPrivate ? "private" : "pending"}`);
         setIsLoading(false);
       }
     },
@@ -198,7 +198,7 @@ const CreateStore = ({ texts, errors }: Texts) => {
             {texts.cancel}
           </StyledButton>
         ) : (
-          <Link href="/auth/store">
+          <Link href="/authed/store">
             <StyledButton variant="outlined" className="w-[93px]">
               {texts.cancel}
             </StyledButton>

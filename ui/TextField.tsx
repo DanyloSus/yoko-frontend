@@ -6,6 +6,8 @@ import localFont from "next/font/local";
 import { styled } from "@mui/material/styles";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 
+import "./TextField.scss";
+
 // get local kyiv font
 const kyiv = localFont({
   src: "../public/fonts/KyivTypeSerif-Bold2.woff2",
@@ -14,7 +16,7 @@ const kyiv = localFont({
 });
 
 // create custom textfield's style
-const StyledTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
+const StyleForTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
   // applying base style
   "& input": {
     padding: "16.5px 12px",
@@ -24,6 +26,10 @@ const StyledTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
       textTransform: "uppercase",
     },
     whiteSpace: "nowrap",
+  },
+
+  "& .MuiInputBase-input.Mui-disabled": {
+    color: "green",
   },
 
   // class for heading in create collection
@@ -61,7 +67,7 @@ const StyledTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
     "& .Mui-error": {
       color: "#FFCCCC",
       fieldset: {
-        borderColor: "#FFCCCC !important",
+        borderColor: "#FFCCCC",
       },
     },
     "& .MuiOutlinedInput-root": {
@@ -77,5 +83,29 @@ const StyledTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
     },
   },
 }));
+
+import React from "react";
+
+const StyledTextField = ({
+  children,
+  className,
+  sx,
+  ...props
+}: TextFieldProps) => {
+  return (
+    <StyleForTextField
+      {...props}
+      className={className + " "}
+      sx={{
+        ...sx,
+        "& .MuiInputBase-input.Mui-disabled": {
+          WebkitTextFillColor: "rgba(255,255,255,0.5)",
+        },
+      }}
+    >
+      {children}
+    </StyleForTextField>
+  );
+};
 
 export default StyledTextField;

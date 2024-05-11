@@ -34,7 +34,7 @@ const AnswerDialog = ({ ...props }: DialogProps) => {
         <p>You have {props.level} level</p>
       </DialogContent>
       <DialogActions>
-        <Link href="/login">
+        <Link href="/authentification/login">
           <StyledButton variant="contained">Login</StyledButton>
         </Link>
       </DialogActions>

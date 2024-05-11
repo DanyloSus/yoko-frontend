@@ -48,7 +48,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
 
   // getting function to check is user authed and if it is true then redirect to another page
   const { checkUser } = useAuthedReplace({
-    page: "/auth/collections",
+    page: "/authed/collections",
     setIsLoading: (val: boolean) => setIsLoading(val),
     user: user,
     replacePageIfUserAuthed: true,
@@ -89,7 +89,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
       try {
         // set post method to login user
         const res = await axios.post(
-          "http://localhost:8876/api/v1/auth/login",
+          "http://localhost:8876/api/v1/auth/admin-login",
           value
         );
 
@@ -100,19 +100,20 @@ const LoginForm = ({ texts, errors }: Texts) => {
         await axios.post("/api/cookies", JSON.stringify(token));
 
         // write user to redux
+
+        const dataAdmin = res.data.data.user;
+
         dispatch(
           login({
-            id: res.data.data.user.id,
-            email: res.data.data.user.email,
-            name: res.data.data.user.name,
-            surname: res.data.data.user.surname,
+            id: dataAdmin.id,
+            email: dataAdmin.email,
             token,
-            isAdmin: false,
+            isAdmin: true,
           })
         );
 
         // change page
-        router.push("/auth/collections");
+        router.push("/authed/collections");
         setIsLoading(false);
       } catch (error: any) {
         // error handling
@@ -125,27 +126,29 @@ const LoginForm = ({ texts, errors }: Texts) => {
           try {
             // admin login
             const res = await axios.post(
-              "http://localhost:8876/api/v1/auth/admin-login",
+              "http://localhost:8876/api/v1/auth/login",
               value
             );
 
             // admin's token
             const token = res.data.data.token;
             // admin's data
-            const dataAdmin = res.data.data.user;
+            const dataUser = res.data.data.user;
 
             // write admin to redux
             dispatch(
               login({
-                id: dataAdmin.id,
-                email: dataAdmin.email,
+                id: dataUser.id,
+                email: dataUser.email,
+                name: dataUser.name,
+                surname: dataUser.surname,
                 token,
-                isAdmin: true,
+                isAdmin: false,
               })
             );
 
             // change page
-            router.push("/auth/collections");
+            router.push("/authed/collections");
             setIsLoading(false);
           } catch (error: any) {
             // error handling
@@ -158,6 +161,8 @@ const LoginForm = ({ texts, errors }: Texts) => {
                 password: errors.loginFailed,
               });
             } else {
+              console.log(error);
+
               formik.setErrors({
                 email: "",
                 password: errors.serverError,
@@ -206,7 +211,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
         <div className="flex justify-between w-full">
           <StyledButton
             variant="contained"
-            onClick={() => router.push("/register")}
+            onClick={() => router.push("/authentification/register")}
             disabled={isLoading}
           >
             {texts.register}

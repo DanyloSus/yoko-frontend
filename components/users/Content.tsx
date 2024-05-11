@@ -46,7 +46,7 @@ const UserContent = ({ texts }: Texts) => {
         user.isAdmin ? null : <UserElement user={user} />
       }
       <StyledButton variant="outlined">{texts.collections}</StyledButton>
-      <Link href="/auth/user/settings" className="w-full">
+      <Link href="/authed/user/settings" className="w-full">
         <StyledButton variant="outlined" className="w-full">
           {texts.settings}
         </StyledButton>

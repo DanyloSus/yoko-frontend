@@ -18,10 +18,10 @@ const MainSection = () => {
             {t("description")}
           </p>
           <div className="flex items-center justify-center gap-[20px] sm:hidden">
-            <Link href="/register">
+            <Link href="/authentification/register">
               <StyledButton variant="contained">{t("register")}</StyledButton>
             </Link>
-            <Link href="/login">
+            <Link href="/authentification/login">
               <StyledButton variant="contained" sx={{ width: "80px" }}>
                 {t("login")}
               </StyledButton>

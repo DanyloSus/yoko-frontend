@@ -5,8 +5,10 @@
 import Button, { ButtonProps } from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
+import "./Button.scss";
+
 // create custom button's style
-const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({
+const StyleForButton = styled(Button)<ButtonProps>(({ theme }) => ({
   // applying base style
   boxShadow: "none",
   padding: "10px 20px",
@@ -16,13 +18,25 @@ const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({
   height: "41px",
   minWidth: "0px",
 
-  "&.MuiButton-text": {
-    color: "white",
-  },
-
   "&:hover": {
     boxShadow: "none",
   },
+  "&:active": {
+    boxShadow: "none",
+  },
 }));
+
+import React from "react";
+
+const StyledButton = ({ children, className, ...props }: ButtonProps) => {
+  return (
+    <StyleForButton
+      {...props}
+      className={className + " dark:text-white dark:border-dark-grey"}
+    >
+      {children}
+    </StyleForButton>
+  );
+};
 
 export default StyledButton;

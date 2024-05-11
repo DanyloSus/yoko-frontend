@@ -1,0 +1,32 @@
+.MuiFormControl-root.primary {
+  & .MuiFormLabel-root {
+    color: white;
+  }
+  & label.Mui-focused {
+    color: white;
+  }
+  & .MuiInput-underlineafter {
+    @apply dark:border-b-dark-grey dark:text-white border-b-blue-marguerite-700;
+  }
+  & input {
+    color: white;
+    padding: 16.5px 12px;
+  }
+  & .Mui-error {
+    color: #ffcccc;
+    fieldset {
+      border-color: #ffcccc;
+    }
+  }
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      @apply dark:border-dark-grey dark:text-white border-blue-marguerite-700;
+    }
+    &:hover fieldset {
+      @apply dark:border-dark-grey dark:text-white border-blue-marguerite-700;
+    }
+    &.Mui-focused fieldset {
+      @apply dark:border-dark-grey dark:text-white border-blue-marguerite-700;
+    }
+  }
+}

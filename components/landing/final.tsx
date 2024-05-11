@@ -41,7 +41,7 @@ const FinalSection = () => {
         </p>
       </div>
       <div className="flex gap-[16px]">
-        <Link href="/login">
+        <Link href="/authentification/login">
           <StyledButton
             variant="contained"
             sx={{
@@ -51,7 +51,7 @@ const FinalSection = () => {
             Login
           </StyledButton>
         </Link>
-        <Link href="/register">
+        <Link href="/authentification/register">
           <StyledButton variant="contained">Register</StyledButton>
         </Link>
       </div>

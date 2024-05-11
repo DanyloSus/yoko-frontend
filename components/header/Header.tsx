@@ -157,7 +157,7 @@ const Header = ({ texts }: Texts) => {
               ) : (
                 <>
                   <li>
-                    <NavLink link="/auth/store">
+                    <NavLink link="/authed/store">
                       <StyledButton
                         sx={{
                           width: "80px",
@@ -168,7 +168,7 @@ const Header = ({ texts }: Texts) => {
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink link="/auth/collections">
+                    <NavLink link="/authed/collections">
                       <StyledButton>{texts.collections}</StyledButton>
                     </NavLink>
                   </li>
@@ -176,8 +176,14 @@ const Header = ({ texts }: Texts) => {
               )}
 
               <li>
-                <NavLink link="/auth/user">
-                  <StyledButton sx={{ width: "48px", height: "48px" }}>
+                <NavLink link="/authed/user">
+                  <StyledButton
+                    sx={{
+                      width: "48px",
+                      height: "48px",
+                    }}
+                    className="p-0"
+                  >
                     <AccountCircleOutlinedIcon
                       sx={{
                         width: "40px",
@@ -191,7 +197,7 @@ const Header = ({ texts }: Texts) => {
           ) : (
             <>
               <li>
-                <Link href="/login">
+                <Link href="/authentification/login">
                   <StyledButton
                     sx={{
                       width: "80px",
@@ -202,7 +208,7 @@ const Header = ({ texts }: Texts) => {
                 </Link>
               </li>
               <li>
-                <Link href="/register">
+                <Link href="/authentification/register">
                   <StyledButton>{texts.register}</StyledButton>
                 </Link>
               </li>
