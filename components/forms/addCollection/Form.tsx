@@ -105,7 +105,6 @@ const CreateStore = ({ texts, errors }: Texts) => {
         className="font-kyiv"
         label={texts.name}
         type="text"
-        color="primary"
         name="name"
         error={Boolean(formik.errors.name) || formik.errors.name === ""}
         helperText={formik.errors.name ? formik.errors.name : ""}
@@ -138,7 +137,7 @@ const CreateStore = ({ texts, errors }: Texts) => {
         <StyledButton
           onClick={() => posterRef.current!.click()}
           variant={formik.values.poster ? "contained" : "text"}
-          color={formik.errors.poster ? "error" : "primary"}
+          color={formik.errors.poster ? "error" : "secondary"}
         >
           Add Poster
         </StyledButton>
@@ -156,7 +155,7 @@ const CreateStore = ({ texts, errors }: Texts) => {
         />
         <StyledButton
           onClick={() => bannerRef.current!.click()}
-          color={formik.errors.banner ? "error" : "primary"}
+          color={formik.errors.banner ? "error" : "secondary"}
           variant={formik.values.banner ? "contained" : "text"}
         >
           Add Banner
@@ -189,6 +188,7 @@ const CreateStore = ({ texts, errors }: Texts) => {
           value={isPrivate}
           disabled={isLoading}
           onChange={() => setIsPrivate((state) => !state)}
+          className="dark:text-white"
         />
         <p>{texts.private}</p>
       </div>

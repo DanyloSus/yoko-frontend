@@ -25,7 +25,7 @@ const SortElement = (props: SortElementProps) => {
 
   return (
     <div
-      className="flex items-center gap-[10px] bg-white hover:bg-light-grey px-[8px] cursor-pointer"
+      className="flex items-center gap-[10px] hover:bg-light-grey px-[8px] cursor-pointer"
       onClick={() => {
         props.onClick();
         router.push(`${pathname}?${props.value}`);

@@ -43,7 +43,7 @@ const StoreContent = ({ texts }: Texts) => {
         }
       );
 
-      setCollections(res.data.data);
+      setCollections(res.data.data.data);
       setIsLoading(false);
     }
 

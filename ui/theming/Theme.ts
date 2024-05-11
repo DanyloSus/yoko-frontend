@@ -16,6 +16,9 @@ const theme = createTheme({
     primary: {
       main: "#6d64e8",
     },
+    secondary: {
+      main: "#6d64e8",
+    },
   },
   typography: {
     // set main fonts

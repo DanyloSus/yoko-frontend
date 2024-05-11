@@ -21,7 +21,7 @@ body {
 }
 
 .active .MuiButton-root {
-  background-color: #5640c2 !important;
+  @apply bg-blue-marguerite-700 dark:bg-blue-marguerite-500;
 }
 
 @mixin movingTextAnimation($duration: 5s) {

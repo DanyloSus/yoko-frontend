@@ -3,7 +3,7 @@
 
 // external imports
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -17,6 +17,7 @@ import useUserAuthed from "@/modules/auth/hooks/useUserAuthed";
 import { AnimatePresence } from "framer-motion";
 import MobileMenu from "../admins/MobileMenu";
 import { Switch } from "@mui/material";
+import { changeTheme } from "@/modules/redux/darkTheme/darkThemeSlice";
 
 type Texts = {
   texts: {
@@ -29,24 +30,6 @@ type Texts = {
   };
 };
 
-function changeTheme(themeName?: string) {
-  if (themeName === "dark") {
-    document.body.classList.add("dark");
-    localStorage.setItem("theme", "dark");
-  } else if (themeName === "light") {
-    document.body.classList.remove("dark");
-    localStorage.setItem("theme", "light");
-  } else {
-    localStorage.removeItem("theme");
-    // if alreay set the value will remove it
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
-  }
-}
-
 const Header = ({ texts }: Texts) => {
   // state for checking is user authed
   const [signed, setSigned] = useState(false);
@@ -57,6 +40,8 @@ const Header = ({ texts }: Texts) => {
 
   // get current user's values
   const user = useSelector((state: Store) => state.user);
+
+  const dispatch = useDispatch();
 
   // for debugging changes of signed state
   // useEffect(() => {
@@ -114,17 +99,17 @@ const Header = ({ texts }: Texts) => {
         ) : null}
         <ul className="flex gap-[16px] items-center max-sm:hidden">
           <li>
-            <StyledButton onClick={() => changeTheme("system")}>
+            <StyledButton onClick={() => dispatch(changeTheme("system"))}>
               System
             </StyledButton>
           </li>
           <li>
-            <StyledButton onClick={() => changeTheme("light")}>
+            <StyledButton onClick={() => dispatch(changeTheme("light"))}>
               Light
             </StyledButton>
           </li>
           <li>
-            <StyledButton onClick={() => changeTheme("dark")}>
+            <StyledButton onClick={() => dispatch(changeTheme("dark"))}>
               Dark
             </StyledButton>
           </li>

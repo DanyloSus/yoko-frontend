@@ -1,32 +1,72 @@
-.MuiFormControl-root.primary {
-  & .MuiFormLabel-root {
-    color: white;
-  }
-  & label.Mui-focused {
-    color: white;
-  }
-  & .MuiInput-underlineafter {
-    @apply dark:border-b-dark-grey dark:text-white border-b-blue-marguerite-700;
-  }
+.MuiFormControl-root {
   & input {
-    color: white;
     padding: 16.5px 12px;
   }
-  & .Mui-error {
-    color: #ffcccc;
-    fieldset {
-      border-color: #ffcccc;
+
+  & .MuiFormHelperText-root {
+    &:first-letter {
+      text-transform: uppercase;
+    }
+    white-space: nowrap;
+  }
+
+  &:not(.primary) {
+    & .MuiFormLabel-root {
+      @apply text-black dark:text-white;
+    }
+    & label.Mui-focused {
+      @apply text-black dark:text-white;
+    }
+    & .MuiInput-underlineafter {
+      @apply dark:border-b-dark-grey dark:text-white border-b-black;
+    }
+    & input,
+    & textarea {
+      @apply text-black dark:text-white;
+    }
+    & .MuiOutlinedInput-root {
+      & fieldset {
+        @apply dark:border-dark-grey dark:text-white border-black;
+      }
+      &:hover fieldset {
+        @apply dark:border-dark-grey dark:text-white border-black;
+      }
+      &.Mui-focused fieldset {
+        @apply dark:border-dark-grey dark:text-white border-black;
+      }
     }
   }
-  & .MuiOutlinedInput-root {
-    & fieldset {
-      @apply dark:border-dark-grey dark:text-white border-blue-marguerite-700;
+
+  &.primary {
+    & .MuiFormLabel-root {
+      color: white;
     }
-    &:hover fieldset {
-      @apply dark:border-dark-grey dark:text-white border-blue-marguerite-700;
+    & label.Mui-focused {
+      color: white;
     }
-    &.Mui-focused fieldset {
-      @apply dark:border-dark-grey dark:text-white border-blue-marguerite-700;
+    & .MuiInput-underlineafter {
+      @apply dark:border-b-dark-grey dark:text-white border-b-blue-marguerite-700;
+    }
+    & input,
+    & textarea {
+      color: white;
+    }
+    & .Mui-error {
+      color: #ffcccc;
+      fieldset {
+        border-color: #ffcccc;
+      }
+    }
+    & .MuiOutlinedInput-root {
+      & fieldset {
+        @apply dark:border-dark-grey dark:text-white border-blue-marguerite-700;
+      }
+      &:hover fieldset {
+        @apply dark:border-dark-grey dark:text-white border-blue-marguerite-700;
+      }
+      &.Mui-focused fieldset {
+        @apply dark:border-dark-grey dark:text-white border-blue-marguerite-700;
+      }
     }
   }
 }

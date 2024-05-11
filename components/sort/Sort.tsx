@@ -26,7 +26,7 @@ const Sort = ({ texts }: Text) => {
   return (
     <div className="relative">
       {modal ? (
-        <div className="absolute w-[184px] shadow-md bg-white py-[8px] rounded-[8px] bottom-[24px] right-0">
+        <div className="absolute w-[184px] overflow-hidden shadow-md bg-white dark:bg-black dark:border-2 dark:border-dark-grey rounded-[8px] bottom-[24px] right-0">
           <SortElement
             icon={<VisibilityOutlinedIcon />}
             value="views"
