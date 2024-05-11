@@ -35,7 +35,7 @@ const Landing = () => {
   return (
     <>
       <TranslatedHeader />
-      <main>
+      <main className="dark:bg-black dark:text-white">
         <MainSection />
         <CollectionsSection />
         <WaysSection />

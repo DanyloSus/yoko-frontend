@@ -81,7 +81,7 @@ const Header = ({ texts }: Texts) => {
   // router.replace(pathname, {locale: 'de'});
 
   return (
-    <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 text-blue-marguerite-50 bg-blue-marguerite-500 flex px-phone md:px-tablet lg:px-pc items-center justify-between fixed z-50">
+    <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 dark:bg-black dark:border-b-dark-grey text-blue-marguerite-50 bg-blue-marguerite-500 flex px-phone md:px-tablet lg:px-pc items-center justify-between fixed z-50">
       <h3 className="text-h3 whitespace-nowrap">
         {isAdminPage ? texts.logoAdmin : texts.logo}
       </h3>
@@ -114,7 +114,7 @@ const Header = ({ texts }: Texts) => {
         ) : null}
         <ul className="flex gap-[16px] items-center max-sm:hidden">
           <li>
-            <StyledButton onClick={() => changeTheme("system")} variant="text">
+            <StyledButton onClick={() => changeTheme("system")}>
               System
             </StyledButton>
           </li>
@@ -159,7 +159,6 @@ const Header = ({ texts }: Texts) => {
                   <li>
                     <NavLink link="/auth/store">
                       <StyledButton
-                        variant="contained"
                         sx={{
                           width: "80px",
                         }}
@@ -170,9 +169,7 @@ const Header = ({ texts }: Texts) => {
                   </li>
                   <li>
                     <NavLink link="/auth/collections">
-                      <StyledButton variant="contained">
-                        {texts.collections}
-                      </StyledButton>
+                      <StyledButton>{texts.collections}</StyledButton>
                     </NavLink>
                   </li>
                 </>
@@ -180,10 +177,7 @@ const Header = ({ texts }: Texts) => {
 
               <li>
                 <NavLink link="/auth/user">
-                  <StyledButton
-                    variant="contained"
-                    sx={{ width: "48px", height: "48px" }}
-                  >
+                  <StyledButton sx={{ width: "48px", height: "48px" }}>
                     <AccountCircleOutlinedIcon
                       sx={{
                         width: "40px",
@@ -199,7 +193,6 @@ const Header = ({ texts }: Texts) => {
               <li>
                 <Link href="/login">
                   <StyledButton
-                    variant="contained"
                     sx={{
                       width: "80px",
                     }}
@@ -210,9 +203,7 @@ const Header = ({ texts }: Texts) => {
               </li>
               <li>
                 <Link href="/register">
-                  <StyledButton variant="contained">
-                    {texts.register}
-                  </StyledButton>
+                  <StyledButton>{texts.register}</StyledButton>
                 </Link>
               </li>
             </>

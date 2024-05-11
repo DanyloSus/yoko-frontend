@@ -15,7 +15,7 @@ const SectionWrapper = (props: WrapperProps) => {
       className={
         (props.fullScreen ? "min-h-screen " : "") +
         (props.className ? `${props.className} ` : "") +
-        "border-t-2 border-b-2 border-blue-marguerite-700 px-phone md:px-tablet lg:px-pc pt-[70px] pb-5"
+        "border-t-2 border-b-2 border-blue-marguerite-700 dark:border-dark-grey px-phone md:px-tablet lg:px-pc pt-[70px] pb-5"
       }
     >
       <div className="text-center flex flex-col items-center mb-5">
