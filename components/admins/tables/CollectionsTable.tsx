@@ -12,10 +12,8 @@ export type Collection = {
   id: number;
   name: string;
   status: string;
-  text: {
-    text: string;
-    translation_uk: string;
-  };
+  translationUk: string;
+  text: string;
 };
 
 // type TableProps = {
@@ -38,7 +36,7 @@ const CollectionsTable = ({ texts, ...props }: Texts) => {
     async function fetchCollections() {
       try {
         const res = await axios.get("http://localhost:8876/api/v1/collections");
-        setCollections(res.data);
+        setCollections(res.data.data);
       } catch (error) {
         console.log(error);
       }
@@ -61,7 +59,7 @@ const CollectionsTable = ({ texts, ...props }: Texts) => {
             </Link>
           </Cell>
           <Cell>{collection.name}</Cell>
-          <Cell>{collection.text.text}</Cell>
+          <Cell>{collection.translationUk}</Cell>
           <Cell>{collection.status}</Cell>
           <Cell>{collection.id ? collection.id : "null"}</Cell>
         </>

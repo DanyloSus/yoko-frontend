@@ -70,17 +70,24 @@ const CreateStore = ({ texts, errors }: Texts) => {
         text: value.text,
         status: isPrivate ? "private" : "pending",
         userId: user.id,
+        poster: posterRef.current!.files![0] as File,
+        banner: bannerRef.current!.files![0] as File,
+        color: value.color,
       };
 
       try {
         // post collection
-        await axios.post("http://localhost:8876/api/v1/collections", data);
+        await axios.post("http://localhost:8876/api/v1/collections", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
       } catch (error) {
         console.log(error);
       } finally {
         // go to thank's page where we have query
         // query depends is collection private
-        router.push(`/auth/thanks?is=${isPrivate ? "private" : "pending"}`);
+        router.push(`/auth/theanks?is=${isPrivate ? "private" : "pending"}`);
         setIsLoading(false);
       }
     },
@@ -98,6 +105,7 @@ const CreateStore = ({ texts, errors }: Texts) => {
         className="font-kyiv"
         label={texts.name}
         type="text"
+        color="primary"
         name="name"
         error={Boolean(formik.errors.name) || formik.errors.name === ""}
         helperText={formik.errors.name ? formik.errors.name : ""}
@@ -109,6 +117,7 @@ const CreateStore = ({ texts, errors }: Texts) => {
         multiline
         label={texts.text}
         type="text"
+        color="primary"
         name="text"
         error={Boolean(formik.errors.text) || formik.errors.text === ""}
         helperText={formik.errors.text ? formik.errors.text : ""}

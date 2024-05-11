@@ -9,7 +9,7 @@ const MainSection = () => {
 
   return (
     <>
-      <div className="bg-blue-marguerite-500 w-screen h-screen flex flex-col text-blue-marguerite-50 items-center justify-center text-center px-phone md:px-tablet lg:px-pc">
+      <div className="bg-blue-marguerite-500 dark:bg-black w-screen h-screen flex flex-col text-blue-marguerite-50 items-center justify-center text-center px-phone md:px-tablet lg:px-pc">
         <div className="relative z-10">
           <h1 className="text-h4 sm:text-h2 md:text-[64px] md:leading-[64px]">
             {t("heading")}

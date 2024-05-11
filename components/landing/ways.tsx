@@ -6,7 +6,7 @@ import NavBar from "./NavBar";
 import WaysContent from "./ways/Content";
 
 const WaysSection = () => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   return (
     <SectionWrapper

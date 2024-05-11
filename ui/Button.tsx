@@ -16,6 +16,10 @@ const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({
   height: "41px",
   minWidth: "0px",
 
+  "&.MuiButton-text": {
+    color: "white",
+  },
+
   "&:hover": {
     boxShadow: "none",
   },

@@ -56,7 +56,7 @@ const CollectionsSection = () => {
       text="Welcome to our Collections section, where language learning meets creativity! Dive into a world of curated texts, carefully crafted to enhance your vocabulary. Browse through collections created by the community, or forge your path by crafting your own."
       mobileText="Welcome to our Collections section, where language learning meets creativity! Dive into a world of curated texts, carefully crafted to enhance your vocabulary."
     >
-      <div className="max-sm:flex-col flex item-center justify-between mt-10 max-sm:text-center">
+      <div className="max-sm:flex-col gap-10 flex item-center justify-between mt-10 max-sm:text-center">
         <div className="flex flex-col max-w-[580px] justify-center gap-5">
           {sectionText.map((text, index) => (
             <div key={index}>

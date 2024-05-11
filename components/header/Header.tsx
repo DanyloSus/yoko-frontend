@@ -16,6 +16,7 @@ import { Store } from "@/modules/redux/store";
 import useUserAuthed from "@/modules/auth/hooks/useUserAuthed";
 import { AnimatePresence } from "framer-motion";
 import MobileMenu from "../admins/MobileMenu";
+import { Switch } from "@mui/material";
 
 type Texts = {
   texts: {
@@ -27,6 +28,24 @@ type Texts = {
     register: string;
   };
 };
+
+function changeTheme(themeName?: string) {
+  if (themeName === "dark") {
+    document.body.classList.add("dark");
+    localStorage.setItem("theme", "dark");
+  } else if (themeName === "light") {
+    document.body.classList.remove("dark");
+    localStorage.setItem("theme", "light");
+  } else {
+    localStorage.removeItem("theme");
+    // if alreay set the value will remove it
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }
+}
 
 const Header = ({ texts }: Texts) => {
   // state for checking is user authed
@@ -94,6 +113,21 @@ const Header = ({ texts }: Texts) => {
           </div>
         ) : null}
         <ul className="flex gap-[16px] items-center max-sm:hidden">
+          <li>
+            <StyledButton onClick={() => changeTheme("system")} variant="text">
+              System
+            </StyledButton>
+          </li>
+          <li>
+            <StyledButton onClick={() => changeTheme("light")}>
+              Light
+            </StyledButton>
+          </li>
+          <li>
+            <StyledButton onClick={() => changeTheme("dark")}>
+              Dark
+            </StyledButton>
+          </li>
           {signed ? (
             <>
               {isAdminPage ? (
