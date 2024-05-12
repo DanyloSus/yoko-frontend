@@ -66,11 +66,20 @@ const WaysContent = (props: ContentProps) => {
       mobileText:
         "Immerse yourself in the language by reading texts in English and Ukrainian.",
       content: (
-        <TranslationBubble
-          englishText={["Some", "sentence", "with", "some", "text."]}
-          ukrainianText={["Якесь", "речення", "із", "якимось", "текстом."]}
-          bubbleText=""
-        />
+        <p>
+          {...["Some", "sentence", "with", "some", "text."].map(
+            (word, index) => (
+              <TranslationBubble
+                key={index}
+                text={`${word} `}
+                translationUk={
+                  ["Якесь", "речення", "із", "якимось", "текстом."][index]
+                }
+                bubbleText=""
+              />
+            )
+          )}
+        </p>
       ),
     },
     {
