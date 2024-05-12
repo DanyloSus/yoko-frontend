@@ -9,6 +9,16 @@ const withNextIntl = createNextIntlPlugin(
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images-cdn.ubuy.co.in",
+        port: "",
+        pathname: "**",
+      },
+    ],
+  },
 };
 
 export default withNextIntl(nextConfig);
