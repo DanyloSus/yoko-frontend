@@ -12,21 +12,21 @@ const FinalSection = () => {
       fullScreen
       className="flex flex-col items-center justify-center gap-5 text-center"
     >
-      <div>
+      <div className="reveal">
         <h4 className="text-h6 sm:text-h4">Collaborate and Grow</h4>
         <p className="max-sm:hidden">
           Collaborate with fellow learners to create unique collections,
           exchange ideas, and support each other&apos;s learning goals.
         </p>
       </div>
-      <div>
+      <div className="reveal">
         <h4 className="text-h6 sm:text-h4">Stay Inspired</h4>
         <p className="max-sm:hidden">
           Get inspired by success stories, language learning tips, and
           motivational content shared by our community members.
         </p>
       </div>
-      <div>
+      <div className="reveal">
         <h4 className="text-h6 sm:text-h4">
           Start Your Language Journey Today
         </h4>
@@ -41,7 +41,7 @@ const FinalSection = () => {
         </p>
       </div>
       <div className="flex gap-[16px]">
-        <Link href="/authentification/login">
+        <Link href="/authentification/login" className="reveal">
           <StyledButton
             variant="contained"
             sx={{
@@ -51,7 +51,7 @@ const FinalSection = () => {
             Login
           </StyledButton>
         </Link>
-        <Link href="/authentification/register">
+        <Link href="/authentification/register" className="reveal">
           <StyledButton variant="contained">Register</StyledButton>
         </Link>
       </div>

@@ -59,7 +59,7 @@ const CollectionsSection = () => {
       <div className="max-sm:flex-col gap-10 flex item-center justify-between mt-10 max-sm:text-center">
         <div className="flex flex-col max-w-[580px] justify-center gap-5">
           {sectionText.map((text, index) => (
-            <div key={index}>
+            <div key={index} className="reveal">
               <h4 className="text-h6 sm:text-h4">{text.h4}</h4>
               <p className="max-sm:hidden">{text.p}</p>
               <p className="sm:hidden">{text.mobile}</p>
@@ -69,7 +69,7 @@ const CollectionsSection = () => {
         <div className="relative max-w-[480px]  justify-center w-full flex flex-col items-end mx-auto">
           {sectionCollections.map((collection, index) => (
             <div
-              className=" max-w-[280px] w-full relative max-sm:hidden"
+              className=" max-w-[280px] w-full relative max-sm:hidden reveal"
               style={{
                 bottom: 42 * index + "px",
                 marginRight: index % 2 === 1 ? "auto" : "",
@@ -85,7 +85,7 @@ const CollectionsSection = () => {
               />
             </div>
           ))}
-          <div className="sm:hidden w-full ">
+          <div className="sm:hidden w-full reveal">
             <div
               className=" max-w-[280px] w-full relative"
               key={0}

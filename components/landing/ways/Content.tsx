@@ -2,13 +2,17 @@ import Card from "@/components/exercises/Card";
 import TranslationBubble from "@/components/exercises/TranslationBubble";
 import { Link } from "@/modules/internationalization/navigation";
 import StyledButton from "@/ui/Button";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { ReactNode, useState } from "react";
+import ConfettiExplosion from "react-confetti-explosion";
 
 type ContentProps = {
   page: number; //active page
 };
 
 const WaysContent = (props: ContentProps) => {
+  const [isExploding, setIsExploding] = React.useState(false);
+
   const [buttons, setButtons] = useState<ReactNode[]>([
     <StyledButton
       variant="outlined"
@@ -42,6 +46,7 @@ const WaysContent = (props: ContentProps) => {
 
   function checkAnswer(answer: string, buttonIndex: number) {
     if (answer === "Вітаю") {
+      setIsExploding(true);
     }
 
     // disable the selected button if the answer is incorrect
@@ -138,12 +143,42 @@ const WaysContent = (props: ContentProps) => {
   ];
 
   return (
-    <div className="flex flex-col gap-5 justify-center items-center text-center">
-      <h3 className="text-h6 sm:text-h4">{content[props.page].title}</h3>
-      <p className="max-sm:hidden max-w-[580px]">{content[props.page].text}</p>
-      <p className="sm:hidden">{content[props.page].mobileText}</p>
-      {content[props.page].content}
-    </div>
+    <>
+      <AnimatePresence>
+        <motion.div
+          className="flex flex-col gap-5 justify-center items-center text-center relative"
+          initial={{
+            x: "-25%",
+            opacity: 0,
+            position: "absolute",
+          }}
+          animate={{
+            x: 0,
+            opacity: 1,
+            position: "initial",
+          }}
+          exit={{
+            x: "25%",
+            opacity: 0,
+            position: "absolute",
+            y: "-1px",
+          }}
+          key={props.page}
+        >
+          <h3 className="text-h6 sm:text-h4">{content[props.page].title}</h3>
+          <p className="max-sm:hidden max-w-[580px]">
+            {content[props.page].text}
+          </p>
+          <p className="sm:hidden">{content[props.page].mobileText}</p>
+          {content[props.page].content}
+        </motion.div>
+      </AnimatePresence>
+      {isExploding && (
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <ConfettiExplosion />
+        </div>
+      )}
+    </>
   );
 };
 
