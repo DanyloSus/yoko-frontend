@@ -32,7 +32,7 @@ const WordsTable = ({ texts, ...props }: Texts) => {
       try {
         const res = await axios.get("http://localhost:8876/api/v1/words");
 
-        setWords(res.data.data);
+        setWords(res.data.data.words);
       } catch (error) {}
     }
 
@@ -40,7 +40,7 @@ const WordsTable = ({ texts, ...props }: Texts) => {
   }, []);
 
   return (
-    <div className="grid grid-cols-[repeat(3,_minmax(180px,_1fr))] md:grid-cols-3 w-full overflow-x-auto">
+    <div className="grid grid-cols-[repeat(3,_minmax(180px,_1fr))] w-full overflow-x-auto">
       <Cell />
       <Cell>{texts.en}</Cell>
       <Cell>{texts.uk}</Cell>

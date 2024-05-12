@@ -9,9 +9,11 @@ type CellProps = {
 const Cell = (props: CellProps) => {
   return (
     <div
-      className="w-full overflow-hidden h-[80px] border border-dark-grey text-center"
+      className={
+        (props.isMarked ? "bg-[#F0F0FD]" : "bg-white") +
+        "w-full dark:bg-black overflow-hidden h-[80px] border border-dark-grey text-center"
+      }
       style={{
-        backgroundColor: props.isMarked ? "#F0F0FD" : "white",
         display: "grid",
         placeItems: "center",
       }}

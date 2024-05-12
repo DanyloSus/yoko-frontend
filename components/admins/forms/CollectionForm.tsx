@@ -15,10 +15,19 @@ type CollectionFormProps = {
   params: { id: string };
 };
 
+type Collection = {
+  bannerUrl: string;
+  id: number;
+  name: string;
+  posterUrl: string;
+  text: string;
+  status: "pending" | "private" | "public";
+  translationUk: string;
+};
+
 const CollectionForm = ({ params }: CollectionFormProps) => {
-  const [status, setStatus] = useState("pending");
-  const [toStatus, setToStatus] = useState("pending");
-  const [id, setId] = useState();
+  const [collection, setCollection] = useState<Collection>();
+  const [toStatus, setToStatus] = useState("");
 
   const user = useSelector((state: Store) => state.user);
 
@@ -33,13 +42,15 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
         }
       );
 
-      setStatus(res.data.data.status);
-      setId(res.data.data.id);
+      const collectionData: Collection = res.data.data;
+
+      setCollection(collectionData);
+      setToStatus(collectionData.status);
 
       formik.setValues({
-        name: res.data.data.name,
-        text: res.data.data.name,
-        text_uk: res.data.data.name,
+        name: collectionData.name,
+        text: collectionData.text,
+        translationUk: collectionData.translationUk,
       });
     }
 
@@ -54,33 +65,35 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
     initialValues: {
       name: "",
       text: "",
-      text_uk: "",
+      translationUk: "",
     },
     // validation
     validationSchema: Yup.object({
       name: Yup.string().required(),
       text: Yup.string().required(),
-      text_uk: Yup.string().required(),
+      translationUk: Yup.string().required(),
     }),
     validateOnChange: false,
     // on submit function
     onSubmit: async (value) => {
-      if (status === "pending") {
-        await axios.patch(
-          `http://localhost:8876/api/v1/collections/changeStatus/${id}`,
-          {
-            status: toStatus,
-          }
-        );
-      }
+      const data = {
+        ...value,
+        status: toStatus,
+      };
+      await axios.patch(
+        `http://localhost:8876/api/v1/collections/${collection!.id}`,
+        data
+      );
       router.push("/admin/collections");
     },
   });
 
-  return (
+  return !collection ? (
+    <></>
+  ) : (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
       <form>
-        <FormWrapper title="Update User" removeBorder isDark>
+        <FormWrapper title="Update Collection" removeBorder isDark>
           <StyledTextField
             multiline
             className="font-kyiv w-full"
@@ -118,7 +131,7 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
             <StyledButton
               variant="contained"
               onClick={() => {
-                if (status === "pending") {
+                if (collection.status === "pending") {
                   setToStatus("private");
                   formik.handleSubmit();
                 }

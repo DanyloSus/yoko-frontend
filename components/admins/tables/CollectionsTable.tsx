@@ -45,7 +45,7 @@ const CollectionsTable = ({ texts, ...props }: Texts) => {
   }, []);
 
   return (
-    <div className="grid grid-cols-[repeat(5,_minmax(180px,_1fr))]  md:grid-cols-5  max-sm:max-w-screen overflow-x-auto">
+    <div className="grid grid-cols-[repeat(5,_minmax(180px,_1fr))] overflow-x-auto">
       <Cell />
       <Cell>{texts.headings}</Cell>
       <Cell>{texts.contents}</Cell>
