@@ -7,6 +7,8 @@ import StyledButton from "@/ui/Button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { Store } from "@/modules/redux/store";
 
 type Comment = {
   id: number;
@@ -24,6 +26,8 @@ type SectionProps = {
 };
 
 const CommentSection = (props: SectionProps) => {
+  const user = useSelector((state: Store) => state.user);
+
   const formik = useFormik({
     initialValues: {
       comment: "",
@@ -35,10 +39,14 @@ const CommentSection = (props: SectionProps) => {
     onSubmit: async (value) => {
       try {
         const res = await axios.post(
-          "http://localhost:8876/api/v1/collections/1/comment",
+          `http://localhost:8876/api/v1/collections/${props.collectionId}/comment`,
           {
             content: value.comment,
-            userId: props.userId,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
           }
         );
 

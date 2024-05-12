@@ -9,7 +9,9 @@ const CollectionLayout = ({ children }: { children: ReactNode }) => {
     <>
       <TranslatedHeader />
       <div id="modal"></div>
-      <div className="pt-[70px]">{children}</div>
+      <div className="pt-[70px] dark:bg-black dark:text-white min-h-screen">
+        {children}
+      </div>
     </>
   );
 };

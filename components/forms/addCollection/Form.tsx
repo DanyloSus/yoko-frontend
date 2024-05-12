@@ -82,12 +82,12 @@ const CreateStore = ({ texts, errors }: Texts) => {
             "Content-Type": "multipart/form-data",
           },
         });
+        // router.push(`/authed/theanks?is=${isPrivate ? "private" : "pending"}`);
       } catch (error) {
         console.log(error);
       } finally {
         // go to thank's page where we have query
         // query depends is collection private
-        router.push(`/authed/theanks?is=${isPrivate ? "private" : "pending"}`);
         setIsLoading(false);
       }
     },

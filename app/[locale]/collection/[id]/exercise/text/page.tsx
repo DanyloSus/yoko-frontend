@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 
 // internal imports
 import TranslationBubble from "@/components/exercises/TranslationBubble";
+import TextContent from "@/components/exercises/TextContent";
 
 // create multilanguage dynamic metadata
 export async function generateMetadata({
@@ -19,21 +20,10 @@ export async function generateMetadata({
   };
 }
 
-const TextExercise = () => {
+const TextExercise = ({ params }: { params: { id: string } }) => {
   const t = useTranslations("Exercises"); // get page translation
 
-  return (
-    <div className="text-center flex flex-col gap-[24px]">
-      <h1 className="text-h3 sm:text-h1  mt-[40px]">
-        English to Ukrainian Translation
-      </h1>
-      <TranslationBubble
-        bubbleText={t("text.bubbleText")}
-        englishText={["I", "love", "learning", "new", "languages."]} // dummy data
-        ukrainianText={["Я", "люблю", "вивчати", "нові", "мови."]} // dummy data
-      />
-    </div>
-  );
+  return <TextContent collectionId={params.id} />;
 };
 
 export default TextExercise;

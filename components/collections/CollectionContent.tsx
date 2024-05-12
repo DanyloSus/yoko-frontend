@@ -11,10 +11,10 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 // internal imports
 import ColumnStatistic from "./statistic/Column";
 import PieStatistic from "./statistic/Pie";
-import LearnPropositions from "@/components/LearnPropositions";
+import LearnPropositions from "@/components/collections/LearnPropositions";
 import useScrollBlock from "@/modules/hooks/useScrollBlock";
 import StyledButton from "@/ui/Button";
-import FavoriteButton from "@/ui/FavoriteButton";
+import FavoriteButton from "@/components/collections/FavoriteButton";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
@@ -113,7 +113,7 @@ const CollectionContent = ({
   ) : (
     <div className="w-screen min-h-screen overflow-hidden">
       <div
-        className="w-screen h-[230px] sm:h-[374px] flex flex-col justify-center items-center gap-[10px] text-center"
+        className="w-screen h-[230px] sm:h-[374px] flex flex-col justify-center items-center gap-[10px] text-center border-b-2 border-blue-marguerite-700 dark:border-dark-grey"
         style={{
           backgroundImage: `radial-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3)), url(${collection.bannerUrl})`,
           backgroundSize: "cover",

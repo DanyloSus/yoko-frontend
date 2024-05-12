@@ -43,8 +43,10 @@ const Collections = ({ texts }: Texts) => {
         }
       );
 
-      setCollections(res.data.data);
+      setCollections(res.data.data.data);
       setIsLoading(false);
+
+      console.log(res.data.data.data);
     }
 
     fetchCollections();

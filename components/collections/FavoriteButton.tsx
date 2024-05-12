@@ -6,9 +6,13 @@ import React, { useState } from "react";
 import GradeIcon from "@mui/icons-material/Grade";
 import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import { AnimatePresence, motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import { Store } from "@/modules/redux/store";
 
 const FavoriteButton = () => {
   const [isFavorite, setIsFavorite] = useState(false);
+
+  const theme = useSelector((state: Store) => state.theme);
 
   return (
     <div className="relative">
@@ -42,7 +46,7 @@ const FavoriteButton = () => {
               sx={{
                 width: "36px",
                 height: "36px",
-                fill: "black",
+                fill: theme === "dark" ? "#FFF" : "black",
               }}
               className="cursor-pointer"
               onClick={() => setIsFavorite((state) => !state)}

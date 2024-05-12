@@ -43,7 +43,7 @@ const Card = ({ texts, ...props }: CardProps & Texts) => {
               {props.englishWord}
             </h2>
             <StyledButton
-              variant="text"
+              variant="contained"
               onClick={() => setIsFlipped((state) => !state)}
             >
               {texts.translate}
@@ -66,7 +66,7 @@ const Card = ({ texts, ...props }: CardProps & Texts) => {
             {props.ukrainianWord}
           </h2>
           <StyledButton
-            variant="text"
+            variant="contained"
             sx={{ w: "77px" }}
             onClick={() => setIsFlipped((state) => !state)}
           >

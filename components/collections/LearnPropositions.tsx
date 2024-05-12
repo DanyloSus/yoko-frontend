@@ -9,8 +9,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { motion } from "framer-motion";
 
 // internal imports
-import FormWrapper from "./wrappers/FormWrapper";
-import Portal from "./wrappers/Portal";
+import FormWrapper from "../wrappers/FormWrapper";
+import Portal from "../wrappers/Portal";
 import StyledButton from "@/ui/Button";
 
 // Props for element
@@ -38,7 +38,7 @@ const LearnPropositions = ({ texts, ...props }: Props & Texts) => {
         exit={{ x: "100%" }}
         transition={{ ease: "easeInOut" }}
         key={"Modal"}
-        className="fixed top-[70px] w-screen h-screen bg-blue-marguerite-500 z-10 text-white flex items-center pb-[70px] px-phone sm:px-tablet md:px-pc"
+        className="fixed top-[70px] w-screen h-screen bg-blue-marguerite-500 dark:bg-black z-10 text-white flex items-center pb-[70px] px-phone sm:px-tablet md:px-pc"
       >
         {/* Button for closing modal */}
         <ArrowBackIcon
@@ -49,26 +49,24 @@ const LearnPropositions = ({ texts, ...props }: Props & Texts) => {
           <div className="max-w-[377px] w-full flex flex-col gap-[24px]">
             {/* List of varianst to learn */}
             <Link href={`${pathname}/exercise/text`}>
-              <StyledButton variant="contained" className="w-full">
+              <StyledButton className="w-full">
                 {texts.textExercise}
               </StyledButton>
             </Link>
             <Link href={`${pathname}/exercise/quiz`}>
-              <StyledButton variant="contained" className="w-full">
+              <StyledButton className="w-full">
                 {texts.quizExercise}
               </StyledButton>
             </Link>
             <Link href={`${pathname}/exercise/cards`}>
-              <StyledButton variant="contained" className="w-full">
+              <StyledButton className="w-full">
                 {texts.cardsExercise}
               </StyledButton>
             </Link>
             <Link href={`${pathname}/exercise/aiTalk`}>
-              <StyledButton variant="contained" className="w-full">
-                AI
-              </StyledButton>
+              <StyledButton className="w-full">AI</StyledButton>
             </Link>
-            <StyledButton variant="contained">...</StyledButton>
+            <StyledButton>...</StyledButton>
           </div>
         </FormWrapper>
       </motion.div>
