@@ -123,7 +123,7 @@ const CheckLevelContent = () => {
 
         <form
           onSubmit={formik.handleSubmit}
-          className="fixed bottom-0 left-1/2 -translate-x-1/2 py-3 flex items-center w-full  px-phone md:px-tablet lg:px-pc bg-white border-t-2 border-light-grey shadow-md"
+          className="fixed bottom-0 left-1/2 -translate-x-1/2 py-3 flex flex-col items-end gap-3 w-full  px-phone md:px-tablet lg:px-pc bg-white border-t-2 dark:bg-black dark:border-dark-grey border-light-grey  shadow-md"
         >
           <div className="w-full relative">
             {messages.length === 1 ? (
@@ -146,7 +146,7 @@ const CheckLevelContent = () => {
               disabled={isLoading}
             />
           </div>
-          <StyledButton type="submit" disabled={isLoading}>
+          <StyledButton type="submit" variant="contained" disabled={isLoading}>
             Send
           </StyledButton>
         </form>

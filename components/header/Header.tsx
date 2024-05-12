@@ -142,6 +142,11 @@ const Header = ({ texts }: Texts) => {
               ) : (
                 <>
                   <li>
+                    <NavLink link="/ai/dialog">
+                      <StyledButton>AI Talk</StyledButton>
+                    </NavLink>
+                  </li>
+                  <li>
                     <NavLink link="/authed/store">
                       <StyledButton
                         sx={{

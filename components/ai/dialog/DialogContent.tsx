@@ -1,10 +1,12 @@
 "use client";
 
+import { Store } from "@/modules/redux/store";
 import StyledButton from "@/ui/Button";
 import StyledTextField from "@/ui/TextField";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import * as Yup from "yup";
 
 type Message = {
@@ -26,18 +28,30 @@ const DialogContent = (props: Props) => {
   const [words, setWords] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
+  const user = useSelector((state: Store) => state.user);
+
   useEffect(() => {
     async function fetchFirstQuestion() {
       try {
         let res = await axios.get(
-          `http://localhost:8876/api/v1/collections/${props.params.id}`
+          `http://localhost:8876/api/v1/collections/${props.params.id}/text`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
         );
 
-        const words = res.data.data[0].words;
+        let words = res.data.data.words;
+
+        for (let i = words.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [words[i], words[j]] = [words[j], words[i]];
+        }
 
         setWords(words);
 
-        res = await axios.post("/api/ai/dialog", { words: words });
+        res = await axios.post("/api/ai/dialog", { words: words.slice(0, 5) });
 
         setMessages([res.data.message]);
       } catch (error) {
@@ -48,6 +62,7 @@ const DialogContent = (props: Props) => {
     }
 
     fetchFirstQuestion();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.params.id]);
 
   const formik = useFormik({
@@ -127,7 +142,7 @@ const DialogContent = (props: Props) => {
 
       <form
         onSubmit={formik.handleSubmit}
-        className="fixed bottom-0 left-1/2 -translate-x-1/2 py-3 flex items-center w-full  px-phone md:px-tablet lg:px-pc bg-white border-t-2 border-light-grey shadow-md"
+        className="fixed bottom-0 left-1/2 -translate-x-1/2 py-3 flex flex-col items-end gap-3 w-full  px-phone md:px-tablet lg:px-pc bg-white border-t-2 border-light-grey shadow-md dark:bg-black dark:border-dark-grey"
       >
         <div className="w-full relative">
           {messages.length === 1 ? (
@@ -148,7 +163,7 @@ const DialogContent = (props: Props) => {
             disabled={isLoading}
           />
         </div>
-        <StyledButton type="submit" disabled={isLoading}>
+        <StyledButton type="submit" variant="contained" disabled={isLoading}>
           Send
         </StyledButton>
       </form>

@@ -125,7 +125,7 @@ const AnotherjustDialogContent = () => {
 
         <form
           onSubmit={formik.handleSubmit}
-          className="fixed bottom-0 left-1/2 -translate-x-1/2 py-3 flex max-sm:flex-col max-sm:gap-[5px] items-center w-full  px-phone md:px-tablet lg:px-pc bg-white border-t-2 border-light-grey shadow-md"
+          className="fixed bottom-0 left-1/2 -translate-x-1/2 py-3 flex flex-col gap-3 items-end w-full  px-phone md:px-tablet lg:px-pc bg-white border-t-2 dark:bg-black dark:border-dark-grey border-light-grey shadow-md"
         >
           <div className="w-full relative">
             {messages.length === 2 ? (
@@ -149,10 +149,7 @@ const AnotherjustDialogContent = () => {
               placeholder="Let's start to talk about..."
             />
           </div>
-          <div className="flex max-sm:w-full max-sm:flex-row-reverse max-sm:justify-between">
-            <StyledButton type="submit" disabled={isLoading || stopped}>
-              Send
-            </StyledButton>
+          <div className="flex w-full justify-between">
             <StyledButton
               disabled={isLoading || messages.length < 5 || stopped}
               onClick={handleClose}
@@ -160,6 +157,13 @@ const AnotherjustDialogContent = () => {
               variant="contained"
             >
               STOP
+            </StyledButton>
+            <StyledButton
+              type="submit"
+              variant="contained"
+              disabled={isLoading || stopped}
+            >
+              Send
             </StyledButton>
           </div>
         </form>
