@@ -172,7 +172,7 @@ const SettingsForm = ({ texts, errors }: Texts) => {
         );
 
         // updated data
-        const updatedData = res.data.data;
+        const updatedData = res.data.data.user;
 
         // write updated data
         dispatch(

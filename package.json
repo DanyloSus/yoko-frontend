@@ -19,6 +19,7 @@
     "formik": "^2.4.6",
     "framer-motion": "^11.1.7",
     "jose": "^5.2.4",
+    "mui-nested-menu": "^3.4.0",
     "next": "14.2.3",
     "next-intl": "^3.12.2",
     "openai": "^4.42.0",

@@ -7,17 +7,27 @@ import { useDispatch, useSelector } from "react-redux";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import Divider from "@mui/material/Divider";
+import { IconMenuItem, NestedMenuItem } from "mui-nested-menu";
 
 // internal imports
 import NavLink from "../NavLink";
 import StyledButton from "../../ui/Button";
-import { Link, usePathname } from "@/modules/internationalization/navigation";
+import {
+  Link,
+  usePathname,
+  useRouter,
+} from "@/modules/internationalization/navigation";
 import { Store } from "@/modules/redux/store";
 import useUserAuthed from "@/modules/auth/hooks/useUserAuthed";
 import { AnimatePresence } from "framer-motion";
 import MobileMenu from "../admins/MobileMenu";
-import { Switch } from "@mui/material";
+import { ListItemIcon, Menu, MenuItem, Switch } from "@mui/material";
 import { changeTheme } from "@/modules/redux/darkTheme/darkThemeSlice";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
+import axios from "axios";
+import { logout } from "@/modules/redux/user/userSlice";
 
 type Texts = {
   texts: {
@@ -61,9 +71,18 @@ const Header = ({ texts }: Texts) => {
   }, [user.token]);
 
   // code for changing language
-  // const pathname = usePathname();
-  // const router = useRouter();
-  // router.replace(pathname, {locale: 'de'});
+  const pathname = usePathname();
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const router = useRouter();
 
   return (
     <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 dark:bg-black dark:border-b-dark-grey text-blue-marguerite-50 bg-blue-marguerite-500 flex px-phone md:px-tablet lg:px-pc items-center justify-between fixed z-50">
@@ -166,22 +185,118 @@ const Header = ({ texts }: Texts) => {
               )}
 
               <li>
-                <NavLink link="/authed/user">
-                  <StyledButton
+                <StyledButton
+                  sx={{
+                    width: "48px",
+                    height: "48px",
+                  }}
+                  className="p-0"
+                  onClick={handleClick}
+                >
+                  <AccountCircleOutlinedIcon
                     sx={{
-                      width: "48px",
-                      height: "48px",
+                      width: "40px",
+                      height: "40px",
                     }}
-                    className="p-0"
+                  />
+                </StyledButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  id="account-menu"
+                  open={open}
+                  onClose={handleClose}
+                  onClick={handleClose}
+                  PaperProps={{
+                    elevation: 0,
+                    sx: {
+                      overflow: "visible",
+                      filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                      mt: 1.5,
+                      "& .MuiAvatar-root": {
+                        width: 32,
+                        height: 32,
+                        ml: -0.5,
+                        mr: 1,
+                      },
+                    },
+                  }}
+                  transformOrigin={{ horizontal: "right", vertical: "top" }}
+                  anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <Link href="/authed/user">
+                      <ListItemIcon>
+                        <AccountCircleOutlinedIcon />
+                      </ListItemIcon>
+                      {user.name}
+                    </Link>
+                  </MenuItem>
+                  <Divider />
+                  <NestedMenuItem
+                    leftIcon={<AccountCircleOutlinedIcon />}
+                    label="Theme"
+                    parentMenuOpen={open}
+                    rightIcon={<></>}
                   >
-                    <AccountCircleOutlinedIcon
-                      sx={{
-                        width: "40px",
-                        height: "40px",
-                      }}
+                    <IconMenuItem
+                      leftIcon={<AccountCircleOutlinedIcon />}
+                      onClick={() => dispatch(changeTheme("dark"))}
+                      label="Dark"
                     />
-                  </StyledButton>
-                </NavLink>
+                    <IconMenuItem
+                      leftIcon={<AccountCircleOutlinedIcon />}
+                      onClick={() => dispatch(changeTheme("light"))}
+                      label="Light"
+                    />
+                    <IconMenuItem
+                      leftIcon={<AccountCircleOutlinedIcon />}
+                      onClick={() => dispatch(changeTheme("system"))}
+                      label="System"
+                    />
+                  </NestedMenuItem>
+                  <NestedMenuItem
+                    leftIcon={<AccountCircleOutlinedIcon />}
+                    label="Language"
+                    parentMenuOpen={open}
+                    rightIcon={<></>}
+                  >
+                    <IconMenuItem
+                      leftIcon={<AccountCircleOutlinedIcon />}
+                      onClick={() => router.replace(pathname, { locale: "uk" })}
+                      label="Ukrainian"
+                    />
+                    <IconMenuItem
+                      leftIcon={<AccountCircleOutlinedIcon />}
+                      onClick={() => router.replace(pathname, { locale: "en" })}
+                      label="English"
+                    />
+                  </NestedMenuItem>
+                  <Divider />
+                  <MenuItem>
+                    <Link href="/authed/user/settings">
+                      <ListItemIcon>
+                        <Settings fontSize="small" />
+                      </ListItemIcon>
+                      Settings
+                    </Link>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={async () => {
+                      await axios.post("/api/logout", {
+                        headers: {
+                          Authorization: `Bearer ${user.token}`,
+                        },
+                      });
+                      dispatch(logout());
+                      router.replace("/");
+                    }}
+                  >
+                    <ListItemIcon>
+                      <Logout fontSize="small" />
+                    </ListItemIcon>
+                    Logout
+                  </MenuItem>
+                </Menu>
               </li>
             </>
           ) : (

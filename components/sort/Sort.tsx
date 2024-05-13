@@ -10,6 +10,12 @@ import AbcOutlinedIcon from "@mui/icons-material/AbcOutlined";
 
 // internal imports
 import SortElement from "./SortElement";
+import { ListItemIcon, Menu, MenuItem } from "@mui/material";
+import { useSearchParams } from "next/navigation";
+import {
+  usePathname,
+  useRouter,
+} from "@/modules/internationalization/navigation";
 
 type Text = {
   texts: {
@@ -21,35 +27,71 @@ type Text = {
 };
 
 const Sort = ({ texts }: Text) => {
-  const [modal, setModal] = useState(false); // state for checking is modal open
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const handleSearch = (term: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("sort", term);
+    } else {
+      params.delete("sort");
+    }
+    handleClose();
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <div className="relative">
-      {modal ? (
-        <div className="absolute w-[184px] overflow-hidden shadow-md bg-white dark:bg-black dark:border-2 dark:border-dark-grey rounded-[8px] bottom-[24px] right-0">
-          <SortElement
-            icon={<VisibilityOutlinedIcon />}
-            value="views"
-            text={texts.views}
-            onClick={() => setModal(false)}
-          />
-          <SortElement
-            icon={<ThumbUpAltOutlinedIcon />}
-            value="likes"
-            text={texts.likes}
-            onClick={() => setModal(false)}
-          />
-          <SortElement
-            icon={<AbcOutlinedIcon />}
-            value="difficult"
-            text={texts.difficult}
-            onClick={() => setModal(false)}
-          />
-        </div>
-      ) : null}
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+      >
+        <MenuItem onClick={() => handleSearch("views")}>
+          <ListItemIcon>
+            <VisibilityOutlinedIcon />
+          </ListItemIcon>
+          {texts.views}
+        </MenuItem>
+        <MenuItem onClick={() => handleSearch("likes")}>
+          <ListItemIcon>
+            <ThumbUpAltOutlinedIcon />
+          </ListItemIcon>
+          {texts.likes}
+        </MenuItem>
+        <MenuItem onClick={() => handleSearch("difficult")}>
+          <ListItemIcon>
+            <AbcOutlinedIcon />
+          </ListItemIcon>
+          {texts.difficult}
+        </MenuItem>
+      </Menu>
       <div
         className="flex items-center justify-end gap-[10px] cursor-pointer"
-        onClick={() => setModal((value) => !value)}
+        onClick={handleClick}
       >
         <p className="text-p">{texts.sort}</p>
         <FilterAltOutlinedIcon />
