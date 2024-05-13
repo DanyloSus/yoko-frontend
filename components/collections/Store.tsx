@@ -4,7 +4,6 @@
 // external imports
 import React, { ReactNode, useEffect, useState } from "react";
 import axios from "axios";
-import { CircularProgress } from "@mui/material";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 
@@ -24,7 +23,11 @@ type Texts = {
   };
 };
 
-const StoreContent = ({ texts }: Texts) => {
+type StoreProps = {
+  query: string;
+};
+
+const StoreContent = ({ texts, ...props }: Texts & StoreProps) => {
   const [isLoading, setIsLoading] = useState(true); // state to load while fetching collections
   const [collections, setCollections] = useState<Collection[]>([]); // state of collections' array
   const [page, setPage] = useState(2);
@@ -60,11 +63,15 @@ const StoreContent = ({ texts }: Texts) => {
 
   // fetching collections
   useEffect(() => {
+    setCollections([]);
+    setPage(2);
     setIsLoading(true);
 
     async function fetchCollections() {
       const res = await axios.get(
-        "http://localhost:8876/api/v1/collections/public",
+        `http://localhost:8876/api/v1/collections/public${
+          props.query ? `?query=${props.query}` : ""
+        }`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -78,7 +85,7 @@ const StoreContent = ({ texts }: Texts) => {
     }
 
     fetchCollections();
-  }, [user.token]);
+  }, [props.query, user.token]);
 
   const getLoading = () => {
     const loadingElement: ReactNode[] = [];
@@ -91,27 +98,29 @@ const StoreContent = ({ texts }: Texts) => {
   };
 
   return (
-    <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-      {collections.length || isLoading ? (
-        <>
-          {...collections.map((collection) => (
-            <CollectionTitle
-              key={collection.id}
-              id={collection.id}
-              title={collection.name}
-              image={collection.posterUrl}
-            />
-          ))}
-          {isLoading ? (
-            getLoading()
-          ) : page - 1 < lastPage ? (
-            <div ref={ref}>Loading...</div>
-          ) : null}
-        </>
-      ) : (
-        <h3 className="text-center text-h4 sm:text-h3">{texts.null}</h3>
-      )}
-    </div>
+    <>
+      <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        {collections.length || isLoading ? (
+          <>
+            {...collections.map((collection) => (
+              <CollectionTitle
+                key={collection.id}
+                id={collection.id}
+                title={collection.name}
+                image={collection.posterUrl}
+              />
+            ))}
+            {isLoading ? (
+              getLoading()
+            ) : page - 1 < lastPage ? (
+              <div ref={ref}>Loading...</div>
+            ) : null}
+          </>
+        ) : (
+          <h3 className="text-center text-h4 sm:text-h3">{texts.null}</h3>
+        )}
+      </div>
+    </>
   );
 };
 

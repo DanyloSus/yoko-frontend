@@ -1,8 +1,6 @@
 "use client";
 
-import { Store } from "@/modules/redux/store";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 
 type LoadingTitleProps = {
   className?: string;

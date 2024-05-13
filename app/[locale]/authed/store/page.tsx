@@ -8,6 +8,7 @@ import Sort from "@/components/sort/Sort";
 import { Link, overkill } from "@/modules/internationalization/navigation";
 import StyledButton from "@/ui/Button";
 import StoreContent from "@/components/collections/Store";
+import Search from "@/components/collections/Search";
 
 // create multilanguage dynamic metadata
 export async function generateMetadata({
@@ -23,7 +24,13 @@ export async function generateMetadata({
   };
 }
 
-const StorePage = () => {
+const StorePage = ({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+  };
+}) => {
   const t = useTranslations("Store"); // get page translation
 
   return (
@@ -34,13 +41,19 @@ const StorePage = () => {
         </Link>
       </div>
       <h1 className="text-h2 sm:text-h1 text-center">{t("heading")}</h1>
-      <Sort
-        texts={overkill(
-          ["texts.sort", "texts.views", "texts.likes", "texts.difficult"],
-          t
-        )}
+      <div className="flex justify-between items-center gap-10">
+        <Search />
+        <Sort
+          texts={overkill(
+            ["texts.sort", "texts.views", "texts.likes", "texts.difficult"],
+            t
+          )}
+        />
+      </div>
+      <StoreContent
+        query={searchParams?.query || ""}
+        texts={{ null: t("texts.null") }}
       />
-      <StoreContent texts={{ null: t("texts.null") }} />
     </div>
   );
 };
