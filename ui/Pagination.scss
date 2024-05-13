@@ -1,0 +1,9 @@
+.MuiPagination-ul {
+  .MuiButtonBase-root,
+  .MuiPaginationItem-ellipsis {
+    @apply dark:text-white;
+  }
+  li:not(:first-child):not(:last-child) .MuiButtonBase-root.Mui-selected {
+    @apply dark:bg-dark-grey;
+  }
+}

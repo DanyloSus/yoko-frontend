@@ -6,7 +6,14 @@ import React, { useEffect, useState } from "react";
 // internal imports
 import Cell from "./Cell";
 import axios from "axios";
-import { Link } from "@/modules/internationalization/navigation";
+import { CircularProgress, Pagination } from "@mui/material";
+import StyledPagination from "@/ui/Pagination";
+import { useSearchParams } from "next/navigation";
+import {
+  Link,
+  usePathname,
+  useRouter,
+} from "@/modules/internationalization/navigation";
 
 export type Collection = {
   id: number;
@@ -16,9 +23,11 @@ export type Collection = {
   text: string;
 };
 
-// type TableProps = {
-// collections: Collection[];
-// };
+type TableProps = {
+  //   words: Word[];
+  query?: string;
+  page?: string;
+};
 
 type Texts = {
   texts: {
@@ -29,43 +38,81 @@ type Texts = {
   };
 };
 
-const CollectionsTable = ({ texts, ...props }: Texts) => {
+const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
   const [collections, setCollections] = useState<Collection[]>([]);
+  const [page, setPage] = useState(props.page ? Number(props.page) : 1);
+  const [countOfPages, setCountOfPages] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchCollections() {
+    async function fetchWords() {
+      setIsLoading(true);
       try {
-        const res = await axios.get("http://localhost:8876/api/v1/collections");
-        setCollections(res.data.data);
-      } catch (error) {
-        console.log(error);
-      }
+        const res = await axios.get(
+          `http://localhost:8876/api/v1/collections?page=${page}${
+            props.query ? `&query=${props.query}` : ""
+          }`
+        );
+
+        setCollections(res.data.data.collections);
+        setCountOfPages(res.data.data.lastPage);
+      } catch (error) {}
     }
-    fetchCollections();
-  }, []);
+
+    fetchWords();
+    setIsLoading(false);
+  }, [page, props.query]);
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const handleSearch = (page: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (page) {
+      params.set("page", page);
+    } else {
+      params.delete("page");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
-    <div className="grid grid-cols-[repeat(5,_minmax(180px,_1fr))] overflow-x-auto">
-      <Cell />
-      <Cell>{texts.headings}</Cell>
-      <Cell>{texts.contents}</Cell>
-      <Cell>{texts.states}</Cell>
-      <Cell>{texts.userId}</Cell>
-      {...collections.map((collection, index) => (
-        <>
-          <Cell>
-            <Link href={`/admin/collections/${collection.id}`}>
-              {collection.id}
-            </Link>
-          </Cell>
-          <Cell>{collection.name}</Cell>
-          <Cell>{collection.translationUk}</Cell>
-          <Cell>{collection.status}</Cell>
-          <Cell>{collection.id ? collection.id : "null"}</Cell>
-        </>
-      ))}
-    </div>
+    <>
+      {isLoading ? (
+        <CircularProgress className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen" />
+      ) : (
+        <div className="grid grid-cols-[repeat(3,_minmax(180px,_1fr))] w-full overflow-x-auto">
+          <Cell />
+          <Cell>{texts.headings}</Cell>
+          <Cell>{texts.contents}</Cell>
+          <Cell>{texts.states}</Cell>
+          <Cell>{texts.userId}</Cell>
+          {...collections.map((collection, index) => (
+            <>
+              <Cell>
+                <Link href={`/admin/collections/${collection.id}`}>
+                  {collection.id}
+                </Link>
+              </Cell>
+              <Cell>{collection.name}</Cell>
+              <Cell>{collection.translationUk}</Cell>
+              <Cell>{collection.status}</Cell>
+              <Cell>{collection.id ? collection.id : "null"}</Cell>
+            </>
+          ))}
+        </div>
+      )}
+      <StyledPagination
+        onChange={(e, value) => {
+          handleSearch(value.toString());
+          setPage(value);
+        }}
+        count={countOfPages}
+        page={page}
+      />
+    </>
   );
 };
 
-export default CollectionsTable;
+export default WordsTable;

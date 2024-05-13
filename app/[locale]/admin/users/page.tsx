@@ -13,7 +13,14 @@ export const metadata: Metadata = {
   title: "Users Page",
 };
 
-const UsersAdminPage = () => {
+const UsersAdminPage = ({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) => {
   const t = useTranslations("Admin"); // get page translation
 
   // // dummy data
@@ -47,6 +54,8 @@ const UsersAdminPage = () => {
         ],
         t
       )}
+      page={searchParams?.page}
+      query={searchParams?.query}
     />
   );
 };

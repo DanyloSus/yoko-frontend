@@ -3,7 +3,14 @@ import { overkill } from "@/modules/internationalization/navigation";
 import { useTranslations } from "next-intl";
 import React from "react";
 
-const RequestPage = () => {
+const RequestPage = ({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) => {
   const t = useTranslations("Admin"); // get page translation
 
   return (
@@ -17,6 +24,8 @@ const RequestPage = () => {
         ],
         t
       )}
+      page={searchParams?.page}
+      query={searchParams?.query}
     />
   );
 };
