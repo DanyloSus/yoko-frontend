@@ -9,16 +9,13 @@ type LoadingTitleProps = {
 };
 
 const LoadingTitle = (props: LoadingTitleProps) => {
-  const isDark = useSelector((state: Store) => state.theme) == "dark";
-
-  const bgColor = isDark ? "#141301" : "#FFFBFC";
-  const accentColor = isDark ? "#B5B2B3" : "#B5B2B3";
-
   return (
     <div
-      className={props.className}
+      className={
+        props.className +
+        " bg-gradient-to-br from-white dark:from-black from-40% via-black dark:via-white via-50% to-white to-60% dark:to-black"
+      }
       style={{
-        background: `linear-gradient(to bottom right, ${bgColor} 40%, ${accentColor} 50%, ${bgColor} 60%)`,
         backgroundSize: "200% 200%",
         backgroundRepeat: "no-repeat",
       }}
