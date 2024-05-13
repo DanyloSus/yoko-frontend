@@ -142,7 +142,7 @@ const Header = ({ texts }: Texts) => {
               ) : (
                 <>
                   <li>
-                    <NavLink link="/ai/dialog">
+                    <NavLink link="/authed/dialog">
                       <StyledButton>AI Talk</StyledButton>
                     </NavLink>
                   </li>

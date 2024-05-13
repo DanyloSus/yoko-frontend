@@ -4,9 +4,10 @@ import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 // internal imports
-import Collections from "@/components/collections/Collections";
+import CollectionContent from "@/components/collections/Collections";
 import Sort from "@/components/sort/Sort";
 import { overkill } from "@/modules/internationalization/navigation";
+import Search from "@/components/collections/Search";
 
 // create multilanguage dynamic metadata
 export async function generateMetadata({
@@ -21,19 +22,31 @@ export async function generateMetadata({
     descriptions: t("collections.description"),
   };
 }
-const CollectionsPage = () => {
+const CollectionsPage = ({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+  };
+}) => {
   const t = useTranslations("Collections"); // get page translation
 
   return (
     <div className="w-full flex flex-col gap-[24px]">
       <h1 className="text-h2 sm:text-h1 text-center">{t("heading")}</h1>
-      <Sort
-        texts={overkill(
-          ["texts.sort", "texts.views", "texts.likes", "texts.difficult"],
-          t
-        )}
+      <div className="flex justify-between items-center gap-10">
+        <Search />
+        <Sort
+          texts={overkill(
+            ["texts.sort", "texts.views", "texts.likes", "texts.difficult"],
+            t
+          )}
+        />
+      </div>
+      <CollectionContent
+        texts={{ null: t("texts.null") }}
+        query={searchParams?.query || ""}
       />
-      <Collections texts={{ null: t("texts.null") }} />
     </div>
   );
 };

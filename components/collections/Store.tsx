@@ -99,7 +99,7 @@ const StoreContent = ({ texts, ...props }: Texts & StoreProps) => {
 
   return (
     <>
-      <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+      <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4 relative">
         {collections.length || isLoading ? (
           <>
             {...collections.map((collection) => (
@@ -117,7 +117,9 @@ const StoreContent = ({ texts, ...props }: Texts & StoreProps) => {
             ) : null}
           </>
         ) : (
-          <h3 className="text-center text-h4 sm:text-h3">{texts.null}</h3>
+          <h3 className="absolute text-h3 left-1/2 -translate-x-1/2 text-center w-full">
+            {texts.null}
+          </h3>
         )}
       </div>
     </>
