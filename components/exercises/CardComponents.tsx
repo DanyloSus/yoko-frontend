@@ -8,6 +8,8 @@ import { AnimatePresence, motion } from "framer-motion";
 // internal imports
 import Card from "./Card";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { Store } from "@/modules/redux/store";
 
 type ComponentProps = {
   //   englishText: string[];
@@ -28,12 +30,15 @@ const CardComponents = ({ texts, ...props }: ComponentProps & Texts) => {
   const [cards, setCards] = useState<ReactNode[]>(); // state of texts' cards
   const [isLoading, setIsLoading] = useState(true);
 
+  const user = useSelector((state: Store) => state.user);
+
   // useEffect hook to update the cards array when the props change
   useEffect(() => {
     setIsLoading(true);
     async function fetchCards() {
       const res = await axios.get(
-        `http://localhost:8876/api/v1/collections/${props.collectionId}/flashCards`
+        `http://54.92.220.133:8876/api/v1/collections/${props.collectionId}/flashCards`,
+        { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
       console.log(res.data.data.length);

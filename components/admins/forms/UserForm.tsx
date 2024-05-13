@@ -31,7 +31,7 @@ const UserForm = ({ params }: { params: { id: string } }) => {
     onSubmit: async (value) => {
       try {
         const res = await axios.patch(
-          `http://localhost:8876/api/v1/users/${params.id}`,
+          `http://54.92.220.133:8876/api/v1/users/${params.id}`,
           value,
           {
             headers: {

@@ -8,6 +8,8 @@ import React, { useEffect, useState, ReactNode } from "react";
 import StyledButton from "@/ui/Button";
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { Store } from "@/modules/redux/store";
 
 type ComponentProps = {
   // ukrainianText: string[];
@@ -66,6 +68,8 @@ const TestComponent = (props: ComponentProps) => {
     );
   }
 
+  const user = useSelector((state: Store) => state.user);
+
   useEffect(() => {
     setIsLoading(true);
 
@@ -73,7 +77,8 @@ const TestComponent = (props: ComponentProps) => {
       try {
         setButtons([]);
         const { data }: { data: QuizResponse } = await axios.get(
-          `http://localhost:8876/api/v1/collections/${props.collectionId}/quiz`
+          `http://54.92.220.133:8876/api/v1/collections/${props.collectionId}/quiz`,
+          { headers: { Authorization: `Bearer ${user.token}` } }
         );
 
         setQuestions(data);

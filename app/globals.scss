@@ -85,15 +85,15 @@ body {
   }
 }
 
+.MuiDivider-root {
+  @apply dark:border-dark-grey border-b-2 border-blue-marguerite-700;
+}
+
 .MuiPaper-root {
   @apply dark:bg-black dark:text-white dark:border-2 border-dark-grey shadow-md rounded-[8px];
 
   .MuiList-root {
     @apply before:text-grey;
-
-    .MuiDivider-root {
-      @apply dark:border-dark-grey;
-    }
 
     .MuiButtonBase-root {
       @apply items-center hover:bg-light-grey dark:hover:bg-dark-grey;

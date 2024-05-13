@@ -115,23 +115,35 @@ const Header = ({ texts }: Texts) => {
               )}
             </div>
           </div>
+        ) : signed ? (
+          <div className="sm:hidden">
+            {isModalOpen ? (
+              <>
+                <CloseOutlinedIcon
+                  sx={{
+                    width: "40px",
+                    height: "40px",
+                  }}
+                  onClick={() => setIsModalOpen(false)}
+                />
+              </>
+            ) : (
+              <>
+                <MenuOutlinedIcon
+                  sx={{
+                    width: "40px",
+                    height: "40px",
+                  }}
+                  onClick={() => setIsModalOpen(true)}
+                />
+              </>
+            )}
+            <AnimatePresence>
+              {isModalOpen ? <MobileMenu /> : null}
+            </AnimatePresence>
+          </div>
         ) : null}
         <ul className="flex gap-[16px] items-center max-sm:hidden">
-          <li>
-            <StyledButton onClick={() => dispatch(changeTheme("system"))}>
-              System
-            </StyledButton>
-          </li>
-          <li>
-            <StyledButton onClick={() => dispatch(changeTheme("light"))}>
-              Light
-            </StyledButton>
-          </li>
-          <li>
-            <StyledButton onClick={() => dispatch(changeTheme("dark"))}>
-              Dark
-            </StyledButton>
-          </li>
           {signed ? (
             <>
               {isAdminPage ? (
@@ -224,11 +236,15 @@ const Header = ({ texts }: Texts) => {
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 >
                   <MenuItem onClick={handleClose}>
-                    <Link href="/authed/user">
+                    <Link
+                      href={
+                        user.isAdmin ? "/admin/collections" : "/authed/user"
+                      }
+                    >
                       <ListItemIcon>
                         <AccountCircleOutlinedIcon />
                       </ListItemIcon>
-                      {user.name}
+                      {user.isAdmin ? "Admin" : user.name}
                     </Link>
                   </MenuItem>
                   <Divider />
@@ -272,14 +288,16 @@ const Header = ({ texts }: Texts) => {
                     />
                   </NestedMenuItem>
                   <Divider />
-                  <MenuItem>
-                    <Link href="/authed/user/settings">
-                      <ListItemIcon>
-                        <Settings fontSize="small" />
-                      </ListItemIcon>
-                      Settings
-                    </Link>
-                  </MenuItem>
+                  {user.isAdmin ? null : (
+                    <MenuItem>
+                      <Link href="/authed/user/settings">
+                        <ListItemIcon>
+                          <Settings fontSize="small" />
+                        </ListItemIcon>
+                        Settings
+                      </Link>
+                    </MenuItem>
+                  )}
                   <MenuItem
                     onClick={async () => {
                       await axios.post("/api/logout", {

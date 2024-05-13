@@ -38,7 +38,9 @@ const StoreContent = ({ texts, ...props }: Texts & StoreProps) => {
 
   const loadMoreCollections = async () => {
     const res = await axios.get(
-      `http://localhost:8876/api/v1/collections/public?page=${page}`,
+      `http://54.92.220.133:8876/api/v1/collections/public?page=${page}${
+        props.query.trim().length ? `&query=${props.query}` : ""
+      }`,
       {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -69,8 +71,8 @@ const StoreContent = ({ texts, ...props }: Texts & StoreProps) => {
 
     async function fetchCollections() {
       const res = await axios.get(
-        `http://localhost:8876/api/v1/collections/public${
-          props.query ? `?query=${props.query}` : ""
+        `http://54.92.220.133:8876/api/v1/collections/public${
+          props.query.trim().length ? `?query=${props.query}` : ""
         }`,
         {
           headers: {

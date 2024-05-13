@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { CircularProgress } from "@mui/material";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
 // internal imports
@@ -33,12 +34,14 @@ type Texts = {
 };
 
 type Collection = {
+  id: number;
   name: string;
   bannerUrl: string;
   likes: number;
   views: number;
   wordsCount: number;
   wordsLearned: number;
+  isLiked: number;
   comments: {
     id: number;
     content: string;
@@ -73,7 +76,7 @@ const CollectionContent = ({
     setIsLoading(true);
     try {
       const res = await axios.get(
-        `http://localhost:8876/api/v1/collections/${props.collectionId}`,
+        `http://54.92.220.133:8876/api/v1/collections/${props.collectionId}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
@@ -93,7 +96,7 @@ const CollectionContent = ({
   const addCollection = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:8876/api/v1/users/startCollection/${props.collectionId}`,
+        `http://54.92.220.133:8876/api/v1/users/startCollection/${props.collectionId}`,
         undefined,
         {
           headers: {
@@ -104,6 +107,32 @@ const CollectionContent = ({
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const likeCollection = async () => {
+    try {
+      await axios.patch(
+        `http://54.92.220.133:8876/api/v1/users/like/${collection!.id}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    setCollection((col) =>
+      col
+        ? {
+            ...col,
+            likes: Boolean(col.isLiked) ? col.likes - 1 : col.likes + 1,
+            isLiked: Number(!Boolean(col.isLiked)),
+          }
+        : undefined
+    );
   };
 
   return isLoading || !collection ? (
@@ -139,7 +168,15 @@ const CollectionContent = ({
             <p className="text-label">
               {collection.likes} {texts.likes}
             </p>
-            <ThumbUpAltOutlinedIcon sx={{ width: "36px", height: "36px" }} />
+            <div onClick={likeCollection}>
+              {collection.isLiked ? (
+                <ThumbUpAltIcon sx={{ width: "36px", height: "36px" }} />
+              ) : (
+                <ThumbUpAltOutlinedIcon
+                  sx={{ width: "36px", height: "36px" }}
+                />
+              )}
+            </div>
           </div>
           <div className="flex items-center gap-[4px]">
             <p className="text-label">

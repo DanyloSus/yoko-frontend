@@ -30,6 +30,7 @@ export default function LocaleLayout({
         className={`${dmSans.variable} ${kyiv.variable}`}
         suppressHydrationWarning={true}
       >
+        <div id="modal"></div>
         {children}
       </body>
     </html>

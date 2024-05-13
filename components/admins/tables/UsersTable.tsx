@@ -15,6 +15,9 @@ import {
 } from "@/modules/internationalization/navigation";
 import { UserInfo } from "@/modules/redux/user/userSlice";
 import StyledButton from "@/ui/Button";
+import { useSelector } from "react-redux";
+import { Store } from "@/modules/redux/store";
+import Search from "@/components/collections/Search";
 
 export type Word = {
   id: number;
@@ -44,14 +47,17 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
   const [countOfPages, setCountOfPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
+  const user = useSelector((state: Store) => state.user);
+
   useEffect(() => {
-    async function fetchusers() {
+    async function fetchUsers() {
       setIsLoading(true);
       try {
         const res = await axios.get(
-          `http://localhost:8876/api/v1/users?page=${page}${
+          `http://54.92.220.133:8876/api/v1/users?page=${page}${
             props.query ? `&query=${props.query}` : ""
-          }`
+          }`,
+          { headers: { Authorization: `Bearer ${user.token}` } }
         );
 
         setUsers(res.data.data.users);
@@ -59,9 +65,9 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
       } catch (error) {}
     }
 
-    fetchusers();
+    fetchUsers();
     setIsLoading(false);
-  }, [page, props.query]);
+  }, [page, props.query, user.token]);
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -80,10 +86,17 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
   const handleBlock = async (userId: number) => {
     try {
       await axios.patch(
-        `http://localhost:8876/api/v1/users/${userId}/blockOrUnblock`
+        `http://54.92.220.133:8876/api/v1/users/${userId}/blockOrUnblock`,
+        null,
+        { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
-      const res = await axios.get("http://localhost:8876/api/v1/users");
+      const res = await axios.get(
+        `http://54.92.220.133:8876/api/v1/users?page=${page}${
+          props.query ? `&query=${props.query}` : ""
+        }`,
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
 
       setUsers(res.data.data.users);
     } catch (error) {}
@@ -91,6 +104,7 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
 
   return (
     <>
+      <Search />
       {isLoading ? (
         <CircularProgress className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen" />
       ) : (

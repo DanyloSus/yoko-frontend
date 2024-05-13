@@ -42,7 +42,7 @@ const DeleteDialog = ({ texts, ...props }: DialogProps & Texts) => {
   const handleDelete = async () => {
     try {
       await axios.patch(
-        `http://localhost:8876/api/v1/users/${user.id}/blockOrUnblock`
+        `http://54.92.220.133:8876/api/v1/users/${user.id}/blockOrUnblock`
       );
 
       await axios.post("/api/logout", {

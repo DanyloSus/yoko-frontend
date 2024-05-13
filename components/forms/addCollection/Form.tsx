@@ -77,9 +77,10 @@ const CreateStore = ({ texts, errors }: Texts) => {
 
       try {
         // post collection
-        await axios.post("http://localhost:8876/api/v1/collections", data, {
+        await axios.post("http://54.92.220.133:8876/api/v1/collections", data, {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${user.token}`,
           },
         });
         // router.push(`/authed/theanks?is=${isPrivate ? "private" : "pending"}`);

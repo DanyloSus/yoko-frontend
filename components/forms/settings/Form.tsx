@@ -162,7 +162,7 @@ const SettingsForm = ({ texts, errors }: Texts) => {
       try {
         // request to patch our data
         const res = await axios.patch(
-          `http://localhost:8876/api/v1/users/${user.id}`,
+          `http://54.92.220.133:8876/api/v1/users/${user.id}`,
           data,
           {
             headers: {

@@ -30,7 +30,7 @@ const WordForm = ({ params }: WordFormProps) => {
   useEffect(() => {
     async function fetchWord() {
       const res = await axios.get(
-        `http://localhost:8876/api/v1/words/${params.id}`,
+        `http://54.92.220.133:8876/api/v1/words/${params.id}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -69,8 +69,9 @@ const WordForm = ({ params }: WordFormProps) => {
     // on submit function
     onSubmit: async (value) => {
       await axios.patch(
-        `http://localhost:8876/api/v1/words/${word!.id}`,
-        value
+        `http://54.92.220.133:8876/api/v1/words/${word!.id}`,
+        value,
+        { headers: { Authorization: `Bearer ${user.token}` } }
       );
       router.push("/admin/words");
     },

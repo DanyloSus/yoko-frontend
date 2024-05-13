@@ -14,6 +14,9 @@ import {
   usePathname,
   useRouter,
 } from "@/modules/internationalization/navigation";
+import { Store } from "@/modules/redux/store";
+import { useSelector } from "react-redux";
+import Search from "@/components/collections/Search";
 
 export type Word = {
   id: number;
@@ -40,14 +43,17 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
   const [countOfPages, setCountOfPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
+  const user = useSelector((state: Store) => state.user);
+
   useEffect(() => {
     async function fetchWords() {
       setIsLoading(true);
       try {
         const res = await axios.get(
-          `http://localhost:8876/api/v1/words?page=${page}${
+          `http://54.92.220.133:8876/api/v1/words?page=${page}${
             props.query ? `&query=${props.query}` : ""
-          }`
+          }`,
+          { headers: { Authorization: `Bearer ${user.token}` } }
         );
 
         setWords(res.data.data.words);
@@ -75,6 +81,7 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
 
   return (
     <>
+      <Search />
       {isLoading ? (
         <CircularProgress className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen" />
       ) : (

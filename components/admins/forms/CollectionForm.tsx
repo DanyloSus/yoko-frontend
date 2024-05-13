@@ -37,7 +37,7 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
   useEffect(() => {
     async function fetchCollection() {
       const res = await axios.get(
-        `http://localhost:8876/api/v1/collections/${params.id}`,
+        `http://54.92.220.133:8876/api/v1/collections/${params.id}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -84,8 +84,9 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
         status: toStatus,
       };
       await axios.patch(
-        `http://localhost:8876/api/v1/collections/${collection!.id}`,
-        data
+        `http://54.92.220.133:8876/api/v1/collections/${collection!.id}`,
+        data,
+        { headers: { Authorization: `Bearer ${user.token}` } }
       );
       router.push("/admin/collections");
     },
@@ -124,11 +125,16 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
             className="w-full"
             label="Ukrainian text"
             type="text"
-            name="text"
-            error={Boolean(formik.errors.text) || formik.errors.text === ""}
-            helperText={formik.errors.text ? formik.errors.text : ""}
+            name="translationUk"
+            error={
+              Boolean(formik.errors.translationUk) ||
+              formik.errors.translationUk === ""
+            }
+            helperText={
+              formik.errors.translationUk ? formik.errors.translationUk : ""
+            }
             onChange={formik.handleChange}
-            value={formik.values.text}
+            value={formik.values.translationUk}
           />
           <div className="flex justify-between items-center w-full">
             <StyledButton
@@ -164,7 +170,6 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
                   setToStatus("private");
                   formik.handleSubmit();
                 }
-                router.push("/admin/collections");
               }}
               color="error"
             >

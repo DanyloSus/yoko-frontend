@@ -21,7 +21,7 @@ const TranslationBubble = ({ bubbleText, ...props }: BubbleProps & Texts) => {
       placement="top"
       enterTouchDelay={0}
       title={
-        <div className="flex flex-col items-center p-[4px] font-dmSans">
+        <div className="flex flex-col items-center p-[4px] font-dmSans text-center">
           <div className="flex items-center gap-[10px]">
             <p className="text-p">{props.translationUk}</p>
           </div>

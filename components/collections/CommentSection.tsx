@@ -39,7 +39,7 @@ const CommentSection = (props: SectionProps) => {
     onSubmit: async (value) => {
       try {
         const res = await axios.post(
-          `http://localhost:8876/api/v1/collections/${props.collectionId}/comment`,
+          `http://54.92.220.133:8876/api/v1/collections/${props.collectionId}/comment`,
           {
             content: value.comment,
           },

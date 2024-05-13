@@ -115,7 +115,7 @@ const RegisterForm = ({ texts, errors }: Texts) => {
       try {
         // send post request to create user
         const res = await axios.post(
-          "http://localhost:8876/api/v1/auth/register",
+          "http://54.92.220.133:8876/api/v1/auth/register",
           value
         );
 

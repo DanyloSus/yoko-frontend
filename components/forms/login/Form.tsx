@@ -89,7 +89,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
       try {
         // set post method to login user
         const res = await axios.post(
-          "http://localhost:8876/api/v1/auth/admin-login",
+          "http://54.92.220.133:8876/api/v1/auth/admin-login",
           value
         );
 
@@ -126,7 +126,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
           try {
             // admin login
             const res = await axios.post(
-              "http://localhost:8876/api/v1/auth/login",
+              "http://54.92.220.133:8876/api/v1/auth/login",
               value
             );
 

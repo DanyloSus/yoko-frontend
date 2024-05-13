@@ -13,7 +13,6 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <main className="dark:bg-black dark:text-white min-h-screen">
-      <div id="modal"></div>
       <div className="max-vsm:hidden">
         <TranslatedHeader />
         <div className="flex max-w-screen overflow-hidden w-full">

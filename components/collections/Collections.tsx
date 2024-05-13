@@ -38,7 +38,9 @@ const CollectionContent = ({ texts, ...props }: Texts & StoreProps) => {
 
   const loadMoreCollections = async () => {
     const res = await axios.get(
-      `http://localhost:8876/api/v1/collections?page=${page}`,
+      `http://54.92.220.133:8876/api/v1/users/collections?page=${page}${
+        props.query ? `&query=${props.query}` : ""
+      }`,
       {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -69,7 +71,7 @@ const CollectionContent = ({ texts, ...props }: Texts & StoreProps) => {
 
     async function fetchCollections() {
       const res = await axios.get(
-        `http://localhost:8876/api/v1/collections${
+        `http://54.92.220.133:8876/api/v1/users/collections${
           props.query ? `?query=${props.query}` : ""
         }`,
         {
@@ -78,6 +80,8 @@ const CollectionContent = ({ texts, ...props }: Texts & StoreProps) => {
           },
         }
       );
+
+      console.log(res.data.data);
 
       setCollections(res.data.data.data);
       setIsLoading(false);
