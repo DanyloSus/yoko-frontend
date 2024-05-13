@@ -2,7 +2,7 @@
 "use client";
 
 // external imports
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import { useInView } from "react-intersection-observer";
@@ -80,25 +80,38 @@ const StoreContent = ({ texts }: Texts) => {
     fetchCollections();
   }, [user.token]);
 
-  return isLoading ? (
-    <CircularProgress color="primary" className="mx-auto" />
-  ) : collections.length > 0 ? (
-    <>
-      <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-        {...collections.map((collection) => (
-          <CollectionTitle
-            key={collection.id}
-            id={collection.id}
-            title={collection.name}
-            image={collection.posterUrl}
-          />
-        ))}
-      </div>
-      {page - 1 < lastPage ? <div ref={ref}>Loading...</div> : null}
-    </>
-  ) : (
-    // if collections' length is 0 then show text
-    <h3 className="text-center text-h4 sm:text-h3">{texts.null}</h3>
+  const getLoading = () => {
+    const loadingElement: ReactNode[] = [];
+
+    for (let i = 0; i < 10; i++) {
+      loadingElement.push(<CollectionTitle key={i} isLoading />);
+    }
+
+    return <>{loadingElement}</>;
+  };
+
+  return (
+    <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+      {collections.length || isLoading ? (
+        <>
+          {...collections.map((collection) => (
+            <CollectionTitle
+              key={collection.id}
+              id={collection.id}
+              title={collection.name}
+              image={collection.posterUrl}
+            />
+          ))}
+          {isLoading ? (
+            getLoading()
+          ) : page - 1 < lastPage ? (
+            <div ref={ref}>Loading...</div>
+          ) : null}
+        </>
+      ) : (
+        <h3 className="text-center text-h4 sm:text-h3">{texts.null}</h3>
+      )}
+    </div>
   );
 };
 

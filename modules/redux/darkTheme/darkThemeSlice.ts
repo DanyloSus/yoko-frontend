@@ -41,11 +41,28 @@ const darkThemeSlice = createSlice({
         }
       }
     },
+    loadTheme() {
+      const defaultTheme = localStorage.getItem("theme");
+
+      if (
+        defaultTheme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.body.classList.add("dark");
+      } else {
+        console.log(window.matchMedia("(prefers-color-scheme: dark)").matches);
+        if (document.body.classList.contains("dark")) {
+          document.body.classList.remove("dark");
+        }
+      }
+      return defaultTheme ? defaultTheme : "light";
+    },
   },
 });
 
 //actions
-export const { changeTheme } = darkThemeSlice.actions;
+export const { changeTheme, loadTheme } = darkThemeSlice.actions;
 
 //reducer
 export default darkThemeSlice.reducer;
