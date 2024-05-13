@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
+import ImageModal from "./ImageModal";
 
 type CollectionFormProps = {
   params: { id: string };
@@ -28,6 +29,8 @@ type Collection = {
 const CollectionForm = ({ params }: CollectionFormProps) => {
   const [collection, setCollection] = useState<Collection>();
   const [toStatus, setToStatus] = useState("");
+  const [modal, setModal] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
 
   const user = useSelector((state: Store) => state.user);
 
@@ -91,7 +94,7 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
   return !collection ? (
     <></>
   ) : (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
+    <div className="w-full flex justify-center items-center">
       <form>
         <FormWrapper title="Update Collection" removeBorder isDark>
           <StyledTextField
@@ -127,6 +130,32 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
             onChange={formik.handleChange}
             value={formik.values.text}
           />
+          <div className="flex justify-between items-center w-full">
+            <StyledButton
+              variant="contained"
+              onClick={() => {
+                setImageUrl(collection.bannerUrl);
+                setModal(true);
+              }}
+            >
+              Banner
+            </StyledButton>
+            <StyledButton
+              variant="contained"
+              onClick={() => {
+                setImageUrl(collection.posterUrl);
+                setModal(true);
+              }}
+            >
+              Poster
+            </StyledButton>
+            <div />
+            <ImageModal
+              url={imageUrl}
+              handleClose={() => setModal(false)}
+              open={modal}
+            />
+          </div>
           <div className="flex justify-between w-full">
             <StyledButton
               variant="contained"
@@ -139,18 +168,18 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
               }}
               color="error"
             >
-              {status === "pending" ? "Discard" : "Delete"}
+              {collection.status === "pending" ? "Discard" : "Delete"}
             </StyledButton>
             <StyledButton
               variant="contained"
               onClick={() => {
-                if (status === "pending") {
+                if (collection.status === "pending") {
                   setToStatus("public");
                 }
                 formik.handleSubmit();
               }}
             >
-              {status === "pending" ? "Public" : "Confirm"}
+              {collection.status === "pending" ? "Public" : "Confirm"}
             </StyledButton>
           </div>
         </FormWrapper>

@@ -13,13 +13,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images-cdn.ubuy.co.in",
-        port: "",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "m.media-amazon.com",
+        hostname: "**",
         port: "",
         pathname: "**",
       },

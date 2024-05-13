@@ -7,7 +7,6 @@ import AdminMenu from "@/components/admins/Menu";
 import TranslatedHeader from "@/components/header/TranslatedHeader";
 import { useTranslations } from "next-intl";
 import { Link } from "@/modules/internationalization/navigation";
-import Search from "@/components/collections/Search";
 
 const AdminLayout = ({ children }: { children: ReactNode }) => {
   const t = useTranslations("Admin");
@@ -19,8 +18,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
         <TranslatedHeader />
         <div className="flex max-w-screen overflow-hidden w-full">
           <AdminMenu />
-          <div className="pt-[80px] w-full relative overflow-x-auto h-screen  md:pl-[338px] lg:pl-[410px] flex-col flex gap-5">
-            <Search />
+          <div className="pt-[80px] w-full relative overflow-x-auto h-screen  md:ml-[338px] lg:ml-[410px] flex-col flex gap-5">
             {children}
           </div>
         </div>

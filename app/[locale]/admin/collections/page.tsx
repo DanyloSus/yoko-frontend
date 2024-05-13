@@ -8,7 +8,14 @@ import CollectionsTable, {
 } from "@/components/admins/tables/CollectionsTable";
 import { overkill } from "@/modules/internationalization/navigation";
 
-const UsersAdminPage = () => {
+const UsersAdminPage = ({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) => {
   const t = useTranslations("Admin"); // get page translation
 
   // // dummy data
@@ -40,6 +47,8 @@ const UsersAdminPage = () => {
         ],
         t
       )}
+      page={searchParams?.page}
+      query={searchParams?.query}
     />
   );
 };

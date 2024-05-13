@@ -54,7 +54,7 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
           }`
         );
 
-        setCollections(res.data.data.collections);
+        setCollections(res.data.data.data);
         setCountOfPages(res.data.data.lastPage);
       } catch (error) {}
     }
@@ -82,7 +82,7 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
       {isLoading ? (
         <CircularProgress className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen" />
       ) : (
-        <div className="grid grid-cols-[repeat(3,_minmax(180px,_1fr))] w-full overflow-x-auto">
+        <div className="grid grid-cols-[repeat(5,_minmax(180px,_1fr))] w-full overflow-x-auto">
           <Cell />
           <Cell>{texts.headings}</Cell>
           <Cell>{texts.contents}</Cell>

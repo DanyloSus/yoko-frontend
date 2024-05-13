@@ -10,6 +10,7 @@ import { CircularProgress, Pagination } from "@mui/material";
 import StyledPagination from "@/ui/Pagination";
 import { useSearchParams } from "next/navigation";
 import {
+  Link,
   usePathname,
   useRouter,
 } from "@/modules/internationalization/navigation";
@@ -83,7 +84,9 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
           <Cell>{texts.uk}</Cell>
           {...words.map((word, index) => (
             <>
-              <Cell>{word.id}</Cell>
+              <Cell>
+                <Link href={`/admin/words/${word.id}`}>{word.id}</Link>
+              </Cell>
               <Cell>{word.word}</Cell>
               <Cell>{word.translationUk}</Cell>
             </>
