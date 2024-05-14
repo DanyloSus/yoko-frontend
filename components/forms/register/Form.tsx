@@ -56,7 +56,7 @@ const RegisterForm = ({ texts, errors }: Texts) => {
 
   // getting function to check is user authed and if it is true then redirect to another page
   const { checkUser } = useAuthedReplace({
-    page: "/authed/collections",
+    page: user.isAdmin ? "/admin/collections" : "/authed/collections",
     setIsLoading: (val: boolean) => setIsLoading(val),
     user: user,
     replacePageIfUserAuthed: true,
@@ -66,7 +66,7 @@ const RegisterForm = ({ texts, errors }: Texts) => {
   useEffect(() => {
     checkUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.token]);
+  }, []);
 
   // formik for better form control
   const formik = useFormik({
@@ -115,7 +115,7 @@ const RegisterForm = ({ texts, errors }: Texts) => {
       try {
         // send post request to create user
         const res = await axios.post(
-          "http://54.92.220.133:8876/api/v1/auth/register",
+          "http://18.212.227.5:8876/api/v1/auth/register",
           value
         );
 

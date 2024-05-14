@@ -34,7 +34,7 @@ const DialogContent = (props: Props) => {
     async function fetchFirstQuestion() {
       try {
         let res = await axios.get(
-          `http://54.92.220.133:8876/api/v1/collections/${props.params.id}/text`,
+          `http://18.212.227.5:8876/api/v1/collections/${props.params.id}/text`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,

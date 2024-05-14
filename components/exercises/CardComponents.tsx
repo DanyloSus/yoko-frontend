@@ -10,6 +10,8 @@ import Card from "./Card";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
+import StyledLinearProgress from "@/ui/LinearProgress";
+import ConfettiExplosion from "react-confetti-explosion";
 
 type ComponentProps = {
   //   englishText: string[];
@@ -29,7 +31,9 @@ const CardComponents = ({ texts, ...props }: ComponentProps & Texts) => {
   const [step, setStep] = useState(0); // step of array
   const [cards, setCards] = useState<ReactNode[]>(); // state of texts' cards
   const [isLoading, setIsLoading] = useState(true);
+  const [completed, setCompleted] = useState(false);
 
+  const [isExploding, setIsExploding] = React.useState(false);
   const user = useSelector((state: Store) => state.user);
 
   // useEffect hook to update the cards array when the props change
@@ -37,7 +41,7 @@ const CardComponents = ({ texts, ...props }: ComponentProps & Texts) => {
     setIsLoading(true);
     async function fetchCards() {
       const res = await axios.get(
-        `http://54.92.220.133:8876/api/v1/collections/${props.collectionId}/flashCards`,
+        `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/flashCards`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
@@ -89,20 +93,38 @@ const CardComponents = ({ texts, ...props }: ComponentProps & Texts) => {
 
   // function to handle moving to the next step
   function nextStep(length: number, index: number) {
-    if (index === length - 1) setStep(0);
-    else setStep((prevStep) => prevStep + 1);
+    if (index === length - 1) {
+      setStep(0);
+      setIsExploding(true);
+      setCompleted(true);
+    } else {
+      setStep((prevStep) => prevStep + 1);
+      setIsExploding(false);
+    }
   }
 
   function backStep(length: number, index: number) {
-    if (index === 0) setStep(length - 1);
-    else setStep((prevStep) => prevStep - 1);
+    if (index === 0 && completed) setStep(length - 1);
+    else if (index !== 0) setStep((prevStep) => prevStep - 1);
   }
 
   // AnimatePresence to enable exit animations
   return cards && !isLoading ? (
-    <div className="absolute top-0 w-screen z-10 left-0 h-screen flex items-center justify-center px-phone md:px-tablet lg:px-pc">
-      <AnimatePresence>{cards[step]}</AnimatePresence>
-    </div>
+    <>
+      <StyledLinearProgress
+        value={
+          completed ? 100 : Number(((100 * step) / cards.length).toFixed(2))
+        }
+      />
+      <div className="absolute top-0 w-screen z-10 left-0 h-screen flex items-center justify-center px-phone md:px-tablet lg:px-pc">
+        <AnimatePresence>{cards[step]}</AnimatePresence>
+      </div>
+      {isExploding && (
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <ConfettiExplosion />
+        </div>
+      )}
+    </>
   ) : null;
 };
 

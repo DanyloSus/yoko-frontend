@@ -77,13 +77,13 @@ const CreateStore = ({ texts, errors }: Texts) => {
 
       try {
         // post collection
-        await axios.post("http://54.92.220.133:8876/api/v1/collections", data, {
+        await axios.post("http://18.212.227.5:8876/api/v1/collections", data, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user.token}`,
           },
         });
-        // router.push(`/authed/theanks?is=${isPrivate ? "private" : "pending"}`);
+        router.push(`/authed/thanks?is=${isPrivate ? "private" : "pending"}`);
       } catch (error) {
         console.log(error);
       } finally {
@@ -134,15 +134,20 @@ const CreateStore = ({ texts, errors }: Texts) => {
           onChange={(e) => {
             formik.setFieldValue("poster", e.currentTarget.files![0]);
           }}
+          disabled={isLoading}
         />
         <StyledButton
           onClick={() => posterRef.current!.click()}
           variant={formik.values.poster ? "contained" : "text"}
           color={formik.errors.poster ? "error" : "secondary"}
+          disabled={isLoading}
         >
           Add Poster
         </StyledButton>
         <p className="text-label opacity-50">for preview*</p>
+        {formik.errors.poster ? (
+          <p className="text-label text-error">Poster is required</p>
+        ) : null}
       </div>
       <div className="flex flex-col items-start">
         <input
@@ -153,15 +158,20 @@ const CreateStore = ({ texts, errors }: Texts) => {
           onChange={(e) => {
             formik.setFieldValue("banner", e.currentTarget.files![0]);
           }}
+          disabled={isLoading}
         />
         <StyledButton
           onClick={() => bannerRef.current!.click()}
           color={formik.errors.banner ? "error" : "secondary"}
           variant={formik.values.banner ? "contained" : "text"}
+          disabled={isLoading}
         >
           Add Banner
         </StyledButton>
         <p className="text-label opacity-50">for big image*</p>
+        {formik.errors.banner ? (
+          <p className="text-label text-error">Banner is required</p>
+        ) : null}
       </div>
       <div className="flex flex-col items-start">
         <p className="text-label">Pick the color:</p>
@@ -175,7 +185,9 @@ const CreateStore = ({ texts, errors }: Texts) => {
                 border:
                   formik.values.color === color ? "2px solid #4D47A5" : "",
               }}
-              onClick={() => formik.setFieldValue("color", color)}
+              onClick={() =>
+                !isLoading ? formik.setFieldValue("color", color) : null
+              }
             />
           ))}
         </div>

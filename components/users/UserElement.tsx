@@ -23,8 +23,8 @@ const UserElement = ({ user }: { user: UserInfo }) => {
             width: "106.67px",
             height: "106.67px",
           }}
-          color="primary"
           suppressHydrationWarning={true}
+          className="dark:text-blue-marguerite-500 text-black"
         />
       </div>
       <h3 className="text-h3 text-center" suppressHydrationWarning={true}>

@@ -6,6 +6,9 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
 import LinearProgress from "@mui/material/LinearProgress";
+import StyledLinearProgress from "@/ui/LinearProgress";
+import StyledButton from "@/ui/Button";
+import ConfettiExplosion from "react-confetti-explosion";
 
 type Props = {
   collectionId: string;
@@ -25,11 +28,13 @@ const TextContent = (props: Props) => {
 
   const user = useSelector((state: Store) => state.user);
 
+  const [isExploding, setIsExploding] = React.useState(false);
+
   useEffect(() => {
     async function fetchTexts() {
       try {
         const res = await axios.get(
-          `http://54.92.220.133:8876/api/v1/collections/${props.collectionId}/text`,
+          `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/text`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,
@@ -52,34 +57,64 @@ const TextContent = (props: Props) => {
   }, []);
 
   return (
-    <div className="text-center flex flex-col gap-[24px] relative">
-      <LinearProgress variant="determinate" value={step ? 50 : 0} />
-      {step ? (
-        <p>
-          {...text.map((word, index) => {
-            const wordForBubble = words
-              .filter((object) => word.toLowerCase().includes(object.word))
-              .map(({ translationUk }, index) => ({ translationUk, index }))[0];
+    <div className="text-center flex flex-col items-center gap-[24px] relative">
+      {text ? (
+        <>
+          <StyledLinearProgress
+            variant="determinate"
+            value={step ? (step > 1 ? 100 : 50) : 0}
+          />
+          {step ? (
+            <p>
+              {...text.map((word, index) => {
+                const wordForBubble = words
+                  .filter((object) => word.toLowerCase().includes(object.word))
+                  .map(({ translationUk }, index) => ({
+                    translationUk,
+                    index,
+                  }))[0];
 
-            if (wordForBubble) {
-              return (
-                <TranslationBubble
-                  key={index}
-                  bubbleText={""}
-                  text={`${word} `}
-                  translationUk={wordForBubble.translationUk}
-                  // englishText={["I", "love", "learning", "new", "languages."]} // dummy data
-                  // ukrainianText={["Я", "люблю", "вивчати", "нові", "мови."]} // dummy data
-                />
-              );
-            }
-            return `${word} `;
-          })}
-        </p>
-      ) : (
-        <p>{translation}</p>
-      )}
-      <button onClick={() => setStep(1)}>Next</button>
+                if (wordForBubble) {
+                  return (
+                    <TranslationBubble
+                      key={index}
+                      bubbleText={""}
+                      text={`${word} `}
+                      translationUk={wordForBubble.translationUk}
+                      // englishText={["I", "love", "learning", "new", "languages."]} // dummy data
+                      // ukrainianText={["Я", "люблю", "вивчати", "нові", "мови."]} // dummy data
+                    />
+                  );
+                }
+                return `${word} `;
+              })}
+            </p>
+          ) : (
+            <p>{translation}</p>
+          )}
+          {step < 1 ? (
+            <StyledButton onClick={() => setStep(1)} variant="contained">
+              Next
+            </StyledButton>
+          ) : (
+            <StyledButton
+              onClick={() => {
+                setStep(2);
+                setIsExploding(!isExploding);
+              }}
+              variant="contained"
+              className="relative"
+            >
+              Finish
+              {isExploding && (
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <ConfettiExplosion />
+                </div>
+              )}
+            </StyledButton>
+          )}
+        </>
+      ) : null}
     </div>
   );
 };

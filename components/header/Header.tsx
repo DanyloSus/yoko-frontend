@@ -3,12 +3,10 @@
 
 // external imports
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { useSelector } from "react-redux";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import Divider from "@mui/material/Divider";
-import { IconMenuItem, NestedMenuItem } from "mui-nested-menu";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 // internal imports
 import NavLink from "../NavLink";
@@ -22,12 +20,8 @@ import { Store } from "@/modules/redux/store";
 import useUserAuthed from "@/modules/auth/hooks/useUserAuthed";
 import { AnimatePresence } from "framer-motion";
 import MobileMenu from "../admins/MobileMenu";
-import { ListItemIcon, Menu, MenuItem, Switch } from "@mui/material";
-import { changeTheme } from "@/modules/redux/darkTheme/darkThemeSlice";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
-import axios from "axios";
-import { logout } from "@/modules/redux/user/userSlice";
+import useScrollBlock from "@/modules/hooks/useScrollBlock";
+import UserMenu from "./UserMenu";
 
 type Texts = {
   texts: {
@@ -40,18 +34,27 @@ type Texts = {
   };
 };
 
-const Header = ({ texts }: Texts) => {
+const Header = ({ texts, locale }: Texts & { locale: string }) => {
   // state for checking is user authed
   const [signed, setSigned] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [blockScroll, allowScroll] = useScrollBlock();
+
+  useEffect(() => {
+    if (isModalOpen) {
+      blockScroll();
+    } else {
+      allowScroll();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isModalOpen]);
 
   // const for checking is it an admin page
   const isAdminPage = usePathname().split("/")[1] === "admin";
 
   // get current user's values
   const user = useSelector((state: Store) => state.user);
-
-  const dispatch = useDispatch();
 
   // for debugging changes of signed state
   // useEffect(() => {
@@ -66,12 +69,11 @@ const Header = ({ texts }: Texts) => {
 
   // call check function on start and when user is updating
   useEffect(() => {
+    console.log(user);
+
     checkUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.token]);
-
-  // code for changing language
-  const pathname = usePathname();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -89,120 +91,44 @@ const Header = ({ texts }: Texts) => {
       <h3 className="text-h3 whitespace-nowrap">
         {isAdminPage ? texts.logoAdmin : texts.logo}
       </h3>
-      <nav>
-        {isAdminPage ? (
-          <div className="max-vsm:hidden sm:hidden">
-            <AnimatePresence>
-              {isModalOpen ? <MobileMenu /> : null}
-            </AnimatePresence>
-            <div className="md:hidden cursor-pointer">
-              {isModalOpen ? (
-                <CloseOutlinedIcon
-                  sx={{
-                    width: "40px",
-                    height: "40px",
-                  }}
-                  onClick={() => setIsModalOpen(false)}
-                />
-              ) : (
-                <MenuOutlinedIcon
-                  sx={{
-                    width: "40px",
-                    height: "40px",
-                  }}
-                  onClick={() => setIsModalOpen(true)}
-                />
-              )}
-            </div>
-          </div>
-        ) : signed ? (
-          <div className="sm:hidden">
-            {isModalOpen ? (
-              <>
-                <CloseOutlinedIcon
-                  sx={{
-                    width: "40px",
-                    height: "40px",
-                  }}
-                  onClick={() => setIsModalOpen(false)}
-                />
-              </>
-            ) : (
-              <>
-                <MenuOutlinedIcon
-                  sx={{
-                    width: "40px",
-                    height: "40px",
-                  }}
-                  onClick={() => setIsModalOpen(true)}
-                />
-              </>
-            )}
-            <AnimatePresence>
-              {isModalOpen ? <MobileMenu /> : null}
-            </AnimatePresence>
-          </div>
-        ) : null}
-        <ul className="flex gap-[16px] items-center max-sm:hidden">
-          {signed ? (
+      <nav className="relative">
+        <AnimatePresence>
+          {isModalOpen ? (
+            <MobileMenu
+              locale={locale}
+              handleClose={() => setIsModalOpen(false)}
+            />
+          ) : null}
+        </AnimatePresence>
+        {signed ? (
+          isAdminPage ? (
             <>
-              {isAdminPage ? (
-                <li className="md:hidden">
-                  {isModalOpen ? (
-                    <>
-                      <CloseOutlinedIcon
-                        sx={{
-                          width: "40px",
-                          height: "40px",
-                        }}
-                        onClick={() => setIsModalOpen(false)}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <MenuOutlinedIcon
-                        sx={{
-                          width: "40px",
-                          height: "40px",
-                        }}
-                        onClick={() => setIsModalOpen(true)}
-                      />
-                    </>
-                  )}
-                </li>
-              ) : (
-                <>
-                  <li>
-                    <NavLink link="/authed/dialog">
-                      <StyledButton>AI Talk</StyledButton>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink link="/authed/store">
-                      <StyledButton
-                        sx={{
-                          width: "80px",
-                        }}
-                      >
-                        {texts.store}
-                      </StyledButton>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink link="/authed/collections">
-                      <StyledButton>{texts.collections}</StyledButton>
-                    </NavLink>
-                  </li>
-                </>
-              )}
-
-              <li>
+              <div className="md:hidden cursor-pointer  bg-blue-marguerite-500 dark:bg-black absolute top-0 -translate-y-1/2 right-0">
+                {isModalOpen ? (
+                  <CloseOutlinedIcon
+                    sx={{
+                      width: "40px",
+                      height: "40px",
+                    }}
+                    onClick={() => setIsModalOpen(false)}
+                  />
+                ) : (
+                  <MenuOutlinedIcon
+                    sx={{
+                      width: "40px",
+                      height: "40px",
+                    }}
+                    onClick={() => setIsModalOpen(true)}
+                  />
+                )}
+              </div>
+              <div className="max-md:hidden">
                 <StyledButton
                   sx={{
                     width: "48px",
                     height: "48px",
                   }}
-                  className="p-0"
+                  className="p-0 max-sm:hidden"
                   onClick={handleClick}
                 >
                   <AccountCircleOutlinedIcon
@@ -212,132 +138,95 @@ const Header = ({ texts }: Texts) => {
                     }}
                   />
                 </StyledButton>
-                <Menu
+                <UserMenu
                   anchorEl={anchorEl}
-                  id="account-menu"
+                  handleClose={handleClose}
                   open={open}
-                  onClose={handleClose}
-                  onClick={handleClose}
-                  PaperProps={{
-                    elevation: 0,
-                    sx: {
-                      overflow: "visible",
-                      filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                      mt: 1.5,
-                      "& .MuiAvatar-root": {
-                        width: 32,
-                        height: 32,
-                        ml: -0.5,
-                        mr: 1,
-                      },
-                    },
-                  }}
-                  transformOrigin={{ horizontal: "right", vertical: "top" }}
-                  anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                >
-                  <MenuItem onClick={handleClose}>
-                    <Link
-                      href={
-                        user.isAdmin ? "/admin/collections" : "/authed/user"
-                      }
-                    >
-                      <ListItemIcon>
-                        <AccountCircleOutlinedIcon />
-                      </ListItemIcon>
-                      {user.isAdmin ? "Admin" : user.name}
-                    </Link>
-                  </MenuItem>
-                  <Divider />
-                  <NestedMenuItem
-                    leftIcon={<AccountCircleOutlinedIcon />}
-                    label="Theme"
-                    parentMenuOpen={open}
-                    rightIcon={<></>}
-                  >
-                    <IconMenuItem
-                      leftIcon={<AccountCircleOutlinedIcon />}
-                      onClick={() => dispatch(changeTheme("dark"))}
-                      label="Dark"
-                    />
-                    <IconMenuItem
-                      leftIcon={<AccountCircleOutlinedIcon />}
-                      onClick={() => dispatch(changeTheme("light"))}
-                      label="Light"
-                    />
-                    <IconMenuItem
-                      leftIcon={<AccountCircleOutlinedIcon />}
-                      onClick={() => dispatch(changeTheme("system"))}
-                      label="System"
-                    />
-                  </NestedMenuItem>
-                  <NestedMenuItem
-                    leftIcon={<AccountCircleOutlinedIcon />}
-                    label="Language"
-                    parentMenuOpen={open}
-                    rightIcon={<></>}
-                  >
-                    <IconMenuItem
-                      leftIcon={<AccountCircleOutlinedIcon />}
-                      onClick={() => router.replace(pathname, { locale: "uk" })}
-                      label="Ukrainian"
-                    />
-                    <IconMenuItem
-                      leftIcon={<AccountCircleOutlinedIcon />}
-                      onClick={() => router.replace(pathname, { locale: "en" })}
-                      label="English"
-                    />
-                  </NestedMenuItem>
-                  <Divider />
-                  {user.isAdmin ? null : (
-                    <MenuItem>
-                      <Link href="/authed/user/settings">
-                        <ListItemIcon>
-                          <Settings fontSize="small" />
-                        </ListItemIcon>
-                        Settings
-                      </Link>
-                    </MenuItem>
-                  )}
-                  <MenuItem
-                    onClick={async () => {
-                      await axios.post("/api/logout", {
-                        headers: {
-                          Authorization: `Bearer ${user.token}`,
-                        },
-                      });
-                      dispatch(logout());
-                      router.replace("/");
-                    }}
-                  >
-                    <ListItemIcon>
-                      <Logout fontSize="small" />
-                    </ListItemIcon>
-                    Logout
-                  </MenuItem>
-                </Menu>
-              </li>
+                />
+              </div>
             </>
           ) : (
             <>
-              <li>
-                <Link href="/authentification/login">
+              <div className="sm:hidden cursor-pointer  bg-blue-marguerite-500 dark:bg-black absolute top-0 -translate-y-1/2 right-0">
+                {isModalOpen ? (
+                  <CloseOutlinedIcon
+                    sx={{
+                      width: "40px",
+                      height: "40px",
+                    }}
+                    onClick={() => setIsModalOpen(false)}
+                  />
+                ) : (
+                  <MenuOutlinedIcon
+                    sx={{
+                      width: "40px",
+                      height: "40px",
+                    }}
+                    onClick={() => setIsModalOpen(true)}
+                  />
+                )}
+              </div>
+              <ul className="flex gap-4 items-center max-sm:hidden">
+                <li>
+                  <NavLink link="/authed/dialog">
+                    <StyledButton>AI Talk</StyledButton>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink link="/authed/store">
+                    <StyledButton
+                      sx={{
+                        width: "80px",
+                      }}
+                    >
+                      {texts.store}
+                    </StyledButton>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink link="/authed/collections">
+                    <StyledButton>{texts.collections}</StyledButton>
+                  </NavLink>
+                </li>
+                <li>
                   <StyledButton
                     sx={{
-                      width: "80px",
+                      width: "48px",
+                      height: "48px",
                     }}
+                    className="p-0 max-sm:hidden"
+                    onClick={handleClick}
                   >
-                    {texts.login}
+                    <AccountCircleOutlinedIcon
+                      sx={{
+                        width: "40px",
+                        height: "40px",
+                      }}
+                    />
                   </StyledButton>
-                </Link>
-              </li>
-              <li>
-                <Link href="/authentification/register">
-                  <StyledButton>{texts.register}</StyledButton>
-                </Link>
-              </li>
+                  <UserMenu
+                    anchorEl={anchorEl}
+                    handleClose={handleClose}
+                    open={open}
+                  />
+                </li>
+              </ul>
             </>
-          )}
-        </ul>
+          )
+        ) : (
+          <ul className="flex gap-4 items-center max-sm:hidden">
+            <li>
+              <Link href="/authentification/login">
+                <StyledButton>{texts.login}</StyledButton>
+              </Link>
+            </li>
+            <li>
+              <Link href="/authentification/register">
+                <StyledButton>{texts.register}</StyledButton>
+              </Link>
+            </li>
+          </ul>
+        )}
       </nav>
     </header>
   );

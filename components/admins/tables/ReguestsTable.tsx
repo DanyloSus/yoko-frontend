@@ -50,25 +50,25 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
 
   const user = useSelector((state: Store) => state.user);
 
+  async function fetchRequests() {
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        `http://18.212.227.5:8876/api/v1/collections/requests?page=${page}${
+          props.query ? `&query=${props.query}` : ""
+        }`,
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+
+      setCollections(res.data.data.requests);
+      setCountOfPages(res.data.data.lastPage);
+    } catch (error) {}
+  }
+
   useEffect(() => {
-    async function fetchusers() {
-      setIsLoading(true);
-      try {
-        const res = await axios.get(
-          `http://54.92.220.133:8876/api/v1/collections/requests?page=${page}${
-            props.query ? `&query=${props.query}` : ""
-          }`,
-          { headers: { Authorization: `Bearer ${user.token}` } }
-        );
-
-        setCollections(res.data.data.requests);
-        setCountOfPages(res.data.data.lastPage);
-      } catch (error) {}
-    }
-
-    fetchusers();
+    fetchRequests();
     setIsLoading(false);
-  }, [page, props.query]);
+  }, [page]);
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -83,6 +83,10 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
     }
     replace(`${pathname}?${params.toString()}`);
   };
+
+  useEffect(() => {
+    setPage(1);
+  }, [props.query]);
 
   return (
     <>

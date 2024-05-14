@@ -69,7 +69,7 @@ body {
   transform: translateX(-150px);
   opacity: 0;
   transition: 1s all ease-in-out;
-  &.active {
+  &.activeAnim {
     transform: translateX(0);
     opacity: 1;
   }
@@ -78,7 +78,7 @@ body {
     opacity: 0;
     transition: 1s all ease-in-out;
 
-    &.active {
+    &.activeAnim {
       transform: translateX(0);
       opacity: 1;
     }

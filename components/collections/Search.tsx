@@ -28,11 +28,7 @@ const Search = () => {
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <SearchOutlinedIcon
-              sx={{
-                color: "white",
-              }}
-            />
+            <SearchOutlinedIcon className="text-black dark:text-white" />
           </InputAdornment>
         ),
         sx: { borderRadius: "9999px" },

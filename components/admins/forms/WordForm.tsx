@@ -30,7 +30,7 @@ const WordForm = ({ params }: WordFormProps) => {
   useEffect(() => {
     async function fetchWord() {
       const res = await axios.get(
-        `http://54.92.220.133:8876/api/v1/words/${params.id}`,
+        `http://18.212.227.5:8876/api/v1/words/${params.id}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -69,7 +69,7 @@ const WordForm = ({ params }: WordFormProps) => {
     // on submit function
     onSubmit: async (value) => {
       await axios.patch(
-        `http://54.92.220.133:8876/api/v1/words/${word!.id}`,
+        `http://18.212.227.5:8876/api/v1/words/${word!.id}`,
         value,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
@@ -81,7 +81,7 @@ const WordForm = ({ params }: WordFormProps) => {
     <></>
   ) : (
     <div className="w-full flex justify-center items-center">
-      <form onClick={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <FormWrapper title="Update Word" removeBorder isDark>
           <StyledTextField
             className="w-full"

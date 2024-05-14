@@ -48,7 +48,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
 
   // getting function to check is user authed and if it is true then redirect to another page
   const { checkUser } = useAuthedReplace({
-    page: "/authed/collections",
+    page: user.isAdmin ? "/admin/collections" : "/authed/collections",
     setIsLoading: (val: boolean) => setIsLoading(val),
     user: user,
     replacePageIfUserAuthed: true,
@@ -58,7 +58,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
   useEffect(() => {
     checkUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.token]);
+  }, []);
 
   // formik for better form control
   const formik = useFormik({
@@ -89,7 +89,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
       try {
         // set post method to login user
         const res = await axios.post(
-          "http://54.92.220.133:8876/api/v1/auth/admin-login",
+          "http://18.212.227.5:8876/api/v1/auth/admin-login",
           value
         );
 
@@ -113,7 +113,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
         );
 
         // change page
-        router.push("/authed/collections");
+        router.push("/admin/collections");
         setIsLoading(false);
       } catch (error: any) {
         // error handling
@@ -126,7 +126,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
           try {
             // admin login
             const res = await axios.post(
-              "http://54.92.220.133:8876/api/v1/auth/login",
+              "http://18.212.227.5:8876/api/v1/auth/login",
               value
             );
 

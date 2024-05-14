@@ -49,25 +49,29 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
 
   const user = useSelector((state: Store) => state.user);
 
+  async function fetchCollections() {
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        `http://18.212.227.5:8876/api/v1/collections?page=${page}${
+          props.query ? `&query=${props.query}` : ""
+        }`,
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+
+      setCollections(res.data.data.data);
+      setCountOfPages(res.data.data.lastPage);
+    } catch (error) {}
+  }
+
   useEffect(() => {
-    async function fetchWords() {
-      setIsLoading(true);
-      try {
-        const res = await axios.get(
-          `http://54.92.220.133:8876/api/v1/collections?page=${page}${
-            props.query ? `&query=${props.query}` : ""
-          }`,
-          { headers: { Authorization: `Bearer ${user.token}` } }
-        );
-
-        setCollections(res.data.data.data);
-        setCountOfPages(res.data.data.lastPage);
-      } catch (error) {}
-    }
-
-    fetchWords();
+    fetchCollections();
     setIsLoading(false);
-  }, [page, props.query]);
+  }, [page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [props.query]);
 
   const searchParams = useSearchParams();
   const pathname = usePathname();

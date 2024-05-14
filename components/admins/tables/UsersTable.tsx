@@ -49,25 +49,25 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
 
   const user = useSelector((state: Store) => state.user);
 
+  async function fetchUsers() {
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        `http://18.212.227.5:8876/api/v1/users?page=${page}${
+          props.query ? `&query=${props.query}` : ""
+        }`,
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+
+      setUsers(res.data.data.users);
+      setCountOfPages(res.data.data.lastPage);
+    } catch (error) {}
+  }
+
   useEffect(() => {
-    async function fetchUsers() {
-      setIsLoading(true);
-      try {
-        const res = await axios.get(
-          `http://54.92.220.133:8876/api/v1/users?page=${page}${
-            props.query ? `&query=${props.query}` : ""
-          }`,
-          { headers: { Authorization: `Bearer ${user.token}` } }
-        );
-
-        setUsers(res.data.data.users);
-        setCountOfPages(res.data.data.lastPage);
-      } catch (error) {}
-    }
-
     fetchUsers();
     setIsLoading(false);
-  }, [page, props.query, user.token]);
+  }, [page]);
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -86,13 +86,13 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
   const handleBlock = async (userId: number) => {
     try {
       await axios.patch(
-        `http://54.92.220.133:8876/api/v1/users/${userId}/blockOrUnblock`,
+        `http://18.212.227.5:8876/api/v1/users/${userId}/blockOrUnblock`,
         null,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
       const res = await axios.get(
-        `http://54.92.220.133:8876/api/v1/users?page=${page}${
+        `http://18.212.227.5:8876/api/v1/users?page=${page}${
           props.query ? `&query=${props.query}` : ""
         }`,
         { headers: { Authorization: `Bearer ${user.token}` } }
@@ -101,6 +101,10 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
       setUsers(res.data.data.users);
     } catch (error) {}
   };
+
+  useEffect(() => {
+    setPage(1);
+  }, [props.query]);
 
   return (
     <>

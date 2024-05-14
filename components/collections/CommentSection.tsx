@@ -21,6 +21,7 @@ type Comment = {
 type SectionProps = {
   comments?: Comment[];
   fetchCollection: () => Promise<void>;
+  addComment: (comment: Comment) => void;
   userId: string;
   collectionId: string;
 };
@@ -39,7 +40,7 @@ const CommentSection = (props: SectionProps) => {
     onSubmit: async (value) => {
       try {
         const res = await axios.post(
-          `http://54.92.220.133:8876/api/v1/collections/${props.collectionId}/comment`,
+          `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/comment`,
           {
             content: value.comment,
           },
@@ -50,7 +51,8 @@ const CommentSection = (props: SectionProps) => {
           }
         );
 
-        props.fetchCollection();
+        props.addComment(res.data.data);
+        formik.setValues({ comment: "" });
       } catch (error) {
         console.log(error);
       }
@@ -89,7 +91,7 @@ const CommentSection = (props: SectionProps) => {
             Sumbit
           </StyledButton>
         </form>
-        {props.comments?.map((comment) => (
+        {props.comments?.reverse().map((comment) => (
           <Comment
             content={comment.content}
             name={comment.user.name}

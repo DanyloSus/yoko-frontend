@@ -38,7 +38,7 @@ const CollectionContent = ({ texts, ...props }: Texts & StoreProps) => {
 
   const loadMoreCollections = async () => {
     const res = await axios.get(
-      `http://54.92.220.133:8876/api/v1/users/collections?page=${page}${
+      `http://18.212.227.5:8876/api/v1/users/collections?page=${page}${
         props.query ? `&query=${props.query}` : ""
       }`,
       {
@@ -71,7 +71,7 @@ const CollectionContent = ({ texts, ...props }: Texts & StoreProps) => {
 
     async function fetchCollections() {
       const res = await axios.get(
-        `http://54.92.220.133:8876/api/v1/users/collections${
+        `http://18.212.227.5:8876/api/v1/users/collections${
           props.query ? `?query=${props.query}` : ""
         }`,
         {

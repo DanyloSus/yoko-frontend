@@ -38,7 +38,7 @@ const StoreContent = ({ texts, ...props }: Texts & StoreProps) => {
 
   const loadMoreCollections = async () => {
     const res = await axios.get(
-      `http://54.92.220.133:8876/api/v1/collections/public?page=${page}${
+      `http://18.212.227.5:8876/api/v1/collections/public?page=${page}${
         props.query.trim().length ? `&query=${props.query}` : ""
       }`,
       {
@@ -71,7 +71,7 @@ const StoreContent = ({ texts, ...props }: Texts & StoreProps) => {
 
     async function fetchCollections() {
       const res = await axios.get(
-        `http://54.92.220.133:8876/api/v1/collections/public${
+        `http://18.212.227.5:8876/api/v1/collections/public${
           props.query.trim().length ? `?query=${props.query}` : ""
         }`,
         {
@@ -92,7 +92,7 @@ const StoreContent = ({ texts, ...props }: Texts & StoreProps) => {
   const getLoading = () => {
     const loadingElement: ReactNode[] = [];
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 12; i++) {
       loadingElement.push(<CollectionTitle key={i} isLoading />);
     }
 

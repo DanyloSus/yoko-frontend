@@ -8,6 +8,7 @@ import "./globals.scss";
 import ReduxWrapper from "@/components/wrappers/ReduxWrapper";
 import theme from "@/ui/theming/Theme";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 function getDefautTheme() {
   const defaultTheme = localStorage.getItem("theme");
@@ -31,9 +32,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
   useEffect(() => {
     getDefautTheme();
-  }, []);
+  }, [pathname]);
 
   return (
     <ThemeProvider theme={theme}>

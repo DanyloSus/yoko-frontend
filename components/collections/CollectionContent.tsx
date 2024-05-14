@@ -76,7 +76,7 @@ const CollectionContent = ({
     setIsLoading(true);
     try {
       const res = await axios.get(
-        `http://54.92.220.133:8876/api/v1/collections/${props.collectionId}`,
+        `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
@@ -96,7 +96,7 @@ const CollectionContent = ({
   const addCollection = async () => {
     try {
       const res = await axios.post(
-        `http://54.92.220.133:8876/api/v1/users/startCollection/${props.collectionId}`,
+        `http://18.212.227.5:8876/api/v1/users/startCollection/${props.collectionId}`,
         undefined,
         {
           headers: {
@@ -112,7 +112,7 @@ const CollectionContent = ({
   const likeCollection = async () => {
     try {
       await axios.patch(
-        `http://54.92.220.133:8876/api/v1/users/like/${collection!.id}`,
+        `http://18.212.227.5:8876/api/v1/users/like/${collection!.id}`,
         null,
         {
           headers: {
@@ -207,6 +207,13 @@ const CollectionContent = ({
         fetchCollection={fetchCollection}
         userId={user.id ? user.id.toString() : ""}
         comments={collection.comments}
+        addComment={(comment) =>
+          setCollection((collVal: Collection | undefined) => {
+            return collVal
+              ? { ...collVal, comments: [...collVal?.comments, comment] }
+              : collVal;
+          })
+        }
       />
     </div>
   );

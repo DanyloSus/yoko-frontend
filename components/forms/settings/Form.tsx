@@ -162,7 +162,7 @@ const SettingsForm = ({ texts, errors }: Texts) => {
       try {
         // request to patch our data
         const res = await axios.patch(
-          `http://54.92.220.133:8876/api/v1/users/${user.id}`,
+          `http://18.212.227.5:8876/api/v1/users/${user.id}`,
           data,
           {
             headers: {
@@ -236,6 +236,22 @@ const SettingsForm = ({ texts, errors }: Texts) => {
               value={formik.values.surname}
             />
           </div>
+
+          <StyledTextField
+            disabled={isLoading}
+            label={texts.newPassword}
+            type="password"
+            name="new_password"
+            error={
+              Boolean(formik.errors.new_password) ||
+              formik.errors.new_password === ""
+            }
+            helperText={
+              formik.errors.new_password ? formik.errors.new_password : ""
+            }
+            onChange={formik.handleChange}
+            value={formik.values.new_password}
+          />
           <StyledTextField
             disabled={isLoading}
             label={texts.passwordConfirm}
@@ -252,21 +268,6 @@ const SettingsForm = ({ texts, errors }: Texts) => {
             }
             onChange={formik.handleChange}
             value={formik.values.password_confirmation}
-          />
-          <StyledTextField
-            disabled={isLoading}
-            label={texts.newPassword}
-            type="password"
-            name="new_password"
-            error={
-              Boolean(formik.errors.new_password) ||
-              formik.errors.new_password === ""
-            }
-            helperText={
-              formik.errors.new_password ? formik.errors.new_password : ""
-            }
-            onChange={formik.handleChange}
-            value={formik.values.new_password}
           />
         </div>
         <div className="flex justify-between w-full">

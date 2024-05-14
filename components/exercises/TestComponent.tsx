@@ -10,6 +10,8 @@ import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
+import StyledLinearProgress from "@/ui/LinearProgress";
+import ConfettiExplosion from "react-confetti-explosion";
 
 type ComponentProps = {
   // ukrainianText: string[];
@@ -33,9 +35,11 @@ type QuizResponse = {
 };
 
 const TestComponent = (props: ComponentProps) => {
+  const [isExploding, setIsExploding] = React.useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [step, setStep] = useState(0); // step of array
   const [buttons, setButtons] = useState<ReactNode[]>([]); // state of answers' buttons
+  const [completed, setCompleted] = useState(false);
 
   const [questions, setQuestions] = useState<QuizResponse>();
 
@@ -45,11 +49,14 @@ const TestComponent = (props: ComponentProps) => {
     if (isAnswer) {
       // if the answer is correct and it's the last question, reset the step to 0
       if (questions && step === questions.data.length - 1) {
+        setIsExploding(true);
+        setCompleted(true);
         setStep(0);
         return;
       }
       // increment the step to move to the next question
       setStep((step) => step + 1);
+      setIsExploding(false);
       return;
     }
 
@@ -77,7 +84,7 @@ const TestComponent = (props: ComponentProps) => {
       try {
         setButtons([]);
         const { data }: { data: QuizResponse } = await axios.get(
-          `http://54.92.220.133:8876/api/v1/collections/${props.collectionId}/quiz`,
+          `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/quiz`,
           { headers: { Authorization: `Bearer ${user.token}` } }
         );
 
@@ -139,6 +146,13 @@ const TestComponent = (props: ComponentProps) => {
     </div>
   ) : (
     <div className="text-center relative">
+      <StyledLinearProgress
+        value={
+          completed
+            ? 100
+            : Number(((100 * step) / questions.data.length).toFixed(2))
+        }
+      />
       <h1 className="text-h2 mb-[31px] capitalize">
         {/* {props.englishText[step]} */}
         {questions.data[step].word}
@@ -148,6 +162,11 @@ const TestComponent = (props: ComponentProps) => {
           <React.Fragment key={index}>{button}</React.Fragment>
         ))}
       </div>
+      {isExploding && (
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <ConfettiExplosion />
+        </div>
+      )}
     </div>
   );
 };

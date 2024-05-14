@@ -2,9 +2,8 @@
 
 import React from "react";
 import Portal from "../wrappers/Portal";
-import { motion, startOptimizedAppearAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  Link,
   usePathname,
   useRouter,
 } from "@/modules/internationalization/navigation";
@@ -15,8 +14,15 @@ import UserElement from "../users/UserElement";
 import { Store } from "@/modules/redux/store";
 import { Divider } from "@mui/material";
 import { changeTheme } from "@/modules/redux/darkTheme/darkThemeSlice";
+import axios from "axios";
 
-const MobileMenu = () => {
+const MobileMenu = ({
+  locale,
+  ...props
+}: {
+  locale: string;
+  handleClose: () => void;
+}) => {
   const pathname = usePathname();
 
   const dispatch = useDispatch();
@@ -28,53 +34,92 @@ const MobileMenu = () => {
 
   return (
     <Portal>
-      <motion.div
-        initial={{ x: "100%" }}
-        animate={{ x: "0%" }}
-        exit={{ x: "100%" }}
-        transition={{ ease: "easeInOut" }}
-        key={"Modal"}
-        className="fixed w-screen h-screen bg-blue-marguerite-500 dark:bg-black z-20 text-white flex flex-col items-stretch pt-[70px] text-center max-vsm:hidden sm:hidden"
-      >
-        {pathname.includes("admin") ? (
-          <>
-            <MenuTitle link="/admin/users" text="Users" />
-            <MenuTitle link="/admin/collections" text="Collections" />
-            <MenuTitle link="/admin/words" text="Words" />
-            <MenuTitle link="/admin/requests" text="Requests" />
-          </>
-        ) : (
-          <>
-            <UserElement user={user} />
-            <Divider />
-            <MenuTitle link="/authed/store" text="Store" />
-            <MenuTitle link="/authed/collections" text="Collections" />
-            <MenuTitle
-              onClick={() =>
-                theme === "dark"
-                  ? dispatch(changeTheme("light"))
-                  : dispatch(changeTheme("dark"))
+      {user.name || user.isAdmin ? (
+        <motion.div
+          initial={{ x: "100%" }}
+          animate={{ x: "0%" }}
+          exit={{ x: "100%" }}
+          transition={{ ease: "easeInOut" }}
+          key={"Modal"}
+          className={
+            "fixed top-0 left-0 w-screen h-screen bg-blue-marguerite-500 dark:bg-black z-30 text-white flex flex-col items-stretch pt-[70px] text-center " +
+            (pathname.includes("admin") ? "md:hidden" : "sm:hidden")
+          }
+        >
+          {pathname.includes("admin") ? (
+            <>
+              <MenuTitle
+                link="/admin/users"
+                text="Users"
+                handleClose={props.handleClose}
+              />
+              <MenuTitle
+                link="/admin/collections"
+                text="Collections"
+                handleClose={props.handleClose}
+              />
+              <MenuTitle
+                link="/admin/words"
+                text="Words"
+                handleClose={props.handleClose}
+              />
+              <MenuTitle
+                link="/admin/requests"
+                text="Requests"
+                handleClose={props.handleClose}
+              />
+            </>
+          ) : (
+            <>
+              <UserElement user={user} />
+              <Divider />
+              <MenuTitle
+                link="/authed/store"
+                text="Store"
+                handleClose={props.handleClose}
+              />
+              <MenuTitle
+                link="/authed/collections"
+                text="Collections"
+                handleClose={props.handleClose}
+              />
+              <MenuTitle
+                onClick={() =>
+                  theme === "dark"
+                    ? dispatch(changeTheme("light"))
+                    : dispatch(changeTheme("dark"))
+                }
+                text={`Theme: ${theme}`}
+              />
+              <MenuTitle
+                onClick={() =>
+                  locale === "en"
+                    ? router.replace(pathname, { locale: "uk" })
+                    : router.replace(pathname, { locale: "en" })
+                }
+                text={`Language: ${locale}`}
+              />
+            </>
+          )}
+          <MenuTitle
+            onClick={async () => {
+              await axios.post("/api/logout", {
+                headers: {
+                  Authorization: `Bearer ${user.token}`,
+                },
+              });
+              dispatch(logout());
+              props.handleClose();
+              if (pathname === "/") {
+                router.refresh();
+              } else {
+                router.push("/");
               }
-              text={`Theme: ${theme}`}
-            />
-            <MenuTitle
-              onClick={() =>
-                theme === "dark"
-                  ? router.replace(pathname, { locale: "uk" })
-                  : router.replace(pathname, { locale: "en" })
-              }
-              text={`Language: ${theme}`}
-            />
-          </>
-        )}
-        <MenuTitle
-          onClick={() => {
-            dispatch(logout());
-            router.push("/");
-          }}
-          text="Exit"
-        />
-      </motion.div>
+            }}
+            text="Exit"
+          />
+        </motion.div>
+      ) : null}
     </Portal>
   );
 };

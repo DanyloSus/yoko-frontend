@@ -27,7 +27,7 @@ export default function LocaleLayout({
   return (
     <html lang={locale}>
       <body
-        className={`${dmSans.variable} ${kyiv.variable}`}
+        className={`${dmSans.variable} ${kyiv.variable} dark:bg-black dark:text-white min-h-screen`}
         suppressHydrationWarning={true}
       >
         <div id="modal"></div>

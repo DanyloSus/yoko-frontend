@@ -21,7 +21,14 @@ const StyleForLinearProgress = styled(LinearProgress)<LinearProgressProps>(
 import React from "react";
 
 const StyledLinearProgress = ({ ...props }: LinearProgressProps) => {
-  return <StyleForLinearProgress {...props} />;
+  return (
+    <div className="relative mt-3 w-full">
+      <StyleForLinearProgress {...props} variant="determinate" />
+      <p className="text-label text-white absolute top-1/2 left-1/2 -translate-x-1/2 font-bold -translate-y-1/2 [text-shadow:0px_0px_4px_#000] ">
+        {props.value}
+      </p>
+    </div>
+  );
 };
 
 export default StyledLinearProgress;

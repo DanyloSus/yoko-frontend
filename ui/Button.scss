@@ -1,9 +1,9 @@
 .MuiButtonBase-root.MuiButton-text {
   @apply hover:bg-blue-marguerite-600 text-white dark:hover:bg-dark-grey;
-}
-
-.MuiButtonBase-root.MuiButton-text.MuiButton-textSecondary {
-  @apply text-blue-marguerite-500 hover:text-white dark:text-white;
+  &.MuiButton-textSecondary,
+  &.MuiButton-textError {
+    @apply text-blue-marguerite-500 hover:text-white dark:text-white;
+  }
 }
 
 .MuiButtonBase-root.Mui-disabled {

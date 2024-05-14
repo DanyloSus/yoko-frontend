@@ -33,7 +33,7 @@ const CollectionsPage = ({
 
   return (
     <div className="w-full flex flex-col gap-[24px]">
-      <h1 className="text-h2 sm:text-h1 text-center">{t("heading")}</h1>
+      <h1 className="text-h3 sm:text-h1 text-center">{t("heading")}</h1>
       <div className="flex justify-between items-center gap-10">
         <Search />
         <Sort

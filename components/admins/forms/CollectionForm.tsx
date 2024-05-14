@@ -37,7 +37,7 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
   useEffect(() => {
     async function fetchCollection() {
       const res = await axios.get(
-        `http://54.92.220.133:8876/api/v1/collections/${params.id}`,
+        `http://18.212.227.5:8876/api/v1/collections/${params.id}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -84,7 +84,7 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
         status: toStatus,
       };
       await axios.patch(
-        `http://54.92.220.133:8876/api/v1/collections/${collection!.id}`,
+        `http://18.212.227.5:8876/api/v1/collections/${collection!.id}`,
         data,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
@@ -166,14 +166,24 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
             <StyledButton
               variant="contained"
               onClick={() => {
-                if (collection.status === "pending") {
+                if (
+                  collection.status === "pending" ||
+                  collection.status === "public"
+                ) {
                   setToStatus("private");
+                  formik.handleSubmit();
+                } else {
+                  setToStatus("public");
                   formik.handleSubmit();
                 }
               }}
-              color="error"
+              color={collection.status === "private" ? "primary" : "error"}
             >
-              {collection.status === "pending" ? "Discard" : "Delete"}
+              {collection.status === "pending"
+                ? "Discard"
+                : collection.status === "public"
+                ? "Make Private"
+                : "Make Public"}
             </StyledButton>
             <StyledButton
               variant="contained"

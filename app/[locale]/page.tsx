@@ -29,20 +29,20 @@ export async function generateMetadata({
   };
 }
 
-const Landing = () => {
+const Landing = ({ params: { locale } }: { params: { locale: string } }) => {
   const t = useTranslations("Landing"); // get page translation
 
   return (
     <>
-      <TranslatedHeader />
+      <TranslatedHeader locale={locale} />
       <main className="dark:bg-black dark:text-white">
         <MainSection />
         <CollectionsSection />
         <WaysSection />
         <ReviewsSection />
         <FinalSection />
-        <Footer />
       </main>
+      <Footer />
     </>
   );
 };

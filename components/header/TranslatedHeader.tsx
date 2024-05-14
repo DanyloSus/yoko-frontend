@@ -6,11 +6,12 @@ import { useTranslations } from "next-intl";
 import Header from "./Header";
 import { overkill } from "@/modules/internationalization/navigation";
 
-const TranslatedHeader = () => {
+const TranslatedHeader = ({ locale }: { locale: string }) => {
   const t = useTranslations("Header"); // get header translation
 
   return (
     <Header
+      locale={locale}
       texts={overkill(
         [
           "texts.logo",

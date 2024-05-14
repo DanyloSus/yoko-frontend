@@ -60,7 +60,7 @@ const useAuthedReplace = (props: HookProps) => {
         ) {
           // if token equal something then we check existing user by token
           const { data } = await axios.get(
-            "http://54.92.220.133:8876/api/user",
+            "http://18.212.227.5:8876/api/user",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
