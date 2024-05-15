@@ -34,6 +34,7 @@ type Texts = {
   texts: {
     en: string;
     uk: string;
+    search: string;
   };
 };
 
@@ -63,6 +64,7 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
   useEffect(() => {
     fetchWords();
     setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const searchParams = useSearchParams();
@@ -85,7 +87,7 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
 
   return (
     <>
-      <Search />
+      <Search text={{ text: texts.search }} />
       {isLoading ? (
         <CircularProgress className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen" />
       ) : (

@@ -20,6 +20,7 @@ const UsersAdminPage = ({
   };
 }) => {
   const t = useTranslations("Admin"); // get page translation
+  const ts = useTranslations("Search"); // get page translation
 
   // // dummy data
   // const words: Word[] = [
@@ -38,6 +39,7 @@ const UsersAdminPage = ({
       texts={{
         en: t("words.en"),
         uk: t("words.uk"),
+        search: ts("text"),
       }}
       page={searchParams?.page}
       query={searchParams?.query}

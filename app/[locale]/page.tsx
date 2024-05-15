@@ -1,19 +1,17 @@
 // external imports
 import React from "react";
-import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 // internal imports
 import TranslatedHeader from "@/components/header/TranslatedHeader";
-import MovingText from "@/components/MovingText";
-import StyledButton from "@/ui/Button";
-import { Link } from "@/modules/internationalization/navigation";
 import MainSection from "@/components/landing/main";
 import CollectionsSection from "@/components/landing/collections";
 import WaysSection from "@/components/landing/ways";
 import ReviewsSection from "@/components/landing/reviews";
 import FinalSection from "@/components/landing/final";
 import Footer from "@/components/Footer";
+import { useTranslations } from "next-intl";
+import { overkill } from "@/modules/internationalization/navigation";
 
 // create multilanguage dynamic metadata
 export async function generateMetadata({
@@ -38,7 +36,34 @@ const Landing = ({ params: { locale } }: { params: { locale: string } }) => {
       <main className="dark:bg-black dark:text-white">
         <MainSection />
         <CollectionsSection />
-        <WaysSection />
+        <WaysSection
+          texts={overkill(
+            [
+              "Ways.title",
+              "Ways.text",
+              "Ways.mobileText",
+              "Ways.firstTitle",
+              "Ways.firstText",
+              "Ways.firstMobileText",
+              "Ways.secondTitle",
+              "Ways.secondText",
+              "Ways.secondMobileText",
+              "Ways.thirdTitle",
+              "Ways.thirdText",
+              "Ways.thirdMobileText",
+              "Ways.thirdCardSave",
+              "Ways.thirdCardTranslate",
+              "Ways.thirdCardBack",
+              "Ways.fourthTitle",
+              "Ways.fourthText",
+              "Ways.fourthSecondTitle",
+              "Ways.fourthSecondText",
+              "Ways.fourthSecondMobileText",
+              "Ways.fourthButtonText",
+            ],
+            t
+          )}
+        />
         <ReviewsSection />
         <FinalSection />
       </main>

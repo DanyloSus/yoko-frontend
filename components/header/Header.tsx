@@ -19,22 +19,26 @@ import {
 import { Store } from "@/modules/redux/store";
 import useUserAuthed from "@/modules/auth/hooks/useUserAuthed";
 import { AnimatePresence } from "framer-motion";
-import MobileMenu from "../admins/MobileMenu";
+import MobileMenu, { MobileMenuTexts } from "../admins/MobileMenu";
 import useScrollBlock from "@/modules/hooks/useScrollBlock";
-import UserMenu from "./UserMenu";
+import UserMenu, { UserMenuTexts } from "./UserMenu";
 
 type Texts = {
-  texts: {
-    logo: string;
-    logoAdmin: string;
-    store: string;
-    collections: string;
-    login: string;
-    register: string;
-  };
+  logo: string;
+  logoAdmin: string;
+  store: string;
+  collections: string;
+  login: string;
+  register: string;
+  ai: string;
 };
 
-const Header = ({ texts, locale }: Texts & { locale: string }) => {
+type HeaderProps = {
+  locale: string;
+  texts: Texts & MobileMenuTexts & UserMenuTexts;
+};
+
+const Header = ({ texts, ...props }: HeaderProps) => {
   // state for checking is user authed
   const [signed, setSigned] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -91,128 +95,133 @@ const Header = ({ texts, locale }: Texts & { locale: string }) => {
       <h3 className="text-h3 whitespace-nowrap">
         {isAdminPage ? texts.logoAdmin : texts.logo}
       </h3>
-      <nav className="relative">
+      <nav className="relative flex items-center gap-4">
         <AnimatePresence>
           {isModalOpen ? (
             <MobileMenu
-              locale={locale}
+              locale={props.locale}
               handleClose={() => setIsModalOpen(false)}
+              texts={{
+                mmAdmCollections: texts.mmAdmCollections,
+                mmAdmRequests: texts.mmAdmRequests,
+                mmAdmUsers: texts.mmAdmUsers,
+                mmAdmWords: texts.mmAdmWords,
+                mmExit: texts.mmExit,
+                mmUserCollections: texts.mmUserCollections,
+                mmUserLang: texts.mmUserLang,
+                mmUserLangEn: texts.mmUserLangEn,
+                mmUserLangUk: texts.mmUserLangUk,
+                mmUserStore: texts.mmUserStore,
+                mmUserTheme: texts.mmUserTheme,
+                mmUserThemeDark: texts.mmUserThemeDark,
+                mmUserThemeLight: texts.mmUserThemeLight,
+              }}
             />
           ) : null}
         </AnimatePresence>
         {signed ? (
-          isAdminPage ? (
-            <>
-              <div className="md:hidden cursor-pointer  bg-blue-marguerite-500 dark:bg-black absolute top-0 -translate-y-1/2 right-0">
-                {isModalOpen ? (
-                  <CloseOutlinedIcon
-                    sx={{
-                      width: "40px",
-                      height: "40px",
-                    }}
-                    onClick={() => setIsModalOpen(false)}
-                  />
-                ) : (
-                  <MenuOutlinedIcon
-                    sx={{
-                      width: "40px",
-                      height: "40px",
-                    }}
-                    onClick={() => setIsModalOpen(true)}
-                  />
-                )}
-              </div>
-              <div className="max-md:hidden">
-                <StyledButton
+          <>
+            <div className="md:hidden cursor-pointer  bg-blue-marguerite-500 dark:bg-black absolute top-0 -translate-y-1/2 right-0">
+              {isModalOpen ? (
+                <CloseOutlinedIcon
                   sx={{
-                    width: "48px",
-                    height: "48px",
+                    width: "40px",
+                    height: "40px",
                   }}
-                  className="p-0 max-sm:hidden"
-                  onClick={handleClick}
-                >
-                  <AccountCircleOutlinedIcon
-                    sx={{
-                      width: "40px",
-                      height: "40px",
-                    }}
-                  />
-                </StyledButton>
-                <UserMenu
-                  anchorEl={anchorEl}
-                  handleClose={handleClose}
-                  open={open}
+                  onClick={() => setIsModalOpen(false)}
                 />
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="sm:hidden cursor-pointer  bg-blue-marguerite-500 dark:bg-black absolute top-0 -translate-y-1/2 right-0">
-                {isModalOpen ? (
-                  <CloseOutlinedIcon
-                    sx={{
-                      width: "40px",
-                      height: "40px",
-                    }}
-                    onClick={() => setIsModalOpen(false)}
-                  />
-                ) : (
-                  <MenuOutlinedIcon
-                    sx={{
-                      width: "40px",
-                      height: "40px",
-                    }}
-                    onClick={() => setIsModalOpen(true)}
-                  />
-                )}
-              </div>
-              <ul className="flex gap-4 items-center max-sm:hidden">
-                <li>
-                  <NavLink link="/authed/dialog">
-                    <StyledButton>AI Talk</StyledButton>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink link="/authed/store">
-                    <StyledButton
-                      sx={{
-                        width: "80px",
-                      }}
-                    >
-                      {texts.store}
-                    </StyledButton>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink link="/authed/collections">
-                    <StyledButton>{texts.collections}</StyledButton>
-                  </NavLink>
-                </li>
-                <li>
-                  <StyledButton
-                    sx={{
-                      width: "48px",
-                      height: "48px",
-                    }}
-                    className="p-0 max-sm:hidden"
-                    onClick={handleClick}
-                  >
-                    <AccountCircleOutlinedIcon
+              ) : (
+                <MenuOutlinedIcon
+                  sx={{
+                    width: "40px",
+                    height: "40px",
+                  }}
+                  onClick={() => setIsModalOpen(true)}
+                />
+              )}
+            </div>
+            {isAdminPage ? null : (
+              <>
+                <div className="sm:hidden cursor-pointer  bg-blue-marguerite-500 dark:bg-black absolute top-0 -translate-y-1/2 right-0">
+                  {isModalOpen ? (
+                    <CloseOutlinedIcon
                       sx={{
                         width: "40px",
                         height: "40px",
                       }}
+                      onClick={() => setIsModalOpen(false)}
                     />
-                  </StyledButton>
-                  <UserMenu
-                    anchorEl={anchorEl}
-                    handleClose={handleClose}
-                    open={open}
-                  />
-                </li>
-              </ul>
-            </>
-          )
+                  ) : (
+                    <MenuOutlinedIcon
+                      sx={{
+                        width: "40px",
+                        height: "40px",
+                      }}
+                      onClick={() => setIsModalOpen(true)}
+                    />
+                  )}
+                </div>
+                <ul className="flex gap-4 items-center max-sm:hidden">
+                  <li>
+                    <NavLink link="/authed/dialog">
+                      <StyledButton>{texts.ai}</StyledButton>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink link="/authed/store">
+                      <StyledButton
+                        sx={{
+                          width: "80px",
+                        }}
+                      >
+                        {texts.store}
+                      </StyledButton>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink link="/authed/collections">
+                      <StyledButton>{texts.collections}</StyledButton>
+                    </NavLink>
+                  </li>
+                  <li></li>
+                </ul>
+              </>
+            )}
+            <div className={isAdminPage ? "max-md:hidden" : "max-sm:hidden"}>
+              <StyledButton
+                sx={{
+                  width: "48px",
+                  height: "48px",
+                }}
+                className="p-0 max-sm:hidden"
+                onClick={handleClick}
+              >
+                <AccountCircleOutlinedIcon
+                  sx={{
+                    width: "40px",
+                    height: "40px",
+                  }}
+                />
+              </StyledButton>
+              <UserMenu
+                anchorEl={anchorEl}
+                handleClose={handleClose}
+                open={open}
+                texts={{
+                  umAdmin: texts.umAdmin,
+                  umLang: texts.umLang,
+                  umLangUk: texts.umLangUk,
+                  umLangEn: texts.umLangEn,
+                  umLogout: texts.umLogout,
+                  umSettings: texts.umSettings,
+                  umTheme: texts.umTheme,
+                  umThemeDark: texts.umThemeDark,
+                  umThemeLight: texts.umThemeLight,
+                  umThemeSystem: texts.umThemeSystem,
+                }}
+              />
+            </div>
+          </>
         ) : (
           <ul className="flex gap-4 items-center max-sm:hidden">
             <li>

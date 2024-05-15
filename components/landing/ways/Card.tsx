@@ -1,7 +1,12 @@
 import React from "react";
 import Card from "@/components/exercises/Card";
 
-const CardExercise = () => {
+export type CardTexts = {
+  translate: string;
+  back: string;
+};
+
+const CardExercise = ({ translate, back }: CardTexts) => {
   return (
     <div className="max-w-[360px] w-full h-full min-h-[294px]">
       <Card
@@ -11,9 +16,8 @@ const CardExercise = () => {
         ukrainianWord="Вітаю"
         isSmall
         texts={{
-          back: "",
-          save: "",
-          translate: "",
+          back: back,
+          translate: translate,
         }}
       />
     </div>

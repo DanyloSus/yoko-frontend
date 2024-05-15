@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
+import { AIErrors, AITexts } from "../CheckLevelContent";
 
 type Message = {
   index: number;
@@ -21,9 +22,11 @@ type Props = {
   params: {
     id: string;
   };
+  texts: AITexts;
+  errors: AIErrors;
 };
 
-const DialogContent = (props: Props) => {
+const ThemeDialog = ({ texts, errors, ...props }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [words, setWords] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -70,7 +73,7 @@ const DialogContent = (props: Props) => {
       prompt: "",
     },
     validationSchema: Yup.object({
-      prompt: Yup.string().required(),
+      prompt: Yup.string().required(errors.required),
     }),
     validateOnChange: false,
     onSubmit: async (value) => {
@@ -147,12 +150,12 @@ const DialogContent = (props: Props) => {
         <div className="w-full relative">
           {messages.length === 1 ? (
             <p className="text-label opacity-50 absolute -top-12">
-              remember, the more you write, the better the result will be*
+              {texts.hint}
             </p>
           ) : null}
           <StyledTextField
             multiline
-            label="Your answer"
+            label={texts.message}
             type="text"
             name="prompt"
             error={Boolean(formik.errors.prompt) || formik.errors.prompt === ""}
@@ -164,11 +167,11 @@ const DialogContent = (props: Props) => {
           />
         </div>
         <StyledButton type="submit" variant="contained" disabled={isLoading}>
-          Send
+          {texts.send}
         </StyledButton>
       </form>
     </div>
   );
 };
 
-export default DialogContent;
+export default ThemeDialog;

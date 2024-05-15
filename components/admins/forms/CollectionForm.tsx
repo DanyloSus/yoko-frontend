@@ -10,10 +10,11 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
-import ImageModal from "./ImageModal";
+import ImageModal, { ImageModalText } from "./ImageModal";
 
 type CollectionFormProps = {
   params: { id: string };
+  texts: FormTexts & ImageModalText;
 };
 
 type Collection = {
@@ -26,7 +27,24 @@ type Collection = {
   translationUk: string;
 };
 
-const CollectionForm = ({ params }: CollectionFormProps) => {
+type FormTexts = {
+  update: string;
+  nameReq: string;
+  textReq: string;
+  transReq: string;
+  header: string;
+  enText: string;
+  ukText: string;
+  banner: string;
+  poster: string;
+  discard: string;
+  private: string;
+  public: string;
+  publicButton: string;
+  confirm: string;
+};
+
+const CollectionForm = ({ texts, ...props }: CollectionFormProps) => {
   const [collection, setCollection] = useState<Collection>();
   const [toStatus, setToStatus] = useState("");
   const [modal, setModal] = useState(false);
@@ -37,7 +55,7 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
   useEffect(() => {
     async function fetchCollection() {
       const res = await axios.get(
-        `http://18.212.227.5:8876/api/v1/collections/${params.id}`,
+        `http://18.212.227.5:8876/api/v1/collections/${props.params.id}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -72,9 +90,9 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
     },
     // validation
     validationSchema: Yup.object({
-      name: Yup.string().required(),
-      text: Yup.string().required(),
-      translationUk: Yup.string().required(),
+      name: Yup.string().required(texts.nameReq),
+      text: Yup.string().required(texts.textReq),
+      translationUk: Yup.string().required(texts.transReq),
     }),
     validateOnChange: false,
     // on submit function
@@ -97,11 +115,11 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
   ) : (
     <div className="w-full flex justify-center items-center">
       <form>
-        <FormWrapper title="Update Collection" removeBorder isDark>
+        <FormWrapper title={texts.update} removeBorder isDark>
           <StyledTextField
             multiline
             className="font-kyiv w-full"
-            label="Header"
+            label={texts.header}
             type="text"
             name="name"
             error={Boolean(formik.errors.name) || formik.errors.name === ""}
@@ -112,7 +130,7 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
           <StyledTextField
             multiline
             className="w-full"
-            label="English text"
+            label={texts.enText}
             type="text"
             name="text"
             error={Boolean(formik.errors.text) || formik.errors.text === ""}
@@ -123,7 +141,7 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
           <StyledTextField
             multiline
             className="w-full"
-            label="Ukrainian text"
+            label={texts.ukText}
             type="text"
             name="translationUk"
             error={
@@ -144,7 +162,7 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
                 setModal(true);
               }}
             >
-              Banner
+              {texts.banner}
             </StyledButton>
             <StyledButton
               variant="contained"
@@ -153,10 +171,14 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
                 setModal(true);
               }}
             >
-              Poster
+              {texts.poster}
             </StyledButton>
             <div />
             <ImageModal
+              texts={{
+                modalClose: texts.modalClose,
+                modalTitle: texts.modalTitle,
+              }}
               url={imageUrl}
               handleClose={() => setModal(false)}
               open={modal}
@@ -180,10 +202,10 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
               color={collection.status === "private" ? "primary" : "error"}
             >
               {collection.status === "pending"
-                ? "Discard"
+                ? texts.discard
                 : collection.status === "public"
-                ? "Make Private"
-                : "Make Public"}
+                ? texts.private
+                : texts.public}
             </StyledButton>
             <StyledButton
               variant="contained"
@@ -194,7 +216,9 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
                 formik.handleSubmit();
               }}
             >
-              {collection.status === "pending" ? "Public" : "Confirm"}
+              {collection.status === "pending"
+                ? texts.publicButton
+                : texts.confirm}
             </StyledButton>
           </div>
         </FormWrapper>
@@ -204,3 +228,9 @@ const CollectionForm = ({ params }: CollectionFormProps) => {
 };
 
 export default CollectionForm;
+
+//admin@admin.com
+// password
+
+//danylo@sus
+//sussussus

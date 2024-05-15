@@ -25,6 +25,7 @@ export type Collection = {
   name: string;
   status: string;
   text: string;
+  userId: number;
 };
 
 type TableProps = {
@@ -39,10 +40,11 @@ type Texts = {
     contents: string;
     states: string;
     userId: string;
+    search: string;
   };
 };
 
-const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
+const RequestsTable = ({ texts, ...props }: Texts & TableProps) => {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [page, setPage] = useState(props.page ? Number(props.page) : 1);
   const [countOfPages, setCountOfPages] = useState(1);
@@ -68,6 +70,7 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
   useEffect(() => {
     fetchRequests();
     setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const searchParams = useSearchParams();
@@ -90,7 +93,7 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
 
   return (
     <>
-      <Search />
+      <Search text={{ text: texts.search }} />
       {isLoading ? (
         <CircularProgress className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen" />
       ) : (
@@ -110,7 +113,7 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
               <Cell>{collection.name}</Cell>
               <Cell>{collection.text}</Cell>
               <Cell>{collection.status}</Cell>
-              <Cell>{collection.id ? collection.id : "null"}</Cell>
+              <Cell>{collection.userId ? collection.userId : "null"}</Cell>
             </>
           ))}
         </div>
@@ -127,4 +130,4 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
   );
 };
 
-export default UsersTable;
+export default RequestsTable;

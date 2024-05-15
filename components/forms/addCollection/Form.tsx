@@ -22,16 +22,27 @@ type Texts = {
     private: string;
     cancel: string;
     post: string;
+    poster: string;
+    posterHint: string;
+    banner: string;
+    bannerHint: string;
+    color: string;
   };
   errors: {
     nameRequired: string;
     textRequired: string;
+    posterRequired: string;
+    bannerRequired: string;
+    colorRequired: string;
+    something: string;
   };
 };
 
 const CreateStore = ({ texts, errors }: Texts) => {
   const [isLoading, setIsLoading] = useState(false); // state for checking is form loading
   const [isPrivate, setIsPrivate] = useState(false); // state for private checkbox
+
+  console.log(errors);
 
   const posterRef = useRef<HTMLInputElement>(null);
   const bannerRef = useRef<HTMLInputElement>(null);
@@ -55,9 +66,9 @@ const CreateStore = ({ texts, errors }: Texts) => {
     validationSchema: Yup.object({
       name: Yup.string().required(errors.nameRequired),
       text: Yup.string().required(errors.textRequired),
-      poster: Yup.mixed().required(),
-      banner: Yup.mixed().required(),
-      color: Yup.string().required(),
+      poster: Yup.mixed().required(errors.posterRequired),
+      banner: Yup.mixed().required(errors.bannerRequired),
+      color: Yup.string().required(errors.colorRequired),
     }),
     validateOnChange: false,
     // on submit function
@@ -86,6 +97,7 @@ const CreateStore = ({ texts, errors }: Texts) => {
         router.push(`/authed/thanks?is=${isPrivate ? "private" : "pending"}`);
       } catch (error) {
         console.log(error);
+        formik.setFieldError("color", errors.something);
       } finally {
         // go to thank's page where we have query
         // query depends is collection private
@@ -142,11 +154,11 @@ const CreateStore = ({ texts, errors }: Texts) => {
           color={formik.errors.poster ? "error" : "secondary"}
           disabled={isLoading}
         >
-          Add Poster
+          {texts.poster}
         </StyledButton>
-        <p className="text-label opacity-50">for preview*</p>
+        <p className="text-label opacity-50">{texts.posterHint}</p>
         {formik.errors.poster ? (
-          <p className="text-label text-error">Poster is required</p>
+          <p className="text-label text-error">{formik.errors.poster}</p>
         ) : null}
       </div>
       <div className="flex flex-col items-start">
@@ -166,15 +178,15 @@ const CreateStore = ({ texts, errors }: Texts) => {
           variant={formik.values.banner ? "contained" : "text"}
           disabled={isLoading}
         >
-          Add Banner
+          {texts.banner}
         </StyledButton>
-        <p className="text-label opacity-50">for big image*</p>
+        <p className="text-label opacity-50">{texts.bannerHint}</p>
         {formik.errors.banner ? (
-          <p className="text-label text-error">Banner is required</p>
+          <p className="text-label text-error">{formik.errors.banner}</p>
         ) : null}
       </div>
       <div className="flex flex-col items-start">
-        <p className="text-label">Pick the color:</p>
+        <p className="text-label">{texts.color}</p>
         <div className="flex gap-[10px]">
           {["6D64E8", "C8102E", "FF8811"].map((color, index) => (
             <div
@@ -192,7 +204,7 @@ const CreateStore = ({ texts, errors }: Texts) => {
           ))}
         </div>
         {formik.errors.color ? (
-          <p className="text-label text-error">Colors are required</p>
+          <p className="text-label text-error">{formik.errors.color}</p>
         ) : null}
       </div>
       <div className="flex items-center">

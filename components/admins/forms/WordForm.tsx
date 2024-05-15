@@ -14,6 +14,7 @@ import ImageModal from "./ImageModal";
 
 type WordFormProps = {
   params: { id: string };
+  texts: FormTexts;
 };
 
 type Word = {
@@ -22,7 +23,16 @@ type Word = {
   translationUk: string;
 };
 
-const WordForm = ({ params }: WordFormProps) => {
+type FormTexts = {
+  wordReq: string;
+  transReq: string;
+  update: string;
+  word: string;
+  ukTranslation: string;
+  submit: string;
+};
+
+const WordForm = ({ texts, ...props }: WordFormProps) => {
   const [word, setWord] = useState<Word>();
 
   const user = useSelector((state: Store) => state.user);
@@ -30,7 +40,7 @@ const WordForm = ({ params }: WordFormProps) => {
   useEffect(() => {
     async function fetchWord() {
       const res = await axios.get(
-        `http://18.212.227.5:8876/api/v1/words/${params.id}`,
+        `http://18.212.227.5:8876/api/v1/words/${props.params.id}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -62,8 +72,8 @@ const WordForm = ({ params }: WordFormProps) => {
     },
     // validation
     validationSchema: Yup.object({
-      word: Yup.string().required(),
-      translationUk: Yup.string().required(),
+      word: Yup.string().required(texts.wordReq),
+      translationUk: Yup.string().required(texts.transReq),
     }),
     validateOnChange: false,
     // on submit function
@@ -82,10 +92,10 @@ const WordForm = ({ params }: WordFormProps) => {
   ) : (
     <div className="w-full flex justify-center items-center">
       <form onSubmit={formik.handleSubmit}>
-        <FormWrapper title="Update Word" removeBorder isDark>
+        <FormWrapper title={texts.update} removeBorder isDark>
           <StyledTextField
             className="w-full"
-            label="Word"
+            label={texts.word}
             type="text"
             name="word"
             error={Boolean(formik.errors.word) || formik.errors.word === ""}
@@ -95,7 +105,7 @@ const WordForm = ({ params }: WordFormProps) => {
           />
           <StyledTextField
             className="w-full"
-            label="Ukrainian Translation"
+            label={texts.ukTranslation}
             type="text"
             name="translationUk"
             error={
@@ -110,7 +120,7 @@ const WordForm = ({ params }: WordFormProps) => {
           />
           <div className="flex justify-end w-full">
             <StyledButton variant="contained" type="submit">
-              Submit
+              {texts.submit}
             </StyledButton>
           </div>
         </FormWrapper>

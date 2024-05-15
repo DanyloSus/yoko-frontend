@@ -22,6 +22,7 @@ const UsersAdminPage = ({
   };
 }) => {
   const t = useTranslations("Admin"); // get page translation
+  const ts = useTranslations("Search"); // get page translation
 
   // // dummy data
   // const users: UserInfo[] = [
@@ -44,16 +45,21 @@ const UsersAdminPage = ({
   return (
     <UsersTable
       // users={users}
-      texts={overkill(
-        [
-          "users.names",
-          "users.surnames",
-          "users.emails",
-          "users.usersWords",
-          "users.usersCollections",
-        ],
-        t
-      )}
+      texts={{
+        ...overkill(
+          [
+            "users.names",
+            "users.surnames",
+            "users.emails",
+            "users.usersWords",
+            "users.usersCollections",
+            "users.block",
+            "users.unblock",
+          ],
+          t
+        ),
+        search: ts("text"),
+      }}
       page={searchParams?.page}
       query={searchParams?.query}
     />

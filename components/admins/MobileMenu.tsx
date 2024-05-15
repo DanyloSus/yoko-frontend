@@ -16,13 +16,29 @@ import { Divider } from "@mui/material";
 import { changeTheme } from "@/modules/redux/darkTheme/darkThemeSlice";
 import axios from "axios";
 
-const MobileMenu = ({
-  locale,
-  ...props
-}: {
+export type MobileMenuTexts = {
+  mmAdmUsers: string;
+  mmAdmCollections: string;
+  mmAdmWords: string;
+  mmAdmRequests: string;
+  mmUserStore: string;
+  mmUserCollections: string;
+  mmUserTheme: string;
+  mmUserThemeDark: string;
+  mmUserThemeLight: string;
+  mmUserLang: string;
+  mmUserLangUk: string;
+  mmUserLangEn: string;
+  mmExit: string;
+};
+
+type Props = {
   locale: string;
   handleClose: () => void;
-}) => {
+  texts: MobileMenuTexts;
+};
+
+const MobileMenu = ({ texts, ...props }: Props) => {
   const pathname = usePathname();
 
   const dispatch = useDispatch();
@@ -50,22 +66,22 @@ const MobileMenu = ({
             <>
               <MenuTitle
                 link="/admin/users"
-                text="Users"
+                text={texts.mmAdmUsers}
                 handleClose={props.handleClose}
               />
               <MenuTitle
                 link="/admin/collections"
-                text="Collections"
+                text={texts.mmAdmCollections}
                 handleClose={props.handleClose}
               />
               <MenuTitle
                 link="/admin/words"
-                text="Words"
+                text={texts.mmAdmWords}
                 handleClose={props.handleClose}
               />
               <MenuTitle
                 link="/admin/requests"
-                text="Requests"
+                text={texts.mmAdmRequests}
                 handleClose={props.handleClose}
               />
             </>
@@ -75,12 +91,12 @@ const MobileMenu = ({
               <Divider />
               <MenuTitle
                 link="/authed/store"
-                text="Store"
+                text={texts.mmUserStore}
                 handleClose={props.handleClose}
               />
               <MenuTitle
                 link="/authed/collections"
-                text="Collections"
+                text={texts.mmUserCollections}
                 handleClose={props.handleClose}
               />
               <MenuTitle
@@ -89,15 +105,23 @@ const MobileMenu = ({
                     ? dispatch(changeTheme("light"))
                     : dispatch(changeTheme("dark"))
                 }
-                text={`Theme: ${theme}`}
+                text={`${texts.mmUserTheme} ${
+                  theme === "dark"
+                    ? texts.mmUserThemeDark
+                    : texts.mmUserThemeLight
+                }`}
               />
               <MenuTitle
                 onClick={() =>
-                  locale === "en"
+                  props.locale === "en"
                     ? router.replace(pathname, { locale: "uk" })
                     : router.replace(pathname, { locale: "en" })
                 }
-                text={`Language: ${locale}`}
+                text={`${texts.mmUserLang} ${
+                  props.locale === "en"
+                    ? texts.mmUserLangEn
+                    : texts.mmUserLangUk
+                }`}
               />
             </>
           )}
@@ -116,7 +140,7 @@ const MobileMenu = ({
                 router.push("/");
               }
             }}
-            text="Exit"
+            text={texts.mmExit}
           />
         </motion.div>
       ) : null}

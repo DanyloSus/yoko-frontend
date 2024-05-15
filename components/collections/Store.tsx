@@ -20,6 +20,8 @@ type Collection = {
 type Texts = {
   texts: {
     null: string;
+    error: string;
+    loading: string;
   };
 };
 
@@ -33,31 +35,39 @@ const StoreContent = ({ texts, ...props }: Texts & StoreProps) => {
   const [page, setPage] = useState(2);
   const [lastPage, setLastPage] = useState(0);
   const { ref, inView } = useInView();
+  const [error, setError] = useState(false);
 
   const user = useSelector((state: Store) => state.user);
 
   const loadMoreCollections = async () => {
-    const res = await axios.get(
-      `http://18.212.227.5:8876/api/v1/collections/public?page=${page}${
-        props.query.trim().length ? `&query=${props.query}` : ""
-      }`,
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
+    try {
+      const res = await axios.get(
+        `http://18.212.227.5:8876/api/v1/collections/public?page=${page}${
+          props.query.trim().length ? `&query=${props.query}` : ""
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      setCollections((prevCollections) => [
+        ...prevCollections,
+        ...res.data.data.data,
+      ]);
+      if (page - 1 < lastPage) {
+        setPage((prevPage) => prevPage + 1);
       }
-    );
-    setCollections((prevCollections) => [
-      ...prevCollections,
-      ...res.data.data.data,
-    ]);
-    if (page - 1 < lastPage) {
-      setPage((prevPage) => prevPage + 1);
+    } catch (error) {
+      setError(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     if (inView) {
+      setIsLoading(true);
       loadMoreCollections();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,31 +110,31 @@ const StoreContent = ({ texts, ...props }: Texts & StoreProps) => {
   };
 
   return (
-    <>
-      <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4 relative">
-        {collections.length || isLoading ? (
-          <>
-            {...collections.map((collection) => (
-              <CollectionTitle
-                key={collection.id}
-                id={collection.id}
-                title={collection.name}
-                image={collection.posterUrl}
-              />
-            ))}
-            {isLoading ? (
-              getLoading()
-            ) : page - 1 < lastPage ? (
-              <div ref={ref}>Loading...</div>
-            ) : null}
-          </>
-        ) : (
-          <h3 className="absolute text-h3 left-1/2 -translate-x-1/2 text-center w-full">
-            {texts.null}
-          </h3>
-        )}
-      </div>
-    </>
+    <div className="flex flex-col items-stretch sm:grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4 relative">
+      {(collections.length || isLoading) && !error ? (
+        <>
+          {...collections.map((collection) => (
+            <CollectionTitle
+              key={collection.id}
+              id={collection.id}
+              title={collection.name}
+              image={collection.posterUrl}
+            />
+          ))}
+          {isLoading ? (
+            getLoading()
+          ) : page - 1 < lastPage ? (
+            <div ref={ref} className="loading">
+              {texts.loading}
+            </div>
+          ) : null}
+        </>
+      ) : (
+        <h3 className="absolute text-h3 left-1/2 -translate-x-1/2 text-center w-full">
+          {error ? texts.error : texts.null}
+        </h3>
+      )}
+    </div>
   );
 };
 

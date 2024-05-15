@@ -1,53 +1,85 @@
-import TranslationBubble from "@/components/exercises/TranslationBubble";
 import { Link } from "@/modules/internationalization/navigation";
 import StyledButton from "@/ui/Button";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { ReactNode, useState } from "react";
-import ConfettiExplosion from "react-confetti-explosion";
+import React from "react";
 import Text from "./Text";
 import Test from "./Test";
-import CardExercise from "./Card";
+import CardExercise, { CardTexts } from "./Card";
 
 type ContentProps = {
   page: number; //active page
 };
 
-const WaysContent = (props: ContentProps) => {
+export type WaysTexts = {
+  First: {
+    firstTitle: string;
+    firstText: string;
+    firstMobileText: string;
+  };
+  Second: {
+    secondTitle: string;
+    secondText: string;
+    secondMobileText: string;
+  };
+  Third: {
+    thirdTitle: string;
+    thirdText: string;
+    thirdMobileText: string;
+    thirdCardTranslate: string;
+    thirdCardBack: string;
+  };
+  Fourth: {
+    fourthTitle: string;
+    fourthText: string;
+    fourthSecondTitle: string;
+    fourthSecondText: string;
+    fourthSecondMobileText: string;
+    fourthButtonText: string;
+  };
+};
+
+const WaysContent = ({
+  First,
+  Second,
+  Third,
+  Fourth,
+  ...props
+}: ContentProps & WaysTexts) => {
   const content = [
     {
-      title: "Interactive Texts",
-      text: "Immerse yourself in the language by reading texts in English and Ukrainian. Simply hover over a word for its translation, making learning seamless and efficient.",
-      mobileText:
-        "Immerse yourself in the language by reading texts in English and Ukrainian.",
+      title: First.firstTitle,
+      text: First.firstText,
+      mobileText: First.firstMobileText,
       content: <Text />,
     },
     {
-      title: "Engaging Tests",
-      text: "Test your knowledge with our interactive quizzes. Choose the correct translation for words in English, reinforcing your understanding and retention.",
-      mobileText: "Test your knowledge with our interactive quizzes.",
+      title: Second.secondTitle,
+      text: Second.secondText,
+      mobileText: Second.secondMobileText,
       content: <Test />,
     },
     {
-      title: "Flashcards Reinvented",
-      text: "Revise vocabulary effortlessly with our interactive flashcards. See the word in English, then flip the card to reveal its translation, reinforcing your memory.",
-      mobileText:
-        "Revise vocabulary effortlessly with our interactive flashcards.",
-      content: <CardExercise />,
+      title: Third.thirdTitle,
+      text: Third.thirdText,
+      mobileText: Third.thirdMobileText,
+      content: (
+        <CardExercise
+          back={Third.thirdCardBack}
+          translate={Third.thirdCardBack}
+        />
+      ),
     },
     {
-      title: "AI-Powered Tools",
-      text: "Benefit from AI assistance to assess your English level. Engage in conversations with our AI chatbot to practice and receive feedback on your writing skills.",
-      mobileText:
-        "Benefit from AI assistance to assess your English level. Engage in conversations with our AI chatbot to practice and receive feedback on your writing skills.",
-      secondTitle: "Conversational Practice",
-      secondText:
-        "Practice speaking with our AI, which uses words from the collections you're studying. Get real-time feedback and improve your fluency and confidence. Enhance your learning experience with our modern tools and techniques. Start your journey to language mastery today!",
-      secondMobileText:
-        "Practice speaking with our AI, which uses words from the collections you're studying. Get real-time feedback and improve your fluency and confidence",
+      title: Fourth.fourthTitle,
+      text: Fourth.fourthText,
+      mobileText: Fourth.fourthText,
+      secondTitle: Fourth.fourthSecondTitle,
+      secondText: Fourth.fourthSecondText,
+      secondMobileText: Fourth.fourthSecondMobileText,
       content: (
         <Link href="/ai/check">
           <StyledButton variant="contained">
-            Test your english level by AI
+            {Fourth.fourthButtonText}
           </StyledButton>
         </Link>
       ),

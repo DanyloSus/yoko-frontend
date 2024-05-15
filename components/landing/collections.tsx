@@ -1,31 +1,7 @@
 import React from "react";
 import SectionWrapper from "../wrappers/SectionWrapper";
 import CollectionTitle from "../collections/CollectionTitle";
-
-const sectionText = [
-  {
-    h4: "Explore & Learn",
-    p: "Discover a multitude of collections, each tailored to a specific theme or language level. From beginner basics to advanced nuances, there's something for everyone.",
-    mobile:
-      "Discover a multitude of collections, each tailored to a specific theme or language level.",
-  },
-  {
-    h4: "Create & Share",
-    p: "Unleash your creativity by creating your collections. Share them with the world, or keep them private for your personal learning journey.",
-    mobile: "Unleash your creativity by creating your collections.",
-  },
-  {
-    h4: "Customize & Organize",
-    p: "Tailor your learning experience by filtering collections based on name, popularity, or personal preferences. Stay organized and track your progress effortlessly.",
-    mobile: "Stay organized and track your progress effortlessly.",
-  },
-  {
-    h4: "Join the Community",
-    p: "Connect with like-minded learners, exchange ideas, and grow together. Like and save your favorite collections to revisit them anytime.",
-    mobile:
-      "Connect with like-minded learners, exchange ideas, and grow together.",
-  },
-];
+import { useTranslations } from "next-intl";
 
 const sectionCollections = [
   {
@@ -49,12 +25,37 @@ const sectionCollections = [
 ];
 
 const CollectionsSection = () => {
+  const t = useTranslations("Landing"); // get page translation
+
+  const sectionText = [
+    {
+      h4: t("Collections.First.h4"),
+      p: t("Collections.First.p"),
+      mobile: t("Collections.First.mobile"),
+    },
+    {
+      h4: t("Collections.Second.h4"),
+      p: t("Collections.Second.p"),
+      mobile: t("Collections.Second.mobile"),
+    },
+    {
+      h4: t("Collections.Third.h4"),
+      p: t("Collections.Third.p"),
+      mobile: t("Collections.Third.mobile"),
+    },
+    {
+      h4: t("Collections.Fourth.h4"),
+      p: t("Collections.Fourth.p"),
+      mobile: t("Collections.Fourth.mobile"),
+    },
+  ];
+
   return (
     <SectionWrapper
-      title="Collections"
+      title={t("Collections.title")}
       fullScreen
-      text="Welcome to our Collections section, where language learning meets creativity! Dive into a world of curated texts, carefully crafted to enhance your vocabulary. Browse through collections created by the community, or forge your path by crafting your own."
-      mobileText="Welcome to our Collections section, where language learning meets creativity! Dive into a world of curated texts, carefully crafted to enhance your vocabulary."
+      text={t("Collections.text")}
+      mobileText={t("Collections.mobileText")}
     >
       <div className="max-sm:flex-col gap-10 flex item-center justify-between mt-10 max-sm:text-center">
         <div className="flex flex-col max-w-[580px] justify-center gap-5">

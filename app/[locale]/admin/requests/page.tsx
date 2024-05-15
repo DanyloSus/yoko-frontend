@@ -12,18 +12,22 @@ const RequestPage = ({
   };
 }) => {
   const t = useTranslations("Admin"); // get page translation
+  const ts = useTranslations("Search"); // get page translation
 
   return (
     <ReguestsTable
-      texts={overkill(
-        [
-          "collections.headings",
-          "collections.contents",
-          "collections.states",
-          "collections.userId",
-        ],
-        t
-      )}
+      texts={{
+        ...overkill(
+          [
+            "collections.headings",
+            "collections.contents",
+            "collections.states",
+            "collections.userId",
+          ],
+          t
+        ),
+        search: ts("text"),
+      }}
       page={searchParams?.page}
       query={searchParams?.query}
     />

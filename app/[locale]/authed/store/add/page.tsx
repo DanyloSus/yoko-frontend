@@ -30,7 +30,17 @@ const AddCollectionPage = () => {
       <h1 className="text-h2 lg:text-h1 ">{t("heading")}</h1>
       <FormWrapper isDark>
         <CreateStore
-          errors={overkill(["errors.nameRequired", "errors.textRequired"], t)}
+          errors={overkill(
+            [
+              "errors.nameRequired",
+              "errors.textRequired",
+              "errors.posterRequired",
+              "errors.bannerRequired",
+              "errors.colorRequired",
+              "errors.something",
+            ],
+            t
+          )}
           texts={overkill(
             [
               "texts.name",
@@ -38,6 +48,11 @@ const AddCollectionPage = () => {
               "texts.private",
               "texts.cancel",
               "texts.post",
+              "texts.poster",
+              "texts.posterHint",
+              "texts.banner",
+              "texts.bannerHint",
+              "texts.color",
             ],
             t
           )}

@@ -8,6 +8,7 @@ import CollectionContent from "@/components/collections/Collections";
 import Sort from "@/components/sort/Sort";
 import { overkill } from "@/modules/internationalization/navigation";
 import Search from "@/components/collections/Search";
+import TranslatedSearch from "@/components/collections/TranslatedSearch";
 
 // create multilanguage dynamic metadata
 export async function generateMetadata({
@@ -35,16 +36,14 @@ const CollectionsPage = ({
     <div className="w-full flex flex-col gap-[24px]">
       <h1 className="text-h3 sm:text-h1 text-center">{t("heading")}</h1>
       <div className="flex justify-between items-center gap-10">
-        <Search />
-        <Sort
-          texts={overkill(
-            ["texts.sort", "texts.views", "texts.likes", "texts.difficult"],
-            t
-          )}
-        />
+        <TranslatedSearch />
       </div>
       <CollectionContent
-        texts={{ null: t("texts.null") }}
+        texts={{
+          null: t("texts.null"),
+          error: t("texts.error"),
+          loading: t("texts.loading"),
+        }}
         query={searchParams?.query || ""}
       />
     </div>

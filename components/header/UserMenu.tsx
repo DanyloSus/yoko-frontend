@@ -23,9 +23,25 @@ type MenuProps = {
   anchorEl: HTMLElement | null;
   handleClose: () => void;
   open: boolean;
+  texts: UserMenuTexts;
 };
 
-const UserMenu = (props: MenuProps) => {
+export type UserMenuTexts = {
+  umAdmin: string;
+  umTheme: string;
+  umThemeDark: string;
+  umThemeLight: string;
+  umThemeSystem: string;
+  umLang: string;
+  umLangUk: string;
+  umLangEn: string;
+  umSettings: string;
+  umLogout: string;
+};
+
+const UserMenu = ({ texts, ...props }: MenuProps) => {
+  console.log(texts);
+
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -61,57 +77,56 @@ const UserMenu = (props: MenuProps) => {
         onClick={() => {
           router.push(user.isAdmin ? "/admin/collections" : "/authed/user");
         }}
-        label={user.isAdmin ? "Admin" : user.name}
+        label={user.isAdmin ? texts.umAdmin : user.name}
       />
       <Divider />
       <NestedMenuItem
         leftIcon={<ContrastOutlinedIcon />}
-        label="Theme"
+        label={texts.umTheme}
         parentMenuOpen={props.open}
         rightIcon={<></>}
       >
         <IconMenuItem
           leftIcon={<DarkModeOutlinedIcon />}
           onClick={() => dispatch(changeTheme("dark"))}
-          label="Dark"
+          label={texts.umThemeDark}
         />
         <IconMenuItem
           leftIcon={<LightModeOutlinedIcon />}
           onClick={() => dispatch(changeTheme("light"))}
-          label="Light"
+          label={texts.umThemeLight}
         />
         <IconMenuItem
           leftIcon={<DesktopWindowsOutlinedIcon />}
           onClick={() => dispatch(changeTheme("system"))}
-          label="System"
+          label={texts.umThemeSystem}
         />
       </NestedMenuItem>
       <NestedMenuItem
         leftIcon={<OutlinedFlagSharpIcon />}
-        label="Language"
+        label={texts.umLang}
         parentMenuOpen={props.open}
         rightIcon={<></>}
       >
         <IconMenuItem
           leftIcon={<Flag code="uk" />}
           onClick={() => router.replace(pathname, { locale: "uk" })}
-          label="Ukrainian"
+          label={texts.umLangUk}
         />
         <IconMenuItem
           leftIcon={<Flag code="en" />}
           onClick={() => router.replace(pathname, { locale: "en" })}
-          label="English"
+          label={texts.umLangEn}
         />
       </NestedMenuItem>
       <Divider />
-
       {user.isAdmin ? null : (
         <IconMenuItem
           leftIcon={<AccountCircleOutlinedIcon />}
           onClick={() => {
             router.push("/authed/user/settings");
           }}
-          label="Settings"
+          label={texts.umSettings}
         />
       )}
       <IconMenuItem
@@ -125,7 +140,7 @@ const UserMenu = (props: MenuProps) => {
           dispatch(logout());
           router.replace("/");
         }}
-        label="Logout"
+        label={texts.umLogout}
       />
     </Menu>
   );

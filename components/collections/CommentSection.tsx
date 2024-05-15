@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Comment from "./Comment";
 import StyledTextField from "@/ui/TextField";
 import StyledButton from "@/ui/Button";
@@ -18,15 +18,28 @@ type Comment = {
   };
 };
 
+export type CommentSectionTexts = {
+  comments: string;
+  addComment: string;
+  submit: string;
+};
+
+export type CommentSectionErrors = {
+  required: string;
+  minLen: string;
+};
+
 type SectionProps = {
   comments?: Comment[];
   fetchCollection: () => Promise<void>;
   addComment: (comment: Comment) => void;
   userId: string;
   collectionId: string;
+  texts: CommentSectionTexts;
+  errors: CommentSectionErrors;
 };
 
-const CommentSection = (props: SectionProps) => {
+const CommentSection = ({ texts, errors, ...props }: SectionProps) => {
   const user = useSelector((state: Store) => state.user);
 
   const formik = useFormik({
@@ -34,7 +47,7 @@ const CommentSection = (props: SectionProps) => {
       comment: "",
     },
     validationSchema: Yup.object({
-      comment: Yup.string().required().min(8),
+      comment: Yup.string().required(errors.required).min(8, errors.minLen),
     }),
     validateOnChange: false,
     onSubmit: async (value) => {
@@ -61,7 +74,7 @@ const CommentSection = (props: SectionProps) => {
 
   return (
     <div className="flex flex-col items-center mt-[40px]">
-      <h2 className="text-h3 sm:text-h2">Comments</h2>
+      <h2 className="text-h3 sm:text-h2">{texts.comments}</h2>
       <hr className="border-light-grey w-full border-t-2" />
       <div className="px-phone md:px-tablet lg:px-pc flex flex-col items-center gap-[16px] my-[16px] w-full max-w-[573px]">
         <form
@@ -71,7 +84,7 @@ const CommentSection = (props: SectionProps) => {
           <StyledTextField
             multiline
             minRows={3}
-            label="Add Comment"
+            label={texts.addComment}
             className="w-full"
             type="text"
             name="comment"
@@ -88,7 +101,7 @@ const CommentSection = (props: SectionProps) => {
             value={formik.values.comment}
           />
           <StyledButton variant="contained" type="submit">
-            Sumbit
+            {texts.submit}
           </StyledButton>
         </form>
         {props.comments?.reverse().map((comment) => (

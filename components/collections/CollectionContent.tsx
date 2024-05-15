@@ -19,18 +19,20 @@ import FavoriteButton from "@/components/collections/FavoriteButton";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
-import CommentSection from "./CommentSection";
+import CommentSection, {
+  CommentSectionErrors,
+  CommentSectionTexts,
+} from "./CommentSection";
 
 type Texts = {
-  texts: {
-    start: string;
-    likes: string;
-    views: string;
-    propositionHeading: string;
-    textExercise: string;
-    quizExercise: string;
-    cardsExercise: string;
-  };
+  start: string;
+  likes: string;
+  views: string;
+  propositionHeading: string;
+  textExercise: string;
+  quizExercise: string;
+  cardsExercise: string;
+  error: string;
 };
 
 type Collection = {
@@ -51,13 +53,17 @@ type Collection = {
   }[];
 };
 
-const CollectionContent = ({
-  texts,
-  ...props
-}: Texts & { collectionId: string }) => {
+type CollectionProps = {
+  texts: Texts & CommentSectionTexts;
+  collectionId: string;
+  errors: CommentSectionErrors;
+};
+
+const CollectionContent = ({ texts, errors, ...props }: CollectionProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // state ro check is modal open
   const [collection, setCollection] = useState<Collection | undefined>();
+  const [error, setError] = useState(false);
 
   const [blockScroll, allowScroll] = useScrollBlock();
 
@@ -83,6 +89,7 @@ const CollectionContent = ({
       setCollection(res.data.data);
     } catch (error) {
       console.log(error);
+      setError(true);
     } finally {
       setIsLoading(false);
     }
@@ -106,6 +113,7 @@ const CollectionContent = ({
       );
     } catch (error) {
       console.log(error);
+      setError(true);
     }
   };
 
@@ -135,10 +143,16 @@ const CollectionContent = ({
     );
   };
 
-  return isLoading || !collection ? (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-      <CircularProgress color="primary" />
-    </div>
+  return !collection ? (
+    error ? (
+      <h3 className="absolute text-h3 left-1/2 -translate-x-1/2 text-center w-full">
+        {texts.error}
+      </h3>
+    ) : (
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+        <CircularProgress color="primary" />
+      </div>
+    )
   ) : (
     <div className="w-screen min-h-screen overflow-hidden">
       <div
@@ -207,6 +221,15 @@ const CollectionContent = ({
         fetchCollection={fetchCollection}
         userId={user.id ? user.id.toString() : ""}
         comments={collection.comments}
+        texts={{
+          addComment: texts.addComment,
+          comments: texts.comments,
+          submit: texts.submit,
+        }}
+        errors={{
+          minLen: errors.minLen,
+          required: errors.required,
+        }}
         addComment={(comment) =>
           setCollection((collVal: Collection | undefined) => {
             return collVal

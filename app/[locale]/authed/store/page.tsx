@@ -9,6 +9,7 @@ import { Link, overkill } from "@/modules/internationalization/navigation";
 import StyledButton from "@/ui/Button";
 import StoreContent from "@/components/collections/Store";
 import Search from "@/components/collections/Search";
+import TranslatedSearch from "@/components/collections/TranslatedSearch";
 
 // create multilanguage dynamic metadata
 export async function generateMetadata({
@@ -42,17 +43,15 @@ const StorePage = ({
       </div>
       <h1 className="text-h2 sm:text-h1 text-center">{t("heading")}</h1>
       <div className="flex justify-between items-center gap-10">
-        <Search />
-        <Sort
-          texts={overkill(
-            ["texts.sort", "texts.views", "texts.likes", "texts.difficult"],
-            t
-          )}
-        />
+        <TranslatedSearch />
       </div>
       <StoreContent
         query={searchParams?.query || ""}
-        texts={{ null: t("texts.null") }}
+        texts={{
+          null: t("texts.null"),
+          error: t("texts.error"),
+          loading: t("texts.loading"),
+        }}
       />
     </div>
   );

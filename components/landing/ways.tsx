@@ -3,9 +3,35 @@
 import React, { useEffect, useState } from "react";
 import SectionWrapper from "../wrappers/SectionWrapper";
 import NavBar from "./NavBar";
-import WaysContent from "./ways/Content";
+import WaysContent, { WaysTexts } from "./ways/Content";
 
-const WaysSection = () => {
+type Texts = {
+  texts: {
+    title: string;
+    text: string;
+    mobileText: string;
+    firstTitle: string;
+    firstText: string;
+    firstMobileText: string;
+    secondTitle: string;
+    secondText: string;
+    secondMobileText: string;
+    thirdTitle: string;
+    thirdText: string;
+    thirdMobileText: string;
+    thirdCardSave: string;
+    thirdCardTranslate: string;
+    thirdCardBack: string;
+    fourthTitle: string;
+    fourthText: string;
+    fourthSecondTitle: string;
+    fourthSecondText: string;
+    fourthSecondMobileText: string;
+    fourthButtonText: string;
+  };
+};
+
+const WaysSection = ({ texts }: Texts) => {
   const [page, setPage] = useState(0);
 
   const reveal = () => {
@@ -28,13 +54,40 @@ const WaysSection = () => {
 
   return (
     <SectionWrapper
-      title="Modern Way of Learning"
-      text="Experience a new era of language learning with our innovative methods designed to make learning engaging and effective."
-      mobileText="Experience a new era of language learning with our innovative methods designed to make learning engaging and effective."
+      title={texts.title}
+      text={texts.text}
+      mobileText={texts.mobileText}
       className="min-h-[851px] flex flex-col justify-between items-center"
     >
       <div className="relative min-h-[402px] flex items-center justify-center">
-        <WaysContent page={page} />
+        <WaysContent
+          page={page}
+          First={{
+            firstMobileText: texts.firstMobileText,
+            firstTitle: texts.firstTitle,
+            firstText: texts.firstText,
+          }}
+          Second={{
+            secondMobileText: texts.secondMobileText,
+            secondText: texts.secondText,
+            secondTitle: texts.secondTitle,
+          }}
+          Third={{
+            thirdCardBack: texts.thirdCardBack,
+            thirdCardTranslate: texts.thirdCardTranslate,
+            thirdMobileText: texts.thirdMobileText,
+            thirdText: texts.thirdText,
+            thirdTitle: texts.thirdTitle,
+          }}
+          Fourth={{
+            fourthButtonText: texts.fourthButtonText,
+            fourthSecondMobileText: texts.fourthSecondMobileText,
+            fourthSecondText: texts.fourthSecondText,
+            fourthSecondTitle: texts.fourthSecondTitle,
+            fourthText: texts.fourthText,
+            fourthTitle: texts.fourthTitle,
+          }}
+        />
       </div>
       <NavBar page={page} setNewPage={(newPage: number) => setPage(newPage)} />
     </SectionWrapper>

@@ -38,6 +38,9 @@ type Texts = {
     emails: string;
     usersWords: string;
     usersCollections: string;
+    block: string;
+    unblock: string;
+    search: string;
   };
 };
 
@@ -67,6 +70,7 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
   useEffect(() => {
     fetchUsers();
     setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const searchParams = useSearchParams();
@@ -108,17 +112,18 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
 
   return (
     <>
-      <Search />
+      <Search text={{ text: texts.search }} />
       {isLoading ? (
         <CircularProgress className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen" />
       ) : (
-        <div className="grid grid-cols-[repeat(6,_minmax(180px,_1fr))] w-full overflow-x-auto">
-          <Cell>User&apos;s ID</Cell>
+        <div className="grid grid-cols-[repeat(5,_minmax(180px,_1fr))] w-full overflow-x-auto">
+          <Cell />
           <Cell>{texts.names}</Cell>
           <Cell>{texts.surnames}</Cell>
           <Cell>{texts.emails}</Cell>
-          <Cell>{texts.usersCollections}</Cell>
-          <Cell>Block/Unblock</Cell>
+          <Cell>
+            {texts.block}/{texts.unblock}
+          </Cell>
           {...users.map((user, index) => (
             <>
               <Cell isMarked={user.isAdmin ? true : undefined}>{user.id}</Cell>
@@ -132,15 +137,12 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
                 {user.email}
               </Cell>
               <Cell isMarked={user.isAdmin ? true : undefined}>
-                Collections
-              </Cell>
-              <Cell isMarked={user.isAdmin ? true : undefined}>
                 {user.isBlocked ? (
                   <StyledButton
                     variant="contained"
                     onClick={() => handleBlock(user.id!)}
                   >
-                    Unblock
+                    {texts.unblock}
                   </StyledButton>
                 ) : (
                   <StyledButton
@@ -148,7 +150,7 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
                     variant="contained"
                     onClick={() => handleBlock(user.id!)}
                   >
-                    Block
+                    {texts.block}
                   </StyledButton>
                 )}
               </Cell>

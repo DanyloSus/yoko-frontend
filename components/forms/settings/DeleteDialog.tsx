@@ -4,7 +4,7 @@
 import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
+import ThemeDialog from "@mui/material/ThemeDialog";
 import DialogTitle from "@mui/material/DialogTitle";
 
 // internal imports
@@ -62,9 +62,9 @@ const DeleteDialog = ({ texts, ...props }: DialogProps & Texts) => {
       <DialogTitle>
         <p className="text-h5 font-kyiv">{texts.dialogHeading}</p>
       </DialogTitle>
-      <DialogContent>
+      <ThemeDialog>
         <p>{texts.dialogContent}</p>
-      </DialogContent>
+      </ThemeDialog>
       <DialogActions>
         <StyledButton variant="text" onClick={props.handleClose}>
           {texts.cancel}

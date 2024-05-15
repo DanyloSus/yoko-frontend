@@ -17,7 +17,27 @@ type Message = {
   };
 };
 
-const CheckLevelContent = () => {
+export type AITexts = {
+  message: string;
+  startDialog: string;
+  stop: string;
+  send: string;
+  hint: string;
+  ai: string;
+  placeholder: string;
+  you: string;
+};
+
+export type AIErrors = {
+  required: string;
+};
+
+type ContentProps = {
+  texts: AITexts;
+  errors: AIErrors;
+};
+
+const CheckLevelContent = ({ texts, errors, ...props }: ContentProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [dialog, setDialog] = useState(false);
   const [level, setLevel] = useState("");
@@ -45,7 +65,7 @@ const CheckLevelContent = () => {
       prompt: "",
     },
     validationSchema: Yup.object({
-      prompt: Yup.string().required(),
+      prompt: Yup.string().required(errors.required),
     }),
     validateOnChange: false,
     onSubmit: async (value) => {
@@ -114,7 +134,7 @@ const CheckLevelContent = () => {
           ? messages.map((message) => (
               <div key={message.index}>
                 <h6 className="text-h6">
-                  {message.message.role === "assistant" ? "AI" : "You"}
+                  {message.message.role === "assistant" ? texts.ai : texts.you}
                 </h6>
                 <p>{message.message.content}</p>
               </div>
@@ -128,12 +148,12 @@ const CheckLevelContent = () => {
           <div className="w-full relative">
             {messages.length === 1 ? (
               <p className="text-label opacity-50 absolute -top-12">
-                remember, the more you write, the better the result will be*
+                {texts.hint}
               </p>
             ) : null}
             <StyledTextField
               multiline
-              label="Your answer"
+              label={texts.message}
               type="text"
               name="prompt"
               error={
@@ -147,7 +167,7 @@ const CheckLevelContent = () => {
             />
           </div>
           <StyledButton type="submit" variant="contained" disabled={isLoading}>
-            Send
+            {texts.send}
           </StyledButton>
         </form>
         <AnswerDialog

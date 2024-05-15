@@ -7,6 +7,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
+import { AIErrors, AITexts } from "../CheckLevelContent";
 
 type Message = {
   index: number;
@@ -16,7 +17,12 @@ type Message = {
   };
 };
 
-const AnotherjustDialogContent = () => {
+type DialogProps = {
+  texts: AITexts;
+  errors: AIErrors;
+};
+
+const JustDialog = ({ texts, errors, ...props }: DialogProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [stopped, setStopped] = useState(false);
@@ -26,7 +32,7 @@ const AnotherjustDialogContent = () => {
       prompt: "",
     },
     validationSchema: Yup.object({
-      prompt: Yup.string().required(),
+      prompt: Yup.string().required(errors.required),
     }),
     validateOnChange: false,
     onSubmit: async (value) => {
@@ -116,10 +122,8 @@ const AnotherjustDialogContent = () => {
           : null}
 
         {!messages.length ? (
-          <p className="text-label opacity-50 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full px-phone md:px-tablet lg:px-pc">
-            Start a dialog with the bot on a topic
-            <br /> After five messages, click on the STOP button to get your
-            mistakes
+          <p className="text-label opacity-50 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full px-phone md:px-tablet lg:px-pc whitespace-pre-line">
+            {texts.startDialog}
           </p>
         ) : null}
 
@@ -130,12 +134,12 @@ const AnotherjustDialogContent = () => {
           <div className="w-full relative">
             {messages.length === 2 ? (
               <p className="text-label opacity-50 absolute -top-12">
-                remember, the more you write, the better the result will be*
+                {texts.hint}
               </p>
             ) : null}
             <StyledTextField
               multiline
-              label="Your message"
+              label={texts.message}
               type="text"
               name="prompt"
               error={
@@ -146,7 +150,7 @@ const AnotherjustDialogContent = () => {
               value={formik.values.prompt}
               className="w-full"
               disabled={isLoading || stopped}
-              placeholder="Let's start to talk about..."
+              placeholder={texts.placeholder}
             />
           </div>
           <div className="flex w-full justify-between">
@@ -156,14 +160,14 @@ const AnotherjustDialogContent = () => {
               color="error"
               variant="contained"
             >
-              STOP
+              {texts.stop}
             </StyledButton>
             <StyledButton
               type="submit"
               variant="contained"
               disabled={isLoading || stopped}
             >
-              Send
+              {texts.send}
             </StyledButton>
           </div>
         </form>
@@ -172,4 +176,4 @@ const AnotherjustDialogContent = () => {
   );
 };
 
-export default AnotherjustDialogContent;
+export default JustDialog;

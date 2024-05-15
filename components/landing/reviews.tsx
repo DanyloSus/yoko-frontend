@@ -3,54 +3,57 @@ import SectionWrapper from "../wrappers/SectionWrapper";
 import Comment from "../collections/Comment";
 import path from "path";
 import { promises as fs } from "fs";
+import { useTranslations } from "next-intl";
 
 const ReviewsSection = async () => {
+  const t = useTranslations("Landing");
+
   const imageDirectory = path.join(process.cwd(), "/public/images");
   const imageFilenames = await fs.readdir(imageDirectory);
 
   return (
     <SectionWrapper
-      title="We are trusted world wide!"
+      title={t("Reviews.title")}
       fullScreen
       className="flex flex-col justify-between"
     >
       <div className="flex gap-[20px]">
-        <div className="flex flex-col gap-[20px]">
+        <div className="grid row-span-3 gap-[20px]">
           <Comment
-            name="Monkey D. Luffy"
-            content="I really like this app, it really helps to have fun and get smarter in my free time, although I install it to order food, though !"
+            name={t("Reviews.First.name")}
+            content={t("Reviews.First.content")}
             className="reveal"
             image={`/images/${imageFilenames[0]}`}
           />
           <Comment
-            name="Franky"
-            content="This app is just SUUUUUPER !"
+            name={t("Reviews.Second.name")}
+            content={t("Reviews.Second.content")}
             className="reveal"
             image={`/images/${imageFilenames[1]}`}
           />
           <Comment
-            name="Roronoa Zoro"
-            content="Something do happen, something that makes me smarter and in the same time gives me joy !"
+            name={t("Reviews.Third.name")}
+            content={t("Reviews.Third.content")}
             className="reveal"
             image={`/images/${imageFilenames[2]}`}
           />
         </div>
-        <div className="flex flex-col gap-[20px] max-sm:hidden">
+        <div className="grid row-span-3 gap-[20px] max-sm:hidden">
           <Comment
-            name="Nami"
-            content="Now I switched from other couple of apps  and really cut my expenses over the time, but listen carefully ! this is my coupon..."
+            name={t("Reviews.Fourth.name")}
+            content={t("Reviews.Fourth.content")}
             className="reveal"
             image={`/images/${imageFilenames[3]}`}
           />
           <Comment
-            name="Tony Tony Chopper"
-            content="Now days it is hard to learn specific professional  vocabulary for, but this app is a real lifesaver "
+            name={t("Reviews.Fifth.name")}
+            content={t("Reviews.Fifth.content")}
             className="reveal"
             image={`/images/${imageFilenames[4]}`}
           />
           <Comment
-            name="Usopp"
-            content="I am not gonna lie that app is awesome !"
+            name={t("Reviews.Sixth.name")}
+            content={t("Reviews.Sixth.content")}
             className="reveal"
             image={`/images/${imageFilenames[5]}`}
           />

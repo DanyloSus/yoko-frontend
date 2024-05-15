@@ -7,7 +7,11 @@ import React from "react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useDebouncedCallback } from "use-debounce";
 
-const Search = () => {
+type Text = {
+  text: { text: string };
+};
+
+const Search = ({ text }: Text) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -24,7 +28,7 @@ const Search = () => {
 
   return (
     <StyledTextField
-      placeholder="Search..."
+      placeholder={text.text}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">

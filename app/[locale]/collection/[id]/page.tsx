@@ -27,9 +27,14 @@ const CollectionPage = ({ params }: { params: { id: string } }) => {
             "texts.textExercise",
             "texts.quizExercise",
             "texts.cardsExercise",
+            "texts.comments",
+            "texts.addComment",
+            "texts.submit",
+            "texts.error",
           ],
           t
         )}
+        errors={overkill(["errors.required", "errors.minLen"], t)}
         collectionId={params.id}
       />
     </>
