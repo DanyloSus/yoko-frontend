@@ -4,9 +4,10 @@
 // external imports
 import { ThemeProvider } from "@mui/material/styles";
 // internal imports
-import "./globals.scss";
+
 import ReduxWrapper from "@/components/wrappers/ReduxWrapper";
 import theme from "@/ui/theming/Theme";
+import "@/public/styles/globals.scss";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 

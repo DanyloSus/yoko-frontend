@@ -5,8 +5,6 @@
 import Button, { ButtonProps } from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
-import "./Button.scss";
-
 // create custom button's style
 const StyleForButton = styled(Button)<ButtonProps>(({ theme }) => ({
   // applying base style

@@ -1,3 +1,7 @@
+.active .MuiButton-root {
+  @apply bg-blue-marguerite-700 dark:bg-blue-marguerite-500;
+}
+
 .MuiButtonBase-root.MuiButton-text {
   @apply hover:bg-blue-marguerite-600 text-white dark:hover:bg-dark-grey;
   &.MuiButton-textSecondary {

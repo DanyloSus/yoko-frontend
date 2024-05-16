@@ -6,8 +6,6 @@ import localFont from "next/font/local";
 import { styled } from "@mui/material/styles";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 
-import "./TextField.scss";
-
 // get local kyiv font
 const kyiv = localFont({
   src: "../public/fonts/KyivTypeSerif-Bold2.woff2",
