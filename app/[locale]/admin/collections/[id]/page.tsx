@@ -1,4 +1,4 @@
-import CollectionForm from "@/components/admins/forms/CollectionForm";
+import CollectionForm from "@/components/forms/admins/CollectionForm";
 import { overkill } from "@/modules/internationalization/navigation";
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";

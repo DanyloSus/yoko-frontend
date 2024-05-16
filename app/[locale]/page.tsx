@@ -4,11 +4,11 @@ import { getTranslations } from "next-intl/server";
 
 // internal imports
 import TranslatedHeader from "@/components/header/TranslatedHeader";
-import MainSection from "@/components/landing/main";
-import CollectionsSection from "@/components/landing/collections";
-import WaysSection from "@/components/landing/ways";
-import ReviewsSection from "@/components/landing/reviews";
-import FinalSection from "@/components/landing/final";
+import MainSection from "@/components/landing/Main";
+import CollectionsSection from "@/components/landing/Collections";
+import WaysSection from "@/components/landing/Ways";
+import ReviewsSection from "@/components/landing/Reviews";
+import FinalSection from "@/components/landing/Final";
 import Footer from "@/components/Footer";
 import { useTranslations } from "next-intl";
 import { overkill } from "@/modules/internationalization/navigation";

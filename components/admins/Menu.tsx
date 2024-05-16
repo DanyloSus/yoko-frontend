@@ -2,7 +2,7 @@
 import React from "react";
 
 // internal imports
-import MenuTitle from "./MenuTitle";
+import MenuTitle from "../../ui/MenuTitle";
 import { useTranslations } from "next-intl";
 
 const AdminMenu = () => {

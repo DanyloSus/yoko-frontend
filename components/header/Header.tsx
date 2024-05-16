@@ -9,7 +9,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 // internal imports
-import NavLink from "../NavLink";
+import NavLink from "../../ui/NavLink";
 import StyledButton from "../../ui/Button";
 import {
   Link,
@@ -19,7 +19,7 @@ import {
 import { Store } from "@/modules/redux/store";
 import useUserAuthed from "@/modules/auth/hooks/useUserAuthed";
 import { AnimatePresence } from "framer-motion";
-import MobileMenu, { MobileMenuTexts } from "../admins/MobileMenu";
+import MobileMenu, { MobileMenuTexts } from "./MobileMenu";
 import useScrollBlock from "@/modules/hooks/useScrollBlock";
 import UserMenu, { UserMenuTexts } from "./UserMenu";
 import useAuthedReplace from "@/modules/auth/hooks/useAuthedReplace";

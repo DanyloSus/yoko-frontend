@@ -2,7 +2,7 @@
 import React from "react";
 
 // internal imports
-import NavLink from "../NavLink";
+import NavLink from "./NavLink";
 
 type TitleProps = {
   link?: string;

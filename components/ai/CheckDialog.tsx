@@ -24,7 +24,7 @@ type DialogProps = {
   level: string;
 };
 
-const AnswerDialog = ({ ...props }: DialogProps) => {
+const CheckDialog = ({ ...props }: DialogProps) => {
   return (
     <Dialog open={props.open}>
       <DialogTitle>
@@ -42,4 +42,4 @@ const AnswerDialog = ({ ...props }: DialogProps) => {
   );
 };
 
-export default AnswerDialog;
+export default CheckDialog;

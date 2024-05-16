@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import SectionWrapper from "../wrappers/SectionWrapper";
-import NavBar from "./NavBar";
+import NavBar from "./ways/NavBar";
 import WaysContent, { WaysTexts } from "./ways/Content";
 
 type Texts = {

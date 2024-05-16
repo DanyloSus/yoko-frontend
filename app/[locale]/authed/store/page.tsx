@@ -4,11 +4,9 @@ import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 // internal imports
-import Sort from "@/components/sort/Sort";
 import { Link, overkill } from "@/modules/internationalization/navigation";
 import StyledButton from "@/ui/Button";
 import StoreContent from "@/components/collections/Store";
-import Search from "@/components/collections/Search";
 import TranslatedSearch from "@/components/collections/TranslatedSearch";
 
 // create multilanguage dynamic metadata

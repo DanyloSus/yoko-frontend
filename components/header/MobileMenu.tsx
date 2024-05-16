@@ -7,7 +7,7 @@ import {
   usePathname,
   useRouter,
 } from "@/modules/internationalization/navigation";
-import MenuTitle from "./MenuTitle";
+import MenuTitle from "../../ui/MenuTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/modules/redux/user/userSlice";
 import UserElement from "../users/UserElement";

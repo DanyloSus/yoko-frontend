@@ -1,4 +1,4 @@
-import ThemeDialog from "@/components/ai/dialog/ThemeDialog";
+import ThemeDialog from "@/components/ai/chat/ThemeDialog";
 import { overkill } from "@/modules/internationalization/navigation";
 import { useTranslations } from "next-intl";
 import React from "react";

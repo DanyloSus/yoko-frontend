@@ -1,4 +1,4 @@
-import JustDialog from "@/components/ai/dialog/JustDialog";
+import JustDialog from "@/components/ai/chat/JustDialog";
 import { overkill } from "@/modules/internationalization/navigation";
 import { useTranslations } from "next-intl";
 import React from "react";

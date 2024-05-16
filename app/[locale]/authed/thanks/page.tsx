@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 // internal imports
-import AdminText from "./AdminText";
+import AdminText from "@/ui/AdminText";
 
 // create multilanguage dynamic metadata
 export async function generateMetadata({

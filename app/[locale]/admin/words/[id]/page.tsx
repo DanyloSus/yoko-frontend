@@ -1,4 +1,4 @@
-import WordForm from "@/components/admins/forms/WordForm";
+import WordForm from "@/components/forms/admins/WordForm";
 import { overkill } from "@/modules/internationalization/navigation";
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";

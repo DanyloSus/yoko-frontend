@@ -6,7 +6,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import AnswerDialog from "./AnswerDialog";
+import CheckDialog from "./CheckDialog";
 import { CircularProgress } from "@mui/material";
 
 type Message = {
@@ -170,7 +170,7 @@ const CheckLevelContent = ({ texts, errors, ...props }: ContentProps) => {
             {texts.send}
           </StyledButton>
         </form>
-        <AnswerDialog
+        <CheckDialog
           handleClose={() => setDialog(false)}
           level={level}
           open={dialog}
