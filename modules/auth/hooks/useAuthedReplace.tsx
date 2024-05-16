@@ -3,19 +3,25 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 
 // internal imports
-import { useRouter } from "@/modules/internationalization/navigation";
+import {
+  usePathname,
+  useRouter,
+} from "@/modules/internationalization/navigation";
 import { UserInfo, login, userLoad } from "@/modules/redux/user/userSlice";
 
 type HookProps = {
   user: UserInfo;
   setIsLoading: (val: boolean) => void;
   replacePageIfUserAuthed?: boolean;
+  replacePageIfUserIsNotAdmin?: boolean;
   page: string;
 };
 
 const useAuthedReplace = (props: HookProps) => {
   // router for changing page by code
   const router = useRouter();
+
+  const pathname = usePathname();
 
   // dispatch for slices' actions
   const dispatch = useDispatch();
@@ -26,7 +32,13 @@ const useAuthedReplace = (props: HookProps) => {
     // if user exists then we go to another page
     if (
       (props.user.token && props.replacePageIfUserAuthed) ||
-      (!props.user.token && !props.replacePageIfUserAuthed)
+      (!props.user.token && !props.replacePageIfUserAuthed) ||
+      (pathname.includes("admin") &&
+        props.replacePageIfUserIsNotAdmin &&
+        !props.user.isAdmin) ||
+      (!pathname.includes("admin") &&
+        props.replacePageIfUserIsNotAdmin &&
+        props.user.isAdmin)
     ) {
       router.replace(props.page);
       props.setIsLoading(false);

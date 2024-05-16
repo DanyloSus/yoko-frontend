@@ -22,6 +22,7 @@ import { AnimatePresence } from "framer-motion";
 import MobileMenu, { MobileMenuTexts } from "../admins/MobileMenu";
 import useScrollBlock from "@/modules/hooks/useScrollBlock";
 import UserMenu, { UserMenuTexts } from "./UserMenu";
+import useAuthedReplace from "@/modules/auth/hooks/useAuthedReplace";
 
 type Texts = {
   logo: string;
@@ -71,11 +72,28 @@ const Header = ({ texts, ...props }: HeaderProps) => {
     user: user,
   });
 
+  const pathname = usePathname();
+
+  const { checkUser: checkAuth } = useAuthedReplace({
+    page: user.isAdmin
+      ? "/admin/collections"
+      : user.token
+      ? "/authed/collections"
+      : "/authentification/login",
+    setIsLoading: (val: boolean) => {},
+    user: user,
+    replacePageIfUserAuthed: false,
+    replacePageIfUserIsNotAdmin: true,
+  });
+
   // call check function on start and when user is updating
   useEffect(() => {
     console.log(user);
 
     checkUser();
+    if (pathname !== "/") {
+      checkAuth();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.token]);
 

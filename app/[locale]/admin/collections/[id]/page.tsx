@@ -1,7 +1,13 @@
 import CollectionForm from "@/components/admins/forms/CollectionForm";
 import { overkill } from "@/modules/internationalization/navigation";
+import { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import React from "react";
+
+// create static metadata
+export const metadata: Metadata = {
+  title: "Change collection",
+};
 
 const CollectionPage = ({ params }: { params: { id: string } }) => {
   const t = useTranslations("Admin");
