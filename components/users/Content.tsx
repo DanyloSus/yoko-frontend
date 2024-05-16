@@ -45,7 +45,11 @@ const UserContent = ({ texts }: Texts) => {
         // if user is admin then he doesn't have name and we shouldn't show it him
         user.isAdmin ? null : <UserElement user={user} />
       }
-      <StyledButton variant="outlined">{texts.collections}</StyledButton>
+      <Link href="/authed/collections" className="w-full">
+        <StyledButton variant="outlined" className="w-full">
+          {texts.collections}
+        </StyledButton>
+      </Link>
       <Link href="/authed/user/settings" className="w-full">
         <StyledButton variant="outlined" className="w-full">
           {texts.settings}

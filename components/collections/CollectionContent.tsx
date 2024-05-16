@@ -182,7 +182,7 @@ const CollectionContent = ({ texts, errors, ...props }: CollectionProps) => {
             <p className="text-label">
               {collection.likes} {texts.likes}
             </p>
-            <div onClick={likeCollection}>
+            <div onClick={likeCollection} className="cursor-pointer">
               {collection.isLiked ? (
                 <ThumbUpAltIcon sx={{ width: "36px", height: "36px" }} />
               ) : (
