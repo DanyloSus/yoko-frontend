@@ -62,7 +62,10 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
 
       setCollections(res.data.data.data);
       setCountOfPages(res.data.data.lastPage);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -73,6 +76,7 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
 
   useEffect(() => {
     setPage(1);
+    fetchCollections();
   }, [props.query]);
 
   const searchParams = useSearchParams();

@@ -23,7 +23,9 @@ const TranslationBubble = ({ bubbleText, ...props }: BubbleProps & Texts) => {
       title={
         <div className="flex flex-col items-center p-[4px] font-dmSans text-center">
           <div className="flex items-center gap-[10px]">
-            <p className="text-p">{props.translationUk}</p>
+            <p className="text-p">
+              {props.translationUk.replaceAll("&#39;", "'")}
+            </p>
           </div>
         </div>
       }

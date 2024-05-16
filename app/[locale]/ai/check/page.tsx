@@ -3,7 +3,7 @@ import { overkill } from "@/modules/internationalization/navigation";
 import { useTranslations } from "next-intl";
 import React from "react";
 
-export const aiTextsArray = [
+const aiTextsArray = [
   "texts.message",
   "texts.startDialog",
   "texts.stop",

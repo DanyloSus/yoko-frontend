@@ -1,7 +1,13 @@
 import ReguestsTable from "@/components/admins/tables/ReguestsTable";
 import { overkill } from "@/modules/internationalization/navigation";
+import { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import React from "react";
+
+// create static metadata
+export const metadata: Metadata = {
+  title: "Requests Page",
+};
 
 const RequestPage = ({
   searchParams,

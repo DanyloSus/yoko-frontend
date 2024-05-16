@@ -58,12 +58,14 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
 
       setWords(res.data.data.words);
       setCountOfPages(res.data.data.lastPage);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
     fetchWords();
-    setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
@@ -83,6 +85,7 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
 
   useEffect(() => {
     setPage(1);
+    fetchWords();
   }, [props.query]);
 
   return (

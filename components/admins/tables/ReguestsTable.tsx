@@ -64,12 +64,14 @@ const RequestsTable = ({ texts, ...props }: Texts & TableProps) => {
 
       setCollections(res.data.data.requests);
       setCountOfPages(res.data.data.lastPage);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
     fetchRequests();
-    setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
@@ -89,6 +91,7 @@ const RequestsTable = ({ texts, ...props }: Texts & TableProps) => {
 
   useEffect(() => {
     setPage(1);
+    fetchRequests();
   }, [props.query]);
 
   return (

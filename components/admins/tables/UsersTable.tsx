@@ -64,12 +64,14 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
 
       setUsers(res.data.data.users);
       setCountOfPages(res.data.data.lastPage);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
     fetchUsers();
-    setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
@@ -108,6 +110,7 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
 
   useEffect(() => {
     setPage(1);
+    fetchUsers();
   }, [props.query]);
 
   return (

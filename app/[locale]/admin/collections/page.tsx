@@ -7,6 +7,12 @@ import CollectionsTable, {
   Collection,
 } from "@/components/admins/tables/CollectionsTable";
 import { overkill } from "@/modules/internationalization/navigation";
+import { Metadata } from "next";
+
+// create static metadata
+export const metadata: Metadata = {
+  title: "Collections Page",
+};
 
 const UsersAdminPage = ({
   searchParams,

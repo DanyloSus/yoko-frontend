@@ -1,8 +1,18 @@
-import { aiTextsArray } from "@/app/[locale]/ai/check/page";
 import ThemeDialog from "@/components/ai/dialog/ThemeDialog";
 import { overkill } from "@/modules/internationalization/navigation";
 import { useTranslations } from "next-intl";
 import React from "react";
+
+const aiTextsArray = [
+  "texts.message",
+  "texts.startDialog",
+  "texts.stop",
+  "texts.send",
+  "texts.hint",
+  "texts.placeholder",
+  "texts.ai",
+  "texts.you",
+];
 
 const DialogWithAIPage = ({ params }: { params: { id: string } }) => {
   const t = useTranslations("AI");
