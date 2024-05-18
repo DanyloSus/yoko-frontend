@@ -14,6 +14,7 @@ import useAuthedReplace from "@/modules/auth/hooks/useAuthedReplace";
 import { useRouter } from "@/modules/internationalization/navigation";
 import { Store } from "@/modules/redux/store";
 import { login } from "@/modules/redux/user/userSlice";
+import { AuthentificationResponse } from "@/modules/types/responses";
 import StyledButton from "@/ui/mui/Button";
 import StyledTextField from "@/ui/mui/TextField";
 
@@ -115,8 +116,8 @@ const RegisterForm = ({ texts, errors }: RegisterFormTexts) => {
 
       try {
         // send post request to create user
-        const res = await axios.post(
-          "http://18.212.227.5:8876/api/v1/auth/register",
+        const res: AuthentificationResponse = await axios.post(
+          "/api/authentification/register",
           value
         );
 

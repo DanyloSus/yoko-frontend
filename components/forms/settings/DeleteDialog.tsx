@@ -36,7 +36,7 @@ const DeleteDialog = ({ texts, ...props }: DialogProps) => {
         `http://18.212.227.5:8876/api/v1/users/${user.id}/blockOrUnblock`
       );
 
-      await axios.post("/api/logout", {
+      await axios.post("/api/authentification/logout", {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },

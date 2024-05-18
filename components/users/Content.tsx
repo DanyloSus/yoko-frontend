@@ -64,7 +64,7 @@ const UserContent = ({ texts }: Texts) => {
       <StyledButton
         variant="outlined"
         onClick={async () => {
-          await axios.post("/api/logout", {
+          await axios.post("/api/authentification/logout", {
             headers: {
               Authorization: `Bearer ${user.token}`,
             },

@@ -125,7 +125,7 @@ const UserMenu = ({ texts, ...props }: MenuProps) => {
       <IconMenuItem
         leftIcon={<LogoutOutlinedIcon />}
         onClick={async () => {
-          await axios.post("/api/logout", {
+          await axios.post("/api/authentification/logout", {
             headers: {
               Authorization: `Bearer ${user.token}`,
             },

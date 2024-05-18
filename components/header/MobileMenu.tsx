@@ -118,7 +118,7 @@ const MobileMenu = ({ texts, ...props }: MobileMenuProps) => {
           )}
           <MenuTitle
             onClick={async () => {
-              await axios.post("/api/logout", {
+              await axios.post("/api/authentification/logout", {
                 headers: {
                   Authorization: `Bearer ${user.token}`,
                 },

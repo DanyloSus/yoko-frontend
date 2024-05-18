@@ -91,7 +91,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
       try {
         // set post method to login user
         const res: AuthentificationResponse = await axios.post(
-          "/api/login",
+          "/api/authentification/login",
           value
         );
 
@@ -102,7 +102,7 @@ const LoginForm = ({ texts, errors }: Texts) => {
         // set token to cookie
         await axios.post("/api/cookies", JSON.stringify(token));
 
-        // write admin to redux
+        // write user to redux
         dispatch(
           login({
             id: dataUser.id,
