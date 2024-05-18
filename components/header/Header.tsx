@@ -92,7 +92,7 @@ const Header = ({ texts, ...props }: HeaderProps) => {
 
   // call check function on start and when user is updating
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
 
     checkUser();
     // if page isn't landing then check is user authed

@@ -53,7 +53,6 @@ const darkThemeSlice = createSlice({
       ) {
         document.body.classList.add("dark");
       } else {
-        console.log(window.matchMedia("(prefers-color-scheme: dark)").matches);
         if (document.body.classList.contains("dark")) {
           document.body.classList.remove("dark");
         }

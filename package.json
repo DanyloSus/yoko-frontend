@@ -33,6 +33,7 @@
     "react-tooltip": "^5.26.4",
     "react-world-flags": "^1.6.0",
     "sass": "^1.75.0",
+    "sharp": "^0.33.4",
     "swr": "^2.2.5",
     "use-debounce": "^10.0.0",
     "yup": "^1.4.0"
