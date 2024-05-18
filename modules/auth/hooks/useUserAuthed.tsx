@@ -40,14 +40,11 @@ const useUserAuthed = (props: HookProps) => {
         // if token equal null it will log error
         if (token !== null) {
           // if token equal something then we check existing user by token
-          const { data } = await axios.get(
-            "http://18.212.227.5:8876/api/user",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          const { data } = await axios.get("/api/user", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
           // if data equal user (if not then we get error), we set it to redux
           dispatch(
@@ -57,7 +54,7 @@ const useUserAuthed = (props: HookProps) => {
               name: data.name,
               surname: data.surname,
               token,
-              isAdmin: false,
+              isAdmin: data.name ? false : true,
             })
           );
 
