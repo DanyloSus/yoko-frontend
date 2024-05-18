@@ -18,8 +18,8 @@ import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
 import { Question } from "@/modules/types/elements";
 import { QuizExerciseResponse } from "@/modules/types/responses";
-import StyledLinearProgress from "@/ui/LinearProgress";
 import StyledButton from "@/ui/mui/Button";
+import StyledLinearProgress from "@/ui/mui/LinearProgress";
 import { CircularProgress } from "@mui/material";
 
 type ComponentProps = {

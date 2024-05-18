@@ -14,8 +14,8 @@ import { useRouter } from "@/modules/internationalization/navigation";
 import { Store } from "@/modules/redux/store";
 import { login } from "@/modules/redux/user/userSlice";
 import { DeleteDialogTexts } from "@/modules/types/texts";
-import StyledButton from "@/u@/ui/mui/TextField";
-import StyledTextField from "@/ui/TextField";
+import StyledButton from "@/ui/mui/Button";
+import StyledTextField from "@/ui/mui/TextField";
 import DeleteDialog from "./DeleteDialog";
 
 type FormTexts = {

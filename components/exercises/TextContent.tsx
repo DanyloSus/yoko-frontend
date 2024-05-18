@@ -11,8 +11,8 @@ import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
 import { Word } from "@/modules/types/elements";
 import { TextExerciseResponse } from "@/modules/types/responses";
-import StyledLinearProgress from "@/ui/LinearProgress";
 import StyledButton from "@/ui/mui/Button";
+import StyledLinearProgress from "@/ui/mui/LinearProgress";
 import TranslationBubble from "./TranslationBubble";
 
 type ContentProps = {
