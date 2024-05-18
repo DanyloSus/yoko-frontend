@@ -1,4 +1,4 @@
-import React from "react";
+// external imports
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import Image from "next/image";
 

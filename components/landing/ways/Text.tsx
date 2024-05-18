@@ -1,9 +1,9 @@
+// internal imports
 import TranslationBubble from "@/components/exercises/TranslationBubble";
-import React from "react";
 
 const Text = () => {
-  const en = ["Some", "sentence", "with", "some", "text."];
-  const uk = ["Якесь", "речення", "із", "якимось", "текстом."];
+  const en = ["Some", "sentence", "with", "some", "text."]; // dummy english text
+  const uk = ["Якесь", "речення", "із", "якимось", "текстом."]; // dummy ukrainian translation
   return (
     <p>
       {...en.map((word, index) => (

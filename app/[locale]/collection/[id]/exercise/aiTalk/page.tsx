@@ -1,21 +1,13 @@
+// external imports
+import { useTranslations } from "next-intl";
+
+// internal imports
 import ThemeDialog from "@/components/ai/chat/ThemeDialog";
 import { overkill } from "@/modules/internationalization/navigation";
-import { useTranslations } from "next-intl";
-import React from "react";
-
-const aiTextsArray = [
-  "texts.message",
-  "texts.startDialog",
-  "texts.stop",
-  "texts.send",
-  "texts.hint",
-  "texts.placeholder",
-  "texts.ai",
-  "texts.you",
-];
+import { aiTextsArray } from "@/modules/types/texts";
 
 const DialogWithAIPage = ({ params }: { params: { id: string } }) => {
-  const t = useTranslations("AI");
+  const t = useTranslations("AI"); // get page translation
 
   return (
     <ThemeDialog

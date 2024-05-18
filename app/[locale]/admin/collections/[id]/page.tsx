@@ -1,8 +1,10 @@
-import CollectionForm from "@/components/forms/admins/CollectionForm";
-import { overkill } from "@/modules/internationalization/navigation";
+// external imports
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";
-import React from "react";
+
+// internal imports
+import CollectionForm from "@/components/forms/admins/CollectionForm";
+import { overkill } from "@/modules/internationalization/navigation";
 
 // create static metadata
 export const metadata: Metadata = {
@@ -10,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const CollectionPage = ({ params }: { params: { id: string } }) => {
-  const t = useTranslations("Admin");
+  const t = useTranslations("Admin"); // get page translation
 
   return (
     <CollectionForm

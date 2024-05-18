@@ -1,3 +1,6 @@
+// base styles
+
+// applying kyiv font to all headings
 h1,
 h2,
 h3,
@@ -7,11 +10,13 @@ h6 {
   @apply font-kyiv; //font-kyiv is custom in tailwindcss
 }
 
+// applying DMSams font to all texts
 button,
 body {
   @apply font-dmSans; //font-dmSans is custom in tailwindcss
 }
 
+// hide site by x
 body {
   overflow-x: hidden;
 }

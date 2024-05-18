@@ -1,6 +1,3 @@
-//import from libraries
-import React from "react";
-
 type NavBarProps = {
   page: number; //active page
   setNewPage: (newPage: number) => void; //functional to change active page

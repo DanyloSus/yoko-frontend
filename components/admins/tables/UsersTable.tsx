@@ -1,29 +1,24 @@
 "use client";
 
 // external imports
-import React, { useEffect, useState } from "react";
+import { CircularProgress } from "@mui/material";
+import axios from "axios";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 // internal imports
-import Cell from "./Cell";
-import axios from "axios";
-import { CircularProgress, Pagination } from "@mui/material";
-import StyledPagination from "@/ui/Pagination";
-import { useSearchParams } from "next/navigation";
 import {
   usePathname,
   useRouter,
 } from "@/modules/internationalization/navigation";
-import { UserInfo } from "@/modules/redux/user/userSlice";
-import StyledButton from "@/ui/Button";
-import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
-import Search from "@/components/collections/Search";
-
-export type Word = {
-  id: number;
-  word: string;
-  translationUk: string;
-};
+import { UserInfo } from "@/modules/redux/user/userSlice";
+import { UsersResponse } from "@/modules/types/responses";
+import Search from "@/ui/Search";
+import StyledButton from "@/ui/mui/Button";
+import StyledPagination from "@/ui/mui/Pagination";
+import Cell from "./Cell";
 
 type TableProps = {
   //   users: Word[];
@@ -31,7 +26,7 @@ type TableProps = {
   page?: string;
 };
 
-type Texts = {
+type TableTexts = {
   texts: {
     names: string;
     surnames: string;
@@ -44,41 +39,59 @@ type Texts = {
   };
 };
 
-const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
+const UsersTable = ({ texts, ...props }: TableTexts & TableProps) => {
+  // state for saving users
   const [users, setUsers] = useState<UserInfo[]>([]);
+  // state for page
   const [page, setPage] = useState(props.page ? Number(props.page) : 1);
+  // state for count of pages, for pagination
   const [countOfPages, setCountOfPages] = useState(1);
+  // state for loading
   const [isLoading, setIsLoading] = useState(true);
 
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
+  // function to fetch users
   async function fetchUsers() {
     setIsLoading(true);
     try {
-      const res = await axios.get(
+      const res: UsersResponse = await axios.get(
         `http://18.212.227.5:8876/api/v1/users?page=${page}${
           props.query ? `&query=${props.query}` : ""
         }`,
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
 
+      // set users
       setUsers(res.data.data.users);
+      // set count of pages for pagination
       setCountOfPages(res.data.data.lastPage);
     } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   }
 
+  // use effect to fetch users on start and changing page
   useEffect(() => {
     fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
+  // get params queries
   const searchParams = useSearchParams();
+  // get page's pathname
   const pathname = usePathname();
-  const { replace } = useRouter();
+  // router for changing page by code
+  const router = useRouter();
 
+  // function for changing page
   const handleSearch = (page: string) => {
     const params = new URLSearchParams(searchParams);
     if (page) {
@@ -86,31 +99,41 @@ const UsersTable = ({ texts, ...props }: Texts & TableProps) => {
     } else {
       params.delete("page");
     }
-    replace(`${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
+  // function for block/unblock user
   const handleBlock = async (userId: number) => {
     try {
       await axios.patch(
         `http://18.212.227.5:8876/api/v1/users/${userId}/blockOrUnblock`,
         null,
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
 
-      const res = await axios.get(
-        `http://18.212.227.5:8876/api/v1/users?page=${page}${
-          props.query ? `&query=${props.query}` : ""
-        }`,
-        { headers: { Authorization: `Bearer ${user.token}` } }
+      // Update the user state
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === userId
+            ? { ...user, isBlocked: user.isBlocked === 0 ? 1 : 0 }
+            : user
+        )
       );
-
-      setUsers(res.data.data.users);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  // use effect to change page and fetch users when query
+  // changing
   useEffect(() => {
     setPage(1);
     fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.query]);
 
   return (

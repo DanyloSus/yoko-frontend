@@ -2,13 +2,13 @@
 "use client";
 
 // external imports
-import localFont from "next/font/local";
-import { styled } from "@mui/material/styles";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
+import { styled } from "@mui/material/styles";
+import localFont from "next/font/local";
 
 // get local kyiv font
 const kyiv = localFont({
-  src: "../public/fonts/KyivTypeSerif-Bold2.woff2",
+  src: "../../public/fonts/KyivTypeSerif-Bold2.woff2",
   display: "swap",
   variable: "--font-kyiv",
 });
@@ -33,8 +33,7 @@ const StyleForTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
   },
 }));
 
-import React from "react";
-
+// custom component
 const StyledTextField = ({
   children,
   className,

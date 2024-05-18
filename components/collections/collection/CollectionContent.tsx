@@ -2,73 +2,56 @@
 "use client";
 
 // external imports
-import React, { useEffect, useState } from "react";
-import { AnimatePresence } from "framer-motion";
-import { CircularProgress } from "@mui/material";
-import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { CircularProgress } from "@mui/material";
+import axios from "axios";
+import { AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 // internal imports
-import ColumnStatistic from "./statistic/Column";
-import PieStatistic from "./statistic/Pie";
-import LearnPropositions from "@/components/collections/LearnPropositions";
+import FavoriteButton from "@/components/collections/collection/FavoriteButton";
+import LearnPropositions from "@/components/collections/collection/LearnPropositions";
 import useScrollBlock from "@/modules/hooks/useScrollBlock";
-import StyledButton from "@/ui/Button";
-import FavoriteButton from "@/components/collections/FavoriteButton";
-import axios from "axios";
-import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
-import CommentSection, {
+import { Collection } from "@/modules/types/elements";
+import { CollectionResponse } from "@/modules/types/responses";
+import {
   CommentSectionErrors,
   CommentSectionTexts,
-} from "./CommentSection";
+  PropositionTexts,
+} from "@/modules/types/texts";
+import StyledButton from "@/ui/mui/Button";
+import CommentSection from "../CommentSection";
+import PieStatistic from "../statistic/Pie";
 
-type Texts = {
+type ContentTexts = {
   start: string;
   likes: string;
   views: string;
-  propositionHeading: string;
-  textExercise: string;
-  quizExercise: string;
-  cardsExercise: string;
   error: string;
 };
 
-type Collection = {
-  id: number;
-  name: string;
-  bannerUrl: string;
-  likes: number;
-  views: number;
-  wordsCount: number;
-  wordsLearned: number;
-  isLiked: number;
-  comments: {
-    id: number;
-    content: string;
-    user: {
-      name: string;
-    };
-  }[];
-};
-
 type CollectionProps = {
-  texts: Texts & CommentSectionTexts;
+  texts: ContentTexts & CommentSectionTexts & PropositionTexts;
   collectionId: string;
   errors: CommentSectionErrors;
 };
 
 const CollectionContent = ({ texts, errors, ...props }: CollectionProps) => {
-  const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // state ro check is modal open
-  const [collection, setCollection] = useState<Collection | undefined>();
-  const [error, setError] = useState(false);
+  const [collection, setCollection] = useState<Collection>(); // state for collection
+  const [error, setError] = useState(false); // is error state
 
+  // function for block and allow scrolling
   const [blockScroll, allowScroll] = useScrollBlock();
 
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
+  // use effect to block or allow scroll
   useEffect(() => {
     if (isModalOpen) {
       blockScroll();
@@ -78,31 +61,32 @@ const CollectionContent = ({ texts, errors, ...props }: CollectionProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isModalOpen]);
 
+  // function to fetch collection
   async function fetchCollection() {
-    setIsLoading(true);
     try {
-      const res = await axios.get(
+      const res: CollectionResponse = await axios.get(
         `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
+      // state for collection
       setCollection(res.data.data);
     } catch (error) {
       console.log(error);
       setError(true);
-    } finally {
-      setIsLoading(false);
     }
   }
 
+  // use effect to fetch collection on start
   useEffect(() => {
     fetchCollection();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // function to add the collection to the user's
   const addCollection = async () => {
     try {
-      const res = await axios.post(
+      await axios.post(
         `http://18.212.227.5:8876/api/v1/users/startCollection/${props.collectionId}`,
         undefined,
         {
@@ -117,6 +101,7 @@ const CollectionContent = ({ texts, errors, ...props }: CollectionProps) => {
     }
   };
 
+  // function to like collection
   const likeCollection = async () => {
     try {
       await axios.patch(
@@ -132,17 +117,20 @@ const CollectionContent = ({ texts, errors, ...props }: CollectionProps) => {
       console.log(error);
     }
 
+    // update info about collection
     setCollection((col) =>
       col
-        ? {
+        ? ({
             ...col,
-            likes: Boolean(col.isLiked) ? col.likes - 1 : col.likes + 1,
+            likes: Boolean(col.isLiked) ? col.likes! - 1 : col.likes! + 1,
             isLiked: Number(!Boolean(col.isLiked)),
-          }
+          } as Collection)
         : undefined
     );
   };
 
+  // if collection isn't loaded then show error or loading
+  // else show collection
   return !collection ? (
     error ? (
       <h3 className="absolute text-h3 left-1/2 -translate-x-1/2 text-center w-full">
@@ -202,8 +190,8 @@ const CollectionContent = ({ texts, errors, ...props }: CollectionProps) => {
         </div>
         <div className="text-center flex flex-wrap max-md:flex-col items-center justify-between gap-[20px]">
           <PieStatistic
-            wordsLearned={collection.wordsLearned}
-            wordsCount={collection.wordsCount}
+            wordsLearned={collection.wordsLearned!}
+            wordsCount={collection.wordsCount!}
           />
           {/* <ColumnStatistic /> */}
         </div>
@@ -233,7 +221,7 @@ const CollectionContent = ({ texts, errors, ...props }: CollectionProps) => {
         addComment={(comment) =>
           setCollection((collVal: Collection | undefined) => {
             return collVal
-              ? { ...collVal, comments: [...collVal?.comments, comment] }
+              ? { ...collVal, comments: [...collVal?.comments!, comment] }
               : collVal;
           })
         }

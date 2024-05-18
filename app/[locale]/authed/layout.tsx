@@ -1,5 +1,5 @@
 // external imports
-import React from "react";
+import { ReactNode } from "react";
 
 // internal imports
 import TranslatedHeader from "@/components/header/TranslatedHeader";
@@ -8,7 +8,7 @@ const AuthLayout = ({
   children,
   params,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
   params: { locale: string };
 }>) => {
   return (

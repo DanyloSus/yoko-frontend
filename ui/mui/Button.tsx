@@ -24,8 +24,7 @@ const StyleForButton = styled(Button)<ButtonProps>(({ theme }) => ({
   },
 }));
 
-import React from "react";
-
+// custom component
 const StyledButton = ({ children, className, ...props }: ButtonProps) => {
   return (
     <StyleForButton

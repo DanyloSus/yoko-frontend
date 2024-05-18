@@ -1,15 +1,16 @@
-import React from "react";
-import { Chart as ChartJS, ArcElement } from "chart.js";
+// external imports
+import { ArcElement, Chart as ChartJS } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
+// register graphic
 ChartJS.register(ArcElement);
 
-type Props = {
+type PieProps = {
   wordsLearned: number;
   wordsCount: number;
 };
 
-const PieStatistic = (props: Props) => {
+const PieStatistic = (props: PieProps) => {
   const data = {
     labels: ["Learned", "Residue"],
     datasets: [

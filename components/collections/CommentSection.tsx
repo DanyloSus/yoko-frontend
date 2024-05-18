@@ -1,38 +1,28 @@
+// hooks need CSR
 "use client";
 
-import React, { useState } from "react";
-import Comment from "./Comment";
-import StyledTextField from "@/ui/TextField";
-import StyledButton from "@/ui/Button";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+// external imports
 import axios from "axios";
+import { useFormik } from "formik";
 import { useSelector } from "react-redux";
+import * as Yup from "yup";
+
+// internal imports
 import { Store } from "@/modules/redux/store";
-
-type Comment = {
-  id: number;
-  content: string;
-  user: {
-    name: string;
-  };
-};
-
-export type CommentSectionTexts = {
-  comments: string;
-  addComment: string;
-  submit: string;
-};
-
-export type CommentSectionErrors = {
-  required: string;
-  minLen: string;
-};
+import { Comment as CommentType } from "@/modules/types/elements";
+import { CommentResponse } from "@/modules/types/responses";
+import {
+  CommentSectionErrors,
+  CommentSectionTexts,
+} from "@/modules/types/texts";
+import StyledButton from "@/ui/mui/Button";
+import StyledTextField from "@/ui/mui/TextField";
+import Comment from "./Comment";
 
 type SectionProps = {
-  comments?: Comment[];
+  comments?: CommentType[];
   fetchCollection: () => Promise<void>;
-  addComment: (comment: Comment) => void;
+  addComment: (comment: CommentType) => void;
   userId: string;
   collectionId: string;
   texts: CommentSectionTexts;
@@ -40,19 +30,25 @@ type SectionProps = {
 };
 
 const CommentSection = ({ texts, errors, ...props }: SectionProps) => {
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
+  // formik for better form control
   const formik = useFormik({
+    // initial values
     initialValues: {
       comment: "",
     },
+    // validation
     validationSchema: Yup.object({
       comment: Yup.string().required(errors.required).min(8, errors.minLen),
     }),
     validateOnChange: false,
+    // on submit function
     onSubmit: async (value) => {
       try {
-        const res = await axios.post(
+        // send comment
+        const res: CommentResponse = await axios.post(
           `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/comment`,
           {
             content: value.comment,
@@ -64,7 +60,10 @@ const CommentSection = ({ texts, errors, ...props }: SectionProps) => {
           }
         );
 
+        // add comment to state to avoid extra requests
         props.addComment(res.data.data);
+
+        // clear form
         formik.setValues({ comment: "" });
       } catch (error) {
         console.log(error);

@@ -1,5 +1,8 @@
+// internal imports
+import { ReactNode } from "react";
+
+// external imports
 import TranslatedHeader from "@/components/header/TranslatedHeader";
-import React, { ReactNode } from "react";
 
 const AILayout = ({
   children,

@@ -1,4 +1,8 @@
+// animation for moving texts
+
+// mixin for moving text
 @mixin movingTextAnimation($duration: 5s) {
+  // animation for moving text
   @keyframes movingText {
     from {
       transform: translateX(-50%);
@@ -8,33 +12,37 @@
     }
   }
 
+  // applying animation
   animation: movingText 60s linear infinite alternate;
 }
 
+// change position for texts
 @for $i from 1 through 32 {
   .moving-text-container > .moving-text:nth-child(#{$i}) {
     right: #{calc($i * 10)}px;
   }
 }
 
+// text container
 .moving-text-container {
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh; /* Adjust height as needed */
+  height: 100vh;
   overflow: hidden;
   opacity: 0.1;
 }
 
+// text
 .moving-text {
   position: relative;
   white-space: nowrap;
   margin: 0;
   padding: 0;
-  color: white; /* Text color */
-  font-size: 24px; /* Font size */
-  font-weight: bold; /* Font weight */
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
   @include movingTextAnimation();
-  user-select: none; /* Standard syntax */
+  user-select: none;
 }

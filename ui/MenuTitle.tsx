@@ -1,9 +1,7 @@
-// external imports
-import React from "react";
-
 // internal imports
 import NavLink from "./NavLink";
 
+// props for Menu Title
 type TitleProps = {
   link?: string;
   text: string;

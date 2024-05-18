@@ -1,23 +1,21 @@
-import StyledButton from "@/ui/Button";
+// external imports
 import {
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
-  DialogActions,
 } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+
+// internal imports
+import { ImageModalText } from "@/modules/types/texts";
+import StyledButton from "@/ui/mui/Button";
 
 type DialogProps = {
   url: string;
   handleClose: () => void;
   open: boolean;
   texts: ImageModalText;
-};
-
-export type ImageModalText = {
-  modalTitle: string;
-  modalClose: string;
 };
 
 const ImageModal = ({ texts, ...props }: DialogProps) => {

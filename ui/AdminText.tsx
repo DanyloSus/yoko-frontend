@@ -2,9 +2,9 @@
 "use client";
 
 // external imports
-import React from "react";
 import { useSearchParams } from "next/navigation";
 
+// client side text
 const AdminText = ({ description }: { description: string }) => {
   const searchParams = useSearchParams(); // hook for searching params
 

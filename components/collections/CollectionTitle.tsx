@@ -1,11 +1,11 @@
 // external imports
-import React from "react";
+
+// internal imports
+import Image from "next/image";
 
 // internal imports
 import { Link } from "@/modules/internationalization/navigation";
-import Image from "next/image";
-import "./CollectionTitle.scss";
-import LoadingTitle from "./LoadingTitle";
+import LoadingTitle from "../../ui/LoadingTitle";
 
 type CollectionProps = {
   id?: number;
@@ -17,6 +17,7 @@ type CollectionProps = {
 };
 
 const CollectionTitle = (props: CollectionProps) => {
+  // base element
   const element = (
     <>
       {props.image && props.title ? (
@@ -40,6 +41,7 @@ const CollectionTitle = (props: CollectionProps) => {
     </>
   );
 
+  // base style for wrap element
   const baseStyle =
     "w-full h-[200px] rounded-[8px] flex items-center justify-center font-kyiv text-h5 xl:text-h4 text-white max-sm:break-all text-center [text-shadow:0px_0px_4px_#000] relative overflow-hidden";
 

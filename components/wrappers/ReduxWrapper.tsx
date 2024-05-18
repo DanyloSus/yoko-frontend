@@ -2,7 +2,7 @@
 "use client";
 
 // external imports
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Provider } from "react-redux";
 
 // internal imports

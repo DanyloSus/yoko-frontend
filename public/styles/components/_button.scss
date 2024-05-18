@@ -1,17 +1,23 @@
+// styles for buttons
+
+// style if button is link
 .active .MuiButton-root {
   @apply bg-blue-marguerite-700 dark:bg-blue-marguerite-500;
 }
 
-.MuiButtonBase-root.MuiButton-text {
-  @apply hover:bg-blue-marguerite-600 text-white dark:hover:bg-dark-grey;
-  &.MuiButton-textSecondary {
-    @apply text-blue-marguerite-500 hover:text-white dark:text-white;
+// applying base style for buttons
+.MuiButtonBase-root {
+  &.Mui-disabled {
+    @apply dark:text-grey;
   }
-  &.MuiButton-textError {
-    @apply text-error;
-  }
-}
 
-.MuiButtonBase-root.Mui-disabled {
-  @apply dark:text-grey;
+  &.MuiButton-text {
+    @apply hover:bg-blue-marguerite-600 text-white dark:hover:bg-dark-grey;
+    &.MuiButton-textSecondary {
+      @apply text-blue-marguerite-500 hover:text-white dark:text-white;
+    }
+    &.MuiButton-textError {
+      @apply text-error;
+    }
+  }
 }

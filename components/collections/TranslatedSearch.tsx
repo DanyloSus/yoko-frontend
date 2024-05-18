@@ -1,6 +1,5 @@
-import React from "react";
-import Search from "./Search";
 import { useTranslations } from "next-intl";
+import Search from "../../ui/Search";
 
 const TranslatedSearch = () => {
   const t = useTranslations("Search");

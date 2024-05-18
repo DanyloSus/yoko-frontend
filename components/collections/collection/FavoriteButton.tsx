@@ -2,16 +2,19 @@
 "use client";
 
 // external imports
-import React, { useState } from "react";
 import GradeIcon from "@mui/icons-material/Grade";
 import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 import { useSelector } from "react-redux";
+
+// internal imports
 import { Store } from "@/modules/redux/store";
 
 const FavoriteButton = () => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false); // state for button
 
+  // get user's theme
   const theme = useSelector((state: Store) => state.theme);
 
   return (

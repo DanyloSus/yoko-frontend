@@ -1,7 +1,11 @@
+// styles for modals
+
+// style for divider
 .MuiDivider-root {
   @apply dark:border-dark-grey border-b-2 border-blue-marguerite-700;
 }
 
+// styles for modals: dialogs, menus, etc...
 .MuiPaper-root {
   @apply dark:bg-black dark:text-white dark:border-2 border-dark-grey shadow-md rounded-[8px];
 

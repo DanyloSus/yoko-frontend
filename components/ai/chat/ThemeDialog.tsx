@@ -1,22 +1,23 @@
+// hooks need CSR
 "use client";
 
-import { Store } from "@/modules/redux/store";
-import StyledButton from "@/ui/Button";
-import StyledTextField from "@/ui/TextField";
+// external imports
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
-import { AIErrors, AITexts } from "../CheckLevelContent";
 
-type Message = {
-  index: number;
-  message: {
-    role: "assistant" | "user";
-    content: string;
-  };
-};
+// internal imports
+import { Store } from "@/modules/redux/store";
+import { Message, Word } from "@/modules/types/elements";
+import {
+  ChatGptResponse,
+  TextExerciseResponse,
+} from "@/modules/types/responses";
+import { AIErrors, AITexts } from "@/modules/types/texts";
+import StyledButton from "@/ui/mui/Button";
+import StyledTextField from "@/ui/mui/TextField";
 
 type Props = {
   params: {
@@ -27,16 +28,22 @@ type Props = {
 };
 
 const ThemeDialog = ({ texts, errors, ...props }: Props) => {
+  // state for user's and gpt messages
   const [messages, setMessages] = useState<Message[]>([]);
-  const [words, setWords] = useState();
+  // state for words which will be sent to ChatGPT
+  const [words, setWords] = useState<Word[]>();
+  // loading state
   const [isLoading, setIsLoading] = useState(true);
 
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
+  // fetch first ChatGPT's question
   useEffect(() => {
     async function fetchFirstQuestion() {
       try {
-        let res = await axios.get(
+        // get words from collection
+        const resWords: TextExerciseResponse = await axios.get(
           `http://18.212.227.5:8876/api/v1/collections/${props.params.id}/text`,
           {
             headers: {
@@ -45,17 +52,24 @@ const ThemeDialog = ({ texts, errors, ...props }: Props) => {
           }
         );
 
-        let words = res.data.data.words;
+        // get words
+        let words = resWords.data.data.words;
 
+        // shuffle words
         for (let i = words.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [words[i], words[j]] = [words[j], words[i]];
         }
 
+        // set words
         setWords(words);
 
-        res = await axios.post("/api/ai/dialog", { words: words.slice(0, 5) });
+        // send words to ChatGPT
+        const res = await axios.post("/api/ai/dialog", {
+          words: words.slice(0, 5),
+        });
 
+        // set ChatGPT's answer
         setMessages([res.data.message]);
       } catch (error) {
         console.log(error);
@@ -68,21 +82,28 @@ const ThemeDialog = ({ texts, errors, ...props }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.params.id]);
 
+  // formik for better form control
   const formik = useFormik({
+    // initial values
     initialValues: {
       prompt: "",
     },
+    // validation
     validationSchema: Yup.object({
       prompt: Yup.string().required(errors.required),
     }),
     validateOnChange: false,
+    // on submit function
     onSubmit: async (value) => {
-      try {
-        setIsLoading(true);
-        formik.setValues({
-          prompt: "",
-        });
+      setIsLoading(true);
 
+      // clear form
+      formik.setValues({
+        prompt: "",
+      });
+
+      try {
+        // set user's message to messages
         setMessages((state) => [
           ...state,
           {
@@ -94,9 +115,12 @@ const ThemeDialog = ({ texts, errors, ...props }: Props) => {
           },
         ]);
 
-        let res;
+        // variable for ChatGPT answer
+        let res: ChatGptResponse;
 
+        // if message equal 8
         if (messages.length + 2 >= 10) {
+          // get user's mistakes
           res = await axios.post("/api/ai/dialog", {
             words: words,
             messages: [
@@ -104,12 +128,15 @@ const ThemeDialog = ({ texts, errors, ...props }: Props) => {
               {
                 message: {
                   role: "user",
+                  // send additional text because
+                  // ChatGPT doesn't understand without
                   content: `${value.prompt} After this message write some statistic about user's mistakes`,
                 },
               },
             ],
           });
         } else {
+          // get regular ChatGPT answer
           res = await axios.post("/api/ai/dialog", {
             words: words,
             messages: [
@@ -121,6 +148,7 @@ const ThemeDialog = ({ texts, errors, ...props }: Props) => {
           });
         }
 
+        // set ChatGPT's answer to messages
         setMessages((state) => [...state, res.data.message]);
       } catch (error) {
         console.log(error);
@@ -136,7 +164,7 @@ const ThemeDialog = ({ texts, errors, ...props }: Props) => {
         ? messages.map((message, index) => (
             <div key={index}>
               <h6 className="text-h6">
-                {message.message.role === "assistant" ? "AI" : "You"}
+                {message.message.role === "assistant" ? texts.ai : texts.you}
               </h6>
               <p className="whitespace-pre-line">{message.message.content}</p>
             </div>

@@ -1,30 +1,27 @@
+// hooks need CSR
 "use client";
 
+// external imports
+import axios from "axios";
+import { useFormik } from "formik";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import * as Yup from "yup";
+
+// internal imports
 import FormWrapper from "@/components/wrappers/FormWrapper";
 import { useRouter } from "@/modules/internationalization/navigation";
 import { Store } from "@/modules/redux/store";
-import StyledButton from "@/ui/Button";
-import StyledTextField from "@/ui/TextField";
-import axios from "axios";
-import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import * as Yup from "yup";
-import ImageModal, { ImageModalText } from "./ImageModal";
+import { Collection } from "@/modules/types/elements";
+import { CollectionResponse } from "@/modules/types/responses";
+import { ImageModalText } from "@/modules/types/texts";
+import StyledButton from "@/ui/mui/Button";
+import StyledTextField from "@/ui/mui/TextField";
+import ImageModal from "./ImageModal";
 
 type CollectionFormProps = {
   params: { id: string };
   texts: FormTexts & ImageModalText;
-};
-
-type Collection = {
-  bannerUrl: string;
-  id: number;
-  name: string;
-  posterUrl: string;
-  text: string;
-  status: "pending" | "private" | "public";
-  translationUk: string;
 };
 
 type FormTexts = {
@@ -45,16 +42,22 @@ type FormTexts = {
 };
 
 const CollectionForm = ({ texts, ...props }: CollectionFormProps) => {
+  // state for saving the collection
   const [collection, setCollection] = useState<Collection>();
+  // state to future state of the collection
   const [toStatus, setToStatus] = useState("");
+  // checking is modal open
   const [modal, setModal] = useState(false);
+  // image url to modal
   const [imageUrl, setImageUrl] = useState("");
 
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
+  // use effect to fetch collection
   useEffect(() => {
     async function fetchCollection() {
-      const res = await axios.get(
+      const res: CollectionResponse = await axios.get(
         `http://18.212.227.5:8876/api/v1/collections/${props.params.id}`,
         {
           headers: {
@@ -63,11 +66,15 @@ const CollectionForm = ({ texts, ...props }: CollectionFormProps) => {
         }
       );
 
-      const collectionData: Collection = res.data.data;
+      // get collection
+      const collectionData = res.data.data;
 
+      // set the collection to state
       setCollection(collectionData);
+      // set default future status
       setToStatus(collectionData.status);
 
+      // set the collection values to form
       formik.setValues({
         name: collectionData.name,
         text: collectionData.text,
@@ -79,6 +86,7 @@ const CollectionForm = ({ texts, ...props }: CollectionFormProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // router for changing page by code
   const router = useRouter();
 
   const formik = useFormik({
@@ -110,6 +118,7 @@ const CollectionForm = ({ texts, ...props }: CollectionFormProps) => {
     },
   });
 
+  // show form only if the collection is ready
   return !collection ? (
     <></>
   ) : (
@@ -158,7 +167,7 @@ const CollectionForm = ({ texts, ...props }: CollectionFormProps) => {
             <StyledButton
               variant="contained"
               onClick={() => {
-                setImageUrl(collection.bannerUrl);
+                setImageUrl(collection.bannerUrl!);
                 setModal(true);
               }}
             >
@@ -167,7 +176,7 @@ const CollectionForm = ({ texts, ...props }: CollectionFormProps) => {
             <StyledButton
               variant="contained"
               onClick={() => {
-                setImageUrl(collection.posterUrl);
+                setImageUrl(collection.posterUrl!);
                 setModal(true);
               }}
             >

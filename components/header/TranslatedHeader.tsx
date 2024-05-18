@@ -1,10 +1,9 @@
 // external imports
-import React from "react";
 import { useTranslations } from "next-intl";
 
 // internal imports
-import Header from "./Header";
 import { overkill } from "@/modules/internationalization/navigation";
+import Header from "./Header";
 
 const TranslatedHeader = ({ locale }: { locale: string }) => {
   const t = useTranslations("Header"); // get header translation

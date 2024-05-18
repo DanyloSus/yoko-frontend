@@ -1,13 +1,12 @@
 // external imports
-import React from "react";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 // internal imports
-import { Link, overkill } from "@/modules/internationalization/navigation";
-import StyledButton from "@/ui/Button";
 import StoreContent from "@/components/collections/Store";
 import TranslatedSearch from "@/components/collections/TranslatedSearch";
+import { Link } from "@/modules/internationalization/navigation";
+import StyledButton from "@/ui/mui/Button";
 
 // create multilanguage dynamic metadata
 export async function generateMetadata({
@@ -15,11 +14,11 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const t = await getTranslations({ locale, namespace: "Metadata" }); // get translation for metadata
 
   return {
-    title: t("store.title"),
-    descriptions: t("store.description"),
+    title: t("store.title"), // set title
+    descriptions: t("store.description"), // set description
   };
 }
 

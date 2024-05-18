@@ -2,8 +2,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 // internal imports
-import userSlice from "./user/userSlice";
 import darkThemeSlice from "./darkTheme/darkThemeSlice";
+import userSlice from "./user/userSlice";
 
 // store for site's manager
 const store = configureStore({

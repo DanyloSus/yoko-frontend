@@ -1,39 +1,44 @@
+// useState needs CSR
 "use client";
 
-import React, { useEffect, useState } from "react";
-import SectionWrapper from "../wrappers/SectionWrapper";
-import NavBar from "./ways/NavBar";
-import WaysContent, { WaysTexts } from "./ways/Content";
+// external imports
+import { useEffect, useState } from "react";
 
+// internal imports
+import SectionWrapper from "../wrappers/SectionWrapper";
+import WaysContent, {
+  FirstWayTexts,
+  FourthWayTexts,
+  SecondWayTexts,
+  ThirdWayTexts,
+} from "./ways/Content";
+import NavBar from "./ways/NavBar";
+
+// component texts
 type Texts = {
   texts: {
     title: string;
     text: string;
     mobileText: string;
-    firstTitle: string;
-    firstText: string;
-    firstMobileText: string;
-    secondTitle: string;
-    secondText: string;
-    secondMobileText: string;
-    thirdTitle: string;
-    thirdText: string;
-    thirdMobileText: string;
-    thirdCardSave: string;
-    thirdCardTranslate: string;
-    thirdCardBack: string;
-    fourthTitle: string;
-    fourthText: string;
-    fourthSecondTitle: string;
-    fourthSecondText: string;
-    fourthSecondMobileText: string;
-    fourthButtonText: string;
-  };
+  } & FirstWayTexts &
+    SecondWayTexts &
+    ThirdWayTexts &
+    FourthWayTexts;
 };
 
 const WaysSection = ({ texts }: Texts) => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(0); // page state
 
+  // useEffect to add function reveal onScroll
+  useEffect(() => {
+    window.addEventListener("scroll", reveal);
+
+    reveal();
+  }, []);
+
+  // function for reveal if element has class reveal
+  // I used it here because it is only one section which
+  // uses CSR
   const reveal = () => {
     const reveals = document.querySelectorAll(".reveal");
     for (let i = 0; i < reveals.length; i++) {
@@ -45,12 +50,6 @@ const WaysSection = ({ texts }: Texts) => {
       }
     }
   };
-
-  useEffect(() => {
-    window.addEventListener("scroll", reveal);
-
-    reveal();
-  }, []);
 
   return (
     <SectionWrapper

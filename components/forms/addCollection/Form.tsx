@@ -2,20 +2,20 @@
 "use client";
 
 // external imports
-import React, { useState, useRef, LegacyRef } from "react";
+import { Checkbox, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
-import { Checkbox, CircularProgress } from "@mui/material";
+import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import * as Yup from "yup";
 
 // internal imports
 import { Link, useRouter } from "@/modules/internationalization/navigation";
-import StyledButton from "@/ui/Button";
-import StyledTextField from "@/ui/TextField";
-import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
+import StyledButton from "@/ui/mui/Button";
+import StyledTextField from "@/ui/mui/TextField";
 
-type Texts = {
+type FormTexts = {
   texts: {
     name: string;
     text: string;
@@ -38,15 +38,15 @@ type Texts = {
   };
 };
 
-const CreateStore = ({ texts, errors }: Texts) => {
+const CreateStore = ({ texts, errors }: FormTexts) => {
   const [isLoading, setIsLoading] = useState(false); // state for checking is form loading
   const [isPrivate, setIsPrivate] = useState(false); // state for private checkbox
 
-  console.log(errors);
-
+  // references for input files
   const posterRef = useRef<HTMLInputElement>(null);
   const bannerRef = useRef<HTMLInputElement>(null);
 
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
   // router for changing page by code
@@ -75,7 +75,8 @@ const CreateStore = ({ texts, errors }: Texts) => {
     onSubmit: async (value) => {
       setIsLoading(true);
 
-      // create data var and set to its form values and checkbox state
+      // create data var and set to its form values
+      // and checkbox state
       const data = {
         name: value.name,
         text: value.text,
@@ -94,6 +95,8 @@ const CreateStore = ({ texts, errors }: Texts) => {
             Authorization: `Bearer ${user.token}`,
           },
         });
+
+        // if everything is success then change page
         router.push(`/authed/thanks?is=${isPrivate ? "private" : "pending"}`);
       } catch (error) {
         console.log(error);
@@ -138,6 +141,7 @@ const CreateStore = ({ texts, errors }: Texts) => {
         disabled={isLoading}
       />
       <div className="flex flex-col items-start">
+        {/* use hidden file input to make it with button */}
         <input
           type="file"
           ref={posterRef}
@@ -162,6 +166,7 @@ const CreateStore = ({ texts, errors }: Texts) => {
         ) : null}
       </div>
       <div className="flex flex-col items-start">
+        {/* use hidden file input to make it with button */}
         <input
           type="file"
           ref={bannerRef}

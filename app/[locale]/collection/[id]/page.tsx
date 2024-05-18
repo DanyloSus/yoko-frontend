@@ -1,11 +1,10 @@
 // external imports
-import React from "react";
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";
 
 // internal imports
+import CollectionContent from "@/components/collections/collection/CollectionContent";
 import { overkill } from "@/modules/internationalization/navigation";
-import CollectionContent from "@/components/collections/CollectionContent";
 
 // create static metadata
 export const metadata: Metadata = {

@@ -1,11 +1,13 @@
-import React from "react";
-import SectionWrapper from "../wrappers/SectionWrapper";
+// external imports
 import { Link } from "@/modules/internationalization/navigation";
-import StyledButton from "@/ui/Button";
+import StyledButton from "@/ui/mui/Button";
 import { useTranslations } from "next-intl";
 
+// internal imports
+import SectionWrapper from "../wrappers/SectionWrapper";
+
 const FinalSection = () => {
-  const t = useTranslations("Landing");
+  const t = useTranslations("Landing"); // get page translation
 
   return (
     <SectionWrapper

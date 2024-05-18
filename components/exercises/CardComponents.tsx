@@ -2,83 +2,91 @@
 "use client";
 
 // external imports
-import React, { ReactNode, useEffect, useState } from "react";
+import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
+import { ReactNode, useEffect, useState } from "react";
+import ConfettiExplosion from "react-confetti-explosion";
+import { useSelector } from "react-redux";
 
 // internal imports
-import Card from "./Card";
-import axios from "axios";
-import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
-import StyledLinearProgress from "@/ui/LinearProgress";
-import ConfettiExplosion from "react-confetti-explosion";
+import { CardExerciseResponse } from "@/modules/types/responses";
+import { CardTexts } from "@/modules/types/texts";
+import StyledLinearProgress from "@/ui/mui/LinearProgress";
+import Card from "./Card";
 
 type ComponentProps = {
   //   englishText: string[];
   //   ukrainianText: string[];
   collectionId: string;
+  texts: CardTexts;
 };
 
-type Texts = {
-  texts: {
-    save: string;
-    translate: string;
-    back: string;
-  };
-};
-
-const CardComponents = ({ texts, ...props }: ComponentProps & Texts) => {
+const CardComponents = ({ texts, ...props }: ComponentProps) => {
   const [step, setStep] = useState(0); // step of array
   const [cards, setCards] = useState<ReactNode[]>(); // state of texts' cards
-  const [isLoading, setIsLoading] = useState(true);
-  const [completed, setCompleted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // state for loading
+  const [completed, setCompleted] = useState(false); // state for checking is user finished exercise
+  // state for checking confetti explosion
+  const [isExploding, setIsExploding] = useState(false);
 
-  const [isExploding, setIsExploding] = React.useState(false);
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
-  // useEffect hook to update the cards array when the props change
+  // use effect to load cards on start
   useEffect(() => {
     setIsLoading(true);
     async function fetchCards() {
-      const res = await axios.get(
-        `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/flashCards`,
-        { headers: { Authorization: `Bearer ${user.token}` } }
-      );
+      try {
+        const res: CardExerciseResponse = await axios.get(
+          `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/flashCards`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
 
-      console.log(res.data.data.length);
+        // get words
+        const words = res.data.data;
 
-      const newCards = res.data.data.map(
-        (
-          words: {
-            word: string;
-            translationUk: string;
-          },
-          index: number
-        ) => (
-          <motion.div
-            key={index}
-            initial={{ x: "-25%", opacity: 0 }}
-            animate={{ x: "0%", opacity: 1 }}
-            exit={{
-              x: "25%",
-              opacity: 0,
-              position: "absolute",
-            }}
-            transition={{ ease: "easeInOut" }}
-            className="max-w-[580px] w-full"
-          >
-            <Card
-              texts={texts}
-              englishWord={words.word}
-              ukrainianWord={words.translationUk}
-              forward={() => nextStep(res.data.data.length, index)}
-              back={() => backStep(res.data.data.length, index)}
-            />
-          </motion.div>
-        )
-      );
+        // variable for cards
+        const newCards = words.map(
+          (
+            words: {
+              word: string;
+              translationUk: string;
+            },
+            index: number
+          ) => (
+            <motion.div
+              key={index}
+              initial={{ x: "-25%", opacity: 0 }}
+              animate={{ x: "0%", opacity: 1 }}
+              exit={{
+                x: "25%",
+                opacity: 0,
+                position: "absolute",
+              }}
+              transition={{ ease: "easeInOut" }}
+              className="max-w-[580px] w-full"
+            >
+              <Card
+                texts={texts}
+                englishWord={words.word}
+                ukrainianWord={words.translationUk}
+                forward={() => nextStep(res.data.data.length, index)}
+                back={() => backStep(res.data.data.length, index)}
+              />
+            </motion.div>
+          )
+        );
 
-      setCards(newCards);
+        // set cards
+        setCards(newCards);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     fetchCards();
@@ -86,10 +94,6 @@ const CardComponents = ({ texts, ...props }: ComponentProps & Texts) => {
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    console.log(cards);
-  }, [cards]);
 
   // function to handle moving to the next step
   function nextStep(length: number, index: number) {
@@ -103,12 +107,12 @@ const CardComponents = ({ texts, ...props }: ComponentProps & Texts) => {
     }
   }
 
+  // function to handle moving to the preview step
   function backStep(length: number, index: number) {
     if (index === 0 && completed) setStep(length - 1);
     else if (index !== 0) setStep((prevStep) => prevStep - 1);
   }
 
-  // AnimatePresence to enable exit animations
   return cards && !isLoading ? (
     <>
       <StyledLinearProgress
@@ -117,6 +121,7 @@ const CardComponents = ({ texts, ...props }: ComponentProps & Texts) => {
         }
       />
       <div className="absolute top-0 w-screen z-10 left-0 h-screen flex items-center justify-center px-phone md:px-tablet lg:px-pc">
+        {/*  AnimatePresence to enable exit animations */}
         <AnimatePresence>{cards[step]}</AnimatePresence>
       </div>
       {isExploding && (

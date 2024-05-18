@@ -2,16 +2,15 @@
 "use client";
 
 // external imports
-import React from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import dynamic from "next/dynamic";
+import { useDispatch, useSelector } from "react-redux";
 
 // internal imports
-import { logout } from "@/modules/redux/user/userSlice";
-import { Store } from "@/modules/redux/store";
-import StyledButton from "@/ui/Button";
 import { Link, useRouter } from "@/modules/internationalization/navigation";
+import { Store } from "@/modules/redux/store";
+import { logout } from "@/modules/redux/user/userSlice";
+import StyledButton from "@/ui/mui/Button";
 
 type Texts = {
   texts: {

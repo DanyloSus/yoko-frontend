@@ -1,10 +1,13 @@
+// applying tailwind
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+// main imports
 @import "./animations.scss";
 @import "./base.scss";
 @import "./components/button";
+@import "./components/collectionTitle";
 @import "./components/modals";
 @import "./components/movingText";
 @import "./components/pagination";

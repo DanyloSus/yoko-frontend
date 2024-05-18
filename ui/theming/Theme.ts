@@ -1,6 +1,6 @@
 // external imports
-import { DM_Sans } from "next/font/google";
 import { createTheme } from "@mui/material";
+import { DM_Sans } from "next/font/google";
 
 // get google font, DM Sans
 const dmSans = DM_Sans({

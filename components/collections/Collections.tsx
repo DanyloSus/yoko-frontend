@@ -2,22 +2,18 @@
 "use client";
 
 // external imports
-import React, { ReactNode, useEffect, useState } from "react";
 import axios from "axios";
+import { ReactNode, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 
 // internal imports
-import CollectionTitle from "./CollectionTitle";
 import { Store } from "@/modules/redux/store";
+import { Collection } from "@/modules/types/elements";
+import { CollectionsResponse } from "@/modules/types/responses";
+import CollectionTitle from "./CollectionTitle";
 
-type Collection = {
-  id: number;
-  name: string;
-  posterUrl: string;
-};
-
-type Texts = {
+type ContentTexts = {
   texts: {
     null: string;
     error: string;
@@ -29,19 +25,22 @@ type StoreProps = {
   query: string;
 };
 
-const CollectionContent = ({ texts, ...props }: Texts & StoreProps) => {
+const CollectionContent = ({ texts, ...props }: ContentTexts & StoreProps) => {
   const [isLoading, setIsLoading] = useState(true); // state to load while fetching collections
   const [collections, setCollections] = useState<Collection[]>([]); // state of collections' array
-  const [page, setPage] = useState(2);
-  const [lastPage, setLastPage] = useState(0);
-  const { ref, inView } = useInView();
-  const [error, setError] = useState(false);
+  const [page, setPage] = useState(2); // state of pages which will be fetched
+  const [lastPage, setLastPage] = useState(0); // last page for pagination
+  const [error, setError] = useState(false); // is error state
 
+  const { ref, inView } = useInView(); // hook for use some function when element is in view, for infinite scroll
+
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
+  // function for loading collections
   const loadMoreCollections = async () => {
     try {
-      const res = await axios.get(
+      const res: CollectionsResponse = await axios.get(
         `http://18.212.227.5:8876/api/v1/users/collections?page=${page}${
           props.query ? `&query=${props.query}` : ""
         }`,
@@ -51,10 +50,13 @@ const CollectionContent = ({ texts, ...props }: Texts & StoreProps) => {
           },
         }
       );
+
+      // set new collections to old
       setCollections((prevCollections) => [
         ...prevCollections,
         ...res.data.data.data,
       ]);
+      // if page isn't last then add +1
       if (page - 1 < lastPage) {
         setPage((prevPage) => prevPage + 1);
       }
@@ -65,6 +67,7 @@ const CollectionContent = ({ texts, ...props }: Texts & StoreProps) => {
     }
   };
 
+  // use effect to use when loading element in view
   useEffect(() => {
     if (inView) {
       setIsLoading(true);
@@ -80,7 +83,7 @@ const CollectionContent = ({ texts, ...props }: Texts & StoreProps) => {
     setIsLoading(true);
 
     async function fetchCollections() {
-      const res = await axios.get(
+      const res: CollectionsResponse = await axios.get(
         `http://18.212.227.5:8876/api/v1/users/collections${
           props.query ? `?query=${props.query}` : ""
         }`,
@@ -91,16 +94,17 @@ const CollectionContent = ({ texts, ...props }: Texts & StoreProps) => {
         }
       );
 
-      console.log(res.data.data);
-
+      // set collections
       setCollections(res.data.data.data);
       setIsLoading(false);
+      // set last page
       setLastPage(res.data.data.lastPage);
     }
 
     fetchCollections();
   }, [props.query, user.token]);
 
+  // function for getting loading animated tiles
   const getLoading = () => {
     const loadingElement: ReactNode[] = [];
 

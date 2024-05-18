@@ -1,21 +1,29 @@
+// hooks need CSR
 "use client";
 
-import StyledTextField from "@/ui/TextField";
-import { InputAdornment } from "@mui/material";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+// external imports
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { InputAdornment } from "@mui/material";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
-type Text = {
+// internal imports
+import { useRouter } from "@/modules/internationalization/navigation";
+import StyledTextField from "@/ui/mui/TextField";
+
+type SearchText = {
   text: { text: string };
 };
 
-const Search = ({ text }: Text) => {
+const Search = ({ text }: SearchText) => {
+  // hook to find params query
   const searchParams = useSearchParams();
+  // get pathname
   const pathname = usePathname();
-  const { replace } = useRouter();
+  // router for changing page by code
+  const router = useRouter();
 
+  // function for setting search query every 0.3s
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
@@ -23,7 +31,7 @@ const Search = ({ text }: Text) => {
     } else {
       params.delete("query");
     }
-    replace(`${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`);
   }, 300);
 
   return (

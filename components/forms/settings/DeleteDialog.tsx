@@ -1,36 +1,27 @@
 "use client";
 
 // external imports
-import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-
-// internal imports
-import StyledButton from "@/ui/Button";
-import "./dialog.scss";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+
+// internal imports
+import { useRouter } from "@/modules/internationalization/navigation";
 import { Store } from "@/modules/redux/store";
 import { logout } from "@/modules/redux/user/userSlice";
-import { useRouter } from "@/modules/internationalization/navigation";
-
-type Texts = {
-  texts: {
-    delete: string;
-    dialogHeading: string;
-    dialogContent: string;
-    cancel: string;
-  };
-};
+import { DeleteDialogTexts } from "@/modules/types/texts";
+import StyledButton from "@/ui/mui/Button";
 
 type DialogProps = {
   open: boolean;
   handleClose: () => void;
+  texts: DeleteDialogTexts;
 };
 
-const DeleteDialog = ({ texts, ...props }: DialogProps & Texts) => {
+const DeleteDialog = ({ texts, ...props }: DialogProps) => {
   const user = useSelector((state: Store) => state.user);
 
   // router for changing page by code

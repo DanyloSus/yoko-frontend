@@ -2,10 +2,10 @@
 "use client";
 
 // external imports
-import React, { useEffect, useState } from "react";
+import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
-import { CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 
@@ -14,10 +14,10 @@ import useAuthedReplace from "@/modules/auth/hooks/useAuthedReplace";
 import { useRouter } from "@/modules/internationalization/navigation";
 import { Store } from "@/modules/redux/store";
 import { login } from "@/modules/redux/user/userSlice";
-import StyledTextField from "@/ui/TextField";
-import StyledButton from "@/ui/Button";
+import StyledButton from "@/ui/mui/Button";
+import StyledTextField from "@/ui/mui/TextField";
 
-type Texts = {
+type RegisterFormTexts = {
   texts: {
     name: string;
     surname: string;
@@ -43,7 +43,7 @@ type Texts = {
   };
 };
 
-const RegisterForm = ({ texts, errors }: Texts) => {
+const RegisterForm = ({ texts, errors }: RegisterFormTexts) => {
   const [isLoading, setIsLoading] = useState(false); // state for checking is form loading
 
   // router for changing page by code
@@ -54,7 +54,8 @@ const RegisterForm = ({ texts, errors }: Texts) => {
   // get current user's values
   const user = useSelector((state: Store) => state.user);
 
-  // getting function to check is user authed and if it is true then redirect to another page
+  // getting function to check is user authed and if it
+  // is true then redirect to another page
   const { checkUser } = useAuthedReplace({
     page: user.isAdmin ? "/admin/collections" : "/authed/collections",
     setIsLoading: (val: boolean) => setIsLoading(val),

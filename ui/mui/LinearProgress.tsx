@@ -18,8 +18,7 @@ const StyleForLinearProgress = styled(LinearProgress)<LinearProgressProps>(
   })
 );
 
-import React from "react";
-
+// custom component
 const StyledLinearProgress = ({ ...props }: LinearProgressProps) => {
   return (
     <div className="relative mt-3 w-full">

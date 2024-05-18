@@ -2,8 +2,8 @@
 "use client";
 
 // external imports
-import React, { ReactNode } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { ReactNode } from "react";
 
 // internal imports
 import { Link, usePathname } from "@/modules/internationalization/navigation";

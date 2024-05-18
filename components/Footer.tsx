@@ -1,7 +1,9 @@
-import React from "react";
-import MovingText from "./MovingText";
-import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
+// external imports
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
+import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
+
+// internal imports
+import MovingText from "./MovingText";
 
 const Footer = () => {
   return (

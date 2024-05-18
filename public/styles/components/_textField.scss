@@ -1,3 +1,6 @@
+// styles for text fields
+
+// base styles for text field
 .MuiFormControl-root {
   & input {
     padding: 16.5px 12px;
@@ -10,6 +13,7 @@
     white-space: nowrap;
   }
 
+  // basic style
   &:not(.primary) {
     & .MuiFormLabel-root {
       @apply text-black dark:text-white;
@@ -37,6 +41,7 @@
     }
   }
 
+  // if text field primary color
   &.primary {
     & .MuiFormLabel-root {
       color: white;

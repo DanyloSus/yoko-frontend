@@ -1,12 +1,10 @@
 // external imports
-import React from "react";
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";
 
 // internal imports
 import UsersTable from "@/components/admins/tables/UsersTable";
 import { overkill } from "@/modules/internationalization/navigation";
-import { UserInfo } from "@/modules/redux/user/userSlice";
 
 // create static metadata
 export const metadata: Metadata = {

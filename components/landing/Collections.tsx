@@ -1,32 +1,14 @@
-import React from "react";
-import SectionWrapper from "../wrappers/SectionWrapper";
-import CollectionTitle from "../collections/CollectionTitle";
+// external imports
 import { useTranslations } from "next-intl";
 
-const sectionCollections = [
-  {
-    title: "1000 English Words",
-    gradient: ["#8A83ED", "#4D47A5"],
-  },
-  {
-    title: "Friends TV Show",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BNDVkYjU0MzctMWRmZi00NTkxLTgwZWEtOWVhYjZlYjllYmU4XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_FMjpg_UX680_.jpg",
-  },
-  {
-    title: "One Piece",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BM2YwYTkwNjItNGQzNy00MWE1LWE1M2ItOTMzOGI1OWQyYjA0XkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_FMjpg_UY10401_.jpg",
-  },
-  {
-    title: "Terms For Cooking",
-    gradient: ["#DA5F73", "#8E0B21"],
-  },
-];
+// internal imports
+import CollectionTitle from "../collections/CollectionTitle";
+import SectionWrapper from "../wrappers/SectionWrapper";
 
 const CollectionsSection = () => {
   const t = useTranslations("Landing"); // get page translation
 
+  // dummy data for texts
   const sectionText = [
     {
       h4: t("Collections.First.h4"),
@@ -47,6 +29,28 @@ const CollectionsSection = () => {
       h4: t("Collections.Fourth.h4"),
       p: t("Collections.Fourth.p"),
       mobile: t("Collections.Fourth.mobile"),
+    },
+  ];
+
+  // dummy data for collections
+  const sectionCollections = [
+    {
+      title: "1000 English Words",
+      gradient: ["#8A83ED", "#4D47A5"],
+    },
+    {
+      title: "Friends TV Show",
+      image:
+        "https://m.media-amazon.com/images/M/MV5BNDVkYjU0MzctMWRmZi00NTkxLTgwZWEtOWVhYjZlYjllYmU4XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_FMjpg_UX680_.jpg",
+    },
+    {
+      title: "One Piece",
+      image:
+        "https://m.media-amazon.com/images/M/MV5BM2YwYTkwNjItNGQzNy00MWE1LWE1M2ItOTMzOGI1OWQyYjA0XkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_FMjpg_UY10401_.jpg",
+    },
+    {
+      title: "Terms For Cooking",
+      gradient: ["#DA5F73", "#8E0B21"],
     },
   ];
 

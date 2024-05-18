@@ -1,28 +1,25 @@
+// hooks need CSR
 "use client";
 
 // external imports
-import React, { useEffect, useState } from "react";
+import { CircularProgress } from "@mui/material";
+import axios from "axios";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 // internal imports
-import Cell from "./Cell";
-import axios from "axios";
-import { CircularProgress, Pagination } from "@mui/material";
-import StyledPagination from "@/ui/Pagination";
-import { useSearchParams } from "next/navigation";
 import {
   Link,
   usePathname,
   useRouter,
 } from "@/modules/internationalization/navigation";
 import { Store } from "@/modules/redux/store";
-import { useSelector } from "react-redux";
-import Search from "@/components/collections/Search";
-
-export type Word = {
-  id: number;
-  word: string;
-  translationUk: string;
-};
+import { Word } from "@/modules/types/elements";
+import { WordsResponse } from "@/modules/types/responses";
+import Search from "@/ui/Search";
+import StyledPagination from "@/ui/mui/Pagination";
+import Cell from "./Cell";
 
 type TableProps = {
   //   words: Word[];
@@ -30,7 +27,7 @@ type TableProps = {
   page?: string;
 };
 
-type Texts = {
+type TableTexts = {
   texts: {
     en: string;
     uk: string;
@@ -38,41 +35,60 @@ type Texts = {
   };
 };
 
-const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
+const WordsTable = ({ texts, ...props }: TableTexts & TableProps) => {
+  // state for saving words
   const [words, setWords] = useState<Word[]>([]);
+  // state for page
   const [page, setPage] = useState(props.page ? Number(props.page) : 1);
+  // state for count of pages, for pagination
   const [countOfPages, setCountOfPages] = useState(1);
+  // state for loading
   const [isLoading, setIsLoading] = useState(true);
 
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
+  // function to fetch words
   async function fetchWords() {
     setIsLoading(true);
     try {
-      const res = await axios.get(
+      // get words by query and page
+      const res: WordsResponse = await axios.get(
         `http://18.212.227.5:8876/api/v1/words?page=${page}${
           props.query ? `&query=${props.query}` : ""
         }`,
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
 
+      // set words
       setWords(res.data.data.words);
+      // set count of pages for pagination
       setCountOfPages(res.data.data.lastPage);
     } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   }
 
+  // use effect to fetch words on start and changing page
   useEffect(() => {
     fetchWords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
+  // get params queries
   const searchParams = useSearchParams();
+  // get page's pathname
   const pathname = usePathname();
-  const { replace } = useRouter();
+  // router for changing page by code
+  const router = useRouter();
 
+  // function for changing page
   const handleSearch = (page: string) => {
     const params = new URLSearchParams(searchParams);
     if (page) {
@@ -80,12 +96,15 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
     } else {
       params.delete("page");
     }
-    replace(`${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
+  // use effect to change page and fetch words when query
+  // changing
   useEffect(() => {
     setPage(1);
     fetchWords();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.query]);
 
   return (

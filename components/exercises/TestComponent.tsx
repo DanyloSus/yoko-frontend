@@ -2,16 +2,25 @@
 "use client";
 
 // external imports
-import React, { useEffect, useState, ReactNode } from "react";
+import axios from "axios";
+import {
+  Fragment,
+  ReactElement,
+  ReactNode,
+  cloneElement,
+  useEffect,
+  useState,
+} from "react";
+import ConfettiExplosion from "react-confetti-explosion";
+import { useSelector } from "react-redux";
 
 // internal imports
-import StyledButton from "@/ui/Button";
-import { CircularProgress } from "@mui/material";
-import axios from "axios";
-import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
+import { Question } from "@/modules/types/elements";
+import { QuizExerciseResponse } from "@/modules/types/responses";
 import StyledLinearProgress from "@/ui/LinearProgress";
-import ConfettiExplosion from "react-confetti-explosion";
+import StyledButton from "@/ui/mui/Button";
+import { CircularProgress } from "@mui/material";
 
 type ComponentProps = {
   // ukrainianText: string[];
@@ -19,36 +28,21 @@ type ComponentProps = {
   collectionId: string;
 };
 
-type VariantOfAnswer = {
-  id: number;
-  translation: string;
-  isAnswer: boolean;
-};
-
-type Question = {
-  word: string;
-  answers: VariantOfAnswer[];
-};
-
-type QuizResponse = {
-  data: Question[];
-};
-
 const TestComponent = (props: ComponentProps) => {
-  const [isExploding, setIsExploding] = React.useState(false);
+  const [isExploding, setIsExploding] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [step, setStep] = useState(0); // step of array
   const [buttons, setButtons] = useState<ReactNode[]>([]); // state of answers' buttons
   const [completed, setCompleted] = useState(false);
 
-  const [questions, setQuestions] = useState<QuizResponse>();
+  const [questions, setQuestions] = useState<Question[]>();
 
   // function to check answer
   function checkAnswer(isAnswer: boolean, buttonIndex: number) {
     // check if the selected answer matches the correct english translation
     if (isAnswer) {
       // if the answer is correct and it's the last question, reset the step to 0
-      if (questions && step === questions.data.length - 1) {
+      if (questions && step === questions.length - 1) {
         setIsExploding(true);
         setCompleted(true);
         setStep(0);
@@ -64,8 +58,8 @@ const TestComponent = (props: ComponentProps) => {
     setButtons((buttons) =>
       buttons.map((button, index) => {
         if (index === buttonIndex) {
-          const buttonProps = (button as React.ReactElement).props;
-          return React.cloneElement(button as React.ReactElement, {
+          const buttonProps = (button as ReactElement).props;
+          return cloneElement(button as ReactElement, {
             ...buttonProps,
             disabled: true,
           });
@@ -75,21 +69,23 @@ const TestComponent = (props: ComponentProps) => {
     );
   }
 
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
+  // use effect to fetch quiz on start
   useEffect(() => {
     setIsLoading(true);
 
     async function fetchQuiz() {
       try {
         setButtons([]);
-        const { data }: { data: QuizResponse } = await axios.get(
+        const res: QuizExerciseResponse = await axios.get(
           `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/quiz`,
           { headers: { Authorization: `Bearer ${user.token}` } }
         );
 
-        setQuestions(data);
-        console.log(data);
+        const questions = res.data.data;
+        setQuestions(questions);
 
         let buttonsArray = [];
         for (let i = 0; i < 4; i++) {
@@ -99,10 +95,10 @@ const TestComponent = (props: ComponentProps) => {
               tabIndex={i}
               key={i}
               onClick={() =>
-                checkAnswer(data.data[step].answers[i].isAnswer, i)
+                checkAnswer(questions[step].answers[i].isAnswer, i)
               }
             >
-              {data.data[step].answers[i].translation}
+              {questions[step].answers[i].translation}
             </StyledButton>
           );
         }
@@ -116,6 +112,7 @@ const TestComponent = (props: ComponentProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // use effect to set buttons on step changing
   useEffect(() => {
     if (questions) {
       setButtons([]);
@@ -126,11 +123,9 @@ const TestComponent = (props: ComponentProps) => {
             variant="outlined"
             tabIndex={i}
             key={i}
-            onClick={() =>
-              checkAnswer(questions.data[step].answers[i].isAnswer, i)
-            }
+            onClick={() => checkAnswer(questions[step].answers[i].isAnswer, i)}
           >
-            {questions.data[step].answers[i].translation}
+            {questions[step].answers[i].translation}
           </StyledButton>
         );
       }
@@ -140,7 +135,8 @@ const TestComponent = (props: ComponentProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step]);
 
-  return isLoading || questions === undefined ? (
+  // if loading or questions don't exist then show load
+  return isLoading || !questions ? (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
       <CircularProgress color="primary" />
     </div>
@@ -148,18 +144,16 @@ const TestComponent = (props: ComponentProps) => {
     <div className="text-center relative">
       <StyledLinearProgress
         value={
-          completed
-            ? 100
-            : Number(((100 * step) / questions.data.length).toFixed(2))
+          completed ? 100 : Number(((100 * step) / questions.length).toFixed(2))
         }
       />
       <h1 className="text-h2 mb-[31px] capitalize">
         {/* {props.englishText[step]} */}
-        {questions.data[step].word}
+        {questions[step].word}
       </h1>
       <div className="flex flex-col sm:grid grid-cols-2 gap-[16px] sm:gap-[40px]">
         {buttons.map((button, index) => (
-          <React.Fragment key={index}>{button}</React.Fragment>
+          <Fragment key={index}>{button}</Fragment>
         ))}
       </div>
       {isExploding && (

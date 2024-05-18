@@ -1,15 +1,17 @@
-import React from "react";
-import SectionWrapper from "../wrappers/SectionWrapper";
-import Comment from "../collections/Comment";
-import path from "path";
+// external imports
 import { promises as fs } from "fs";
 import { useTranslations } from "next-intl";
+import path from "path";
+
+// internal imports
+import Comment from "../collections/Comment";
+import SectionWrapper from "../wrappers/SectionWrapper";
 
 const ReviewsSection = async () => {
-  const t = useTranslations("Landing");
+  const t = useTranslations("Landing"); // get page translation
 
-  const imageDirectory = path.join(process.cwd(), "/public/images");
-  const imageFilenames = await fs.readdir(imageDirectory);
+  const imageDirectory = path.join(process.cwd(), "/public/images"); // get image directory
+  const imageFilenames = await fs.readdir(imageDirectory); // get images names
 
   return (
     <SectionWrapper

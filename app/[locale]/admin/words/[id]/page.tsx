@@ -1,8 +1,10 @@
-import WordForm from "@/components/forms/admins/WordForm";
-import { overkill } from "@/modules/internationalization/navigation";
+// external imports
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";
-import React from "react";
+
+// internal imports
+import WordForm from "@/components/forms/admins/WordForm";
+import { overkill } from "@/modules/internationalization/navigation";
 
 // create static metadata
 export const metadata: Metadata = {

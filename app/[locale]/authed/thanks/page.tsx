@@ -1,7 +1,7 @@
 // external imports
-import React, { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 // internal imports
 import AdminText from "@/ui/AdminText";
@@ -12,10 +12,10 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const t = await getTranslations({ locale, namespace: "Metadata" }); // get translation for metadata
 
   return {
-    title: t("thanks.title"),
+    title: t("thanks.title"), // set title
   };
 }
 

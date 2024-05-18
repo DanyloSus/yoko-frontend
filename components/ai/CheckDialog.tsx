@@ -1,13 +1,12 @@
 // external imports
-import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
 // internal imports
-import StyledButton from "@/ui/Button";
 import { Link } from "@/modules/internationalization/navigation";
+import StyledButton from "@/ui/mui/Button";
 
 // type Texts = {
 //   texts: {

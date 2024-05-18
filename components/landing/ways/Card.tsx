@@ -1,10 +1,6 @@
-import React from "react";
+// internal imports
 import Card from "@/components/exercises/Card";
-
-export type CardTexts = {
-  translate: string;
-  back: string;
-};
+import { CardTexts } from "@/modules/types/texts";
 
 const CardExercise = ({ translate, back }: CardTexts) => {
   return (

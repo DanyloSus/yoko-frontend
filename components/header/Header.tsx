@@ -2,28 +2,26 @@
 "use client";
 
 // external imports
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 // internal imports
-import NavLink from "../../ui/NavLink";
-import StyledButton from "../../ui/Button";
-import {
-  Link,
-  usePathname,
-  useRouter,
-} from "@/modules/internationalization/navigation";
-import { Store } from "@/modules/redux/store";
-import useUserAuthed from "@/modules/auth/hooks/useUserAuthed";
-import { AnimatePresence } from "framer-motion";
-import MobileMenu, { MobileMenuTexts } from "./MobileMenu";
-import useScrollBlock from "@/modules/hooks/useScrollBlock";
-import UserMenu, { UserMenuTexts } from "./UserMenu";
 import useAuthedReplace from "@/modules/auth/hooks/useAuthedReplace";
+import useUserAuthed from "@/modules/auth/hooks/useUserAuthed";
+import useScrollBlock from "@/modules/hooks/useScrollBlock";
+import { Link, usePathname } from "@/modules/internationalization/navigation";
+import { Store } from "@/modules/redux/store";
+import { MobileMenuTexts, UserMenuTexts } from "@/modules/types/texts";
+import { AnimatePresence } from "framer-motion";
+import NavLink from "../../ui/NavLink";
+import StyledButton from "../../ui/mui/Button";
+import MobileMenu from "./MobileMenu";
+import UserMenu from "./UserMenu";
 
+// header texts
 type Texts = {
   logo: string;
   logoAdmin: string;
@@ -42,10 +40,14 @@ type HeaderProps = {
 const Header = ({ texts, ...props }: HeaderProps) => {
   // state for checking is user authed
   const [signed, setSigned] = useState(false);
+  // state for checking is modal open
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // get function for blocking scroll
   const [blockScroll, allowScroll] = useScrollBlock();
 
+  // use effect which check if modal open then block scroll
+  // else allow
   useEffect(() => {
     if (isModalOpen) {
       blockScroll();
@@ -72,8 +74,10 @@ const Header = ({ texts, ...props }: HeaderProps) => {
     user: user,
   });
 
+  // get pathname
   const pathname = usePathname();
 
+  // get function to check is user authed
   const { checkUser: checkAuth } = useAuthedReplace({
     page: user.isAdmin
       ? "/admin/collections"
@@ -91,22 +95,17 @@ const Header = ({ texts, ...props }: HeaderProps) => {
     console.log(user);
 
     checkUser();
+    // if page isn't landing then check is user authed
     if (pathname !== "/") {
       checkAuth();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.token]);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  // state for element which will be anchor
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  // value for checking is element exists
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const router = useRouter();
 
   return (
     <header className="w-screen h-[70px] border-b-2 border-b-blue-marguerite-700 dark:bg-black dark:border-b-dark-grey text-blue-marguerite-50 bg-blue-marguerite-500 flex px-phone md:px-tablet lg:px-pc items-center justify-between fixed z-50">
@@ -138,7 +137,9 @@ const Header = ({ texts, ...props }: HeaderProps) => {
           ) : null}
         </AnimatePresence>
         {signed ? (
+          // if user signed
           <>
+            {/* button for mobile menu */}
             <div className="md:hidden cursor-pointer  bg-blue-marguerite-500 dark:bg-black absolute top-0 -translate-y-1/2 right-0">
               {isModalOpen ? (
                 <CloseOutlinedIcon
@@ -159,6 +160,7 @@ const Header = ({ texts, ...props }: HeaderProps) => {
               )}
             </div>
             {isAdminPage ? null : (
+              // if page isn't admins'
               <>
                 <div className="sm:hidden cursor-pointer  bg-blue-marguerite-500 dark:bg-black absolute top-0 -translate-y-1/2 right-0">
                   {isModalOpen ? (
@@ -205,6 +207,7 @@ const Header = ({ texts, ...props }: HeaderProps) => {
                 </ul>
               </>
             )}
+            {/* show user's icon and user's menu */}
             <div className={isAdminPage ? "max-md:hidden" : "max-sm:hidden"}>
               <StyledButton
                 sx={{
@@ -212,7 +215,7 @@ const Header = ({ texts, ...props }: HeaderProps) => {
                   height: "48px",
                 }}
                 className="p-0 max-sm:hidden"
-                onClick={handleClick}
+                onClick={(e) => setAnchorEl(e.currentTarget)}
               >
                 <AccountCircleOutlinedIcon
                   sx={{
@@ -223,7 +226,7 @@ const Header = ({ texts, ...props }: HeaderProps) => {
               </StyledButton>
               <UserMenu
                 anchorEl={anchorEl}
-                handleClose={handleClose}
+                handleClose={() => setAnchorEl(null)}
                 open={open}
                 texts={{
                   umAdmin: texts.umAdmin,
@@ -241,6 +244,7 @@ const Header = ({ texts, ...props }: HeaderProps) => {
             </div>
           </>
         ) : (
+          // if user isn't signed
           <ul className="flex gap-4 items-center max-sm:hidden">
             <li>
               <Link href="/authentification/login">

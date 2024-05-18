@@ -1,23 +1,26 @@
-import { Divider, Menu } from "@mui/material";
-import { IconMenuItem, NestedMenuItem } from "mui-nested-menu";
-import React from "react";
+// external imports
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import ContrastOutlinedIcon from "@mui/icons-material/ContrastOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import DesktopWindowsOutlinedIcon from "@mui/icons-material/DesktopWindowsOutlined";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import OutlinedFlagSharpIcon from "@mui/icons-material/OutlinedFlagSharp";
+import { Divider, Menu } from "@mui/material";
 import axios from "axios";
+import { IconMenuItem, NestedMenuItem } from "mui-nested-menu";
 import { useDispatch, useSelector } from "react-redux";
+import Flag from "react-world-flags";
+
+// internal imports
 import {
   usePathname,
   useRouter,
 } from "@/modules/internationalization/navigation";
-import { Store } from "@/modules/redux/store";
 import { changeTheme } from "@/modules/redux/darkTheme/darkThemeSlice";
+import { Store } from "@/modules/redux/store";
 import { logout } from "@/modules/redux/user/userSlice";
-import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import ContrastOutlinedIcon from "@mui/icons-material/ContrastOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DesktopWindowsOutlinedIcon from "@mui/icons-material/DesktopWindowsOutlined";
-import Flag from "react-world-flags";
-import OutlinedFlagSharpIcon from "@mui/icons-material/OutlinedFlagSharp";
+import { UserMenuTexts } from "@/modules/types/texts";
 
 type MenuProps = {
   anchorEl: HTMLElement | null;
@@ -26,25 +29,15 @@ type MenuProps = {
   texts: UserMenuTexts;
 };
 
-export type UserMenuTexts = {
-  umAdmin: string;
-  umTheme: string;
-  umThemeDark: string;
-  umThemeLight: string;
-  umThemeSystem: string;
-  umLang: string;
-  umLangUk: string;
-  umLangEn: string;
-  umSettings: string;
-  umLogout: string;
-};
-
 const UserMenu = ({ texts, ...props }: MenuProps) => {
-  console.log(texts);
-
-  const dispatch = useDispatch();
+  // router for changing page by code
   const router = useRouter();
+  // get pathname
   const pathname = usePathname();
+
+  // dispatch for using redux actions
+  const dispatch = useDispatch();
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
   return (

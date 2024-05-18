@@ -1,30 +1,24 @@
 "use client";
 
 // external imports
-import React, { useEffect, useState } from "react";
+import { CircularProgress } from "@mui/material";
+import axios from "axios";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 // internal imports
-import Cell from "./Cell";
-import axios from "axios";
-import { CircularProgress, Pagination } from "@mui/material";
-import StyledPagination from "@/ui/Pagination";
-import { useSearchParams } from "next/navigation";
 import {
   Link,
   usePathname,
   useRouter,
 } from "@/modules/internationalization/navigation";
-import { useSelector } from "react-redux";
 import { Store } from "@/modules/redux/store";
-import Search from "@/components/collections/Search";
-
-export type Collection = {
-  id: number;
-  name: string;
-  status: string;
-  translationUk: string;
-  text: string;
-};
+import { Collection } from "@/modules/types/elements";
+import { CollectionsResponse } from "@/modules/types/responses";
+import Search from "@/ui/Search";
+import StyledPagination from "@/ui/mui/Pagination";
+import Cell from "./Cell";
 
 type TableProps = {
   //   words: Word[];
@@ -43,46 +37,68 @@ type Texts = {
 };
 
 const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
+  // state for saving words
   const [collections, setCollections] = useState<Collection[]>([]);
+  // state for page
   const [page, setPage] = useState(props.page ? Number(props.page) : 1);
+  // state for count of pages, for pagination
   const [countOfPages, setCountOfPages] = useState(1);
+  // state for loading
   const [isLoading, setIsLoading] = useState(true);
 
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
+  // function to fetch collections
   async function fetchCollections() {
     setIsLoading(true);
     try {
-      const res = await axios.get(
+      // get collections by query and page
+      const res: CollectionsResponse = await axios.get(
         `http://18.212.227.5:8876/api/v1/collections?page=${page}${
           props.query ? `&query=${props.query}` : ""
         }`,
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
 
+      // set words
       setCollections(res.data.data.data);
+      // set count of pages for pagination
       setCountOfPages(res.data.data.lastPage);
     } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   }
 
+  // use effect to fetch words on start and changing page
   useEffect(() => {
     fetchCollections();
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
+  // use effect to change page and fetch collection when
+  // query changing
   useEffect(() => {
     setPage(1);
     fetchCollections();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.query]);
 
+  // get params queries
   const searchParams = useSearchParams();
+  // get page's pathname
   const pathname = usePathname();
-  const { replace } = useRouter();
+  // router for changing page by code
+  const router = useRouter();
 
+  // function for changing page
   const handleSearch = (page: string) => {
     const params = new URLSearchParams(searchParams);
     if (page) {
@@ -90,7 +106,7 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
     } else {
       params.delete("page");
     }
-    replace(`${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
   return (

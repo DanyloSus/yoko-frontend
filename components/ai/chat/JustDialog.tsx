@@ -1,21 +1,19 @@
+// hooks needs CSR
 "use client";
 
-import StyledButton from "@/ui/Button";
-import StyledTextField from "@/ui/TextField";
+// external imports
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Yup from "yup";
-import { AIErrors, AITexts } from "../CheckLevelContent";
 
-type Message = {
-  index: number;
-  message: {
-    role: "assistant" | "user";
-    content: string;
-  };
-};
+// internal imports
+import { Message } from "@/modules/types/elements";
+import { ChatGptResponse } from "@/modules/types/responses";
+import { AIErrors, AITexts } from "@/modules/types/texts";
+import StyledButton from "@/ui/mui/Button";
+import StyledTextField from "@/ui/mui/TextField";
 
 type DialogProps = {
   texts: AITexts;
@@ -23,25 +21,35 @@ type DialogProps = {
 };
 
 const JustDialog = ({ texts, errors, ...props }: DialogProps) => {
+  // state for user's and gpt messages
   const [messages, setMessages] = useState<Message[]>([]);
+  // loading state
   const [isLoading, setIsLoading] = useState(false);
+  // did user stop dialog state
   const [stopped, setStopped] = useState(false);
 
+  // formik for better form control
   const formik = useFormik({
+    // initial values
     initialValues: {
       prompt: "",
     },
+    // validation
     validationSchema: Yup.object({
       prompt: Yup.string().required(errors.required),
     }),
     validateOnChange: false,
+    // on submit function
     onSubmit: async (value) => {
-      try {
-        setIsLoading(true);
-        formik.setValues({
-          prompt: "",
-        });
+      setIsLoading(true);
 
+      // clear form
+      formik.setValues({
+        prompt: "",
+      });
+
+      try {
+        // set user's message
         setMessages((state) => [
           ...state,
           {
@@ -53,14 +61,8 @@ const JustDialog = ({ texts, errors, ...props }: DialogProps) => {
           },
         ]);
 
-        console.log([
-          ...messages,
-          {
-            message: { role: "user", content: value.prompt },
-          },
-        ]);
-
-        const res = await axios.post("/api/ai/justDialog", {
+        // ChatGPT's answer
+        const res: ChatGptResponse = await axios.post("/api/ai/justDialog", {
           messages: [
             ...messages,
             {
@@ -69,6 +71,7 @@ const JustDialog = ({ texts, errors, ...props }: DialogProps) => {
           ],
         });
 
+        // set ChatGPT's answer to messages
         setMessages((state) => [...state, res.data.message]);
       } catch (error) {
         console.log(error);
@@ -78,10 +81,12 @@ const JustDialog = ({ texts, errors, ...props }: DialogProps) => {
     },
   });
 
+  // function to stop dialog
   const handleClose = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      const res = await axios.post("/api/ai/justDialog", {
+      // ChatGPT's answer
+      const res: ChatGptResponse = await axios.post("/api/ai/justDialog", {
         messages: [
           ...messages,
           {
@@ -90,6 +95,7 @@ const JustDialog = ({ texts, errors, ...props }: DialogProps) => {
         ],
       });
 
+      // set answer to messages
       setMessages((state) => [...state, res.data.message]);
       setStopped(true);
     } catch (error) {
@@ -114,7 +120,7 @@ const JustDialog = ({ texts, errors, ...props }: DialogProps) => {
           ? messages.map((message, index) => (
               <div key={index}>
                 <h6 className="text-h6">
-                  {message.message.role === "assistant" ? "AI" : "You"}
+                  {message.message.role === "assistant" ? texts.ai : texts.you}
                 </h6>
                 <p className="whitespace-pre-line">{message.message.content}</p>
               </div>

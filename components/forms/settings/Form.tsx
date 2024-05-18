@@ -2,33 +2,30 @@
 "use client";
 
 // external imports
-import { useEffect, useState } from "react";
+import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
-import { CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 
 // internal imports
-import DeleteDialog from "./DeleteDialog";
 import { useRouter } from "@/modules/internationalization/navigation";
 import { Store } from "@/modules/redux/store";
 import { login } from "@/modules/redux/user/userSlice";
-import StyledButton from "@/ui/Button";
+import { DeleteDialogTexts } from "@/modules/types/texts";
+import StyledButton from "@/u@/ui/mui/TextField";
 import StyledTextField from "@/ui/TextField";
+import DeleteDialog from "./DeleteDialog";
 
-type Texts = {
+type FormTexts = {
   texts: {
     name: string;
     surname: string;
     newPassword: string;
     passwordConfirm: string;
-    delete: string;
     confirm: string;
-    dialogHeading: string;
-    dialogContent: string;
-    cancel: string;
-  };
+  } & DeleteDialogTexts;
   errors: {
     nameRequired: string;
     nameLen: string;
@@ -47,7 +44,7 @@ type Texts = {
   };
 };
 
-const SettingsForm = ({ texts, errors }: Texts) => {
+const SettingsForm = ({ texts, errors }: FormTexts) => {
   const [open, setOpen] = useState(false); // state for checking is delete modal open
   const [isLoading, setIsLoading] = useState(false); // state for checking is form loading
 
@@ -121,7 +118,8 @@ const SettingsForm = ({ texts, errors }: Texts) => {
     onSubmit: async (value) => {
       setIsLoading(true);
 
-      // validation if user wrote something in password fields but didn't wrote to another
+      // validation if user wrote something in
+      // password fields but didn't wrote to another
       if (value.new_password.length && !value.password_confirmation.length) {
         formik.setErrors({
           new_password: "",

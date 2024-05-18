@@ -1,3 +1,6 @@
+// styles for animations on scroll
+
+// class for components
 .reveal {
   transform: translateX(-150px);
   opacity: 0;
@@ -18,11 +21,13 @@
   }
 }
 
+// class for loading
 .loading {
   clip-path: inset(0 3ch 0 0);
   animation: l 1s steps(4) infinite;
 }
 
+// loading animations
 @keyframes l {
   to {
     clip-path: inset(0 -1ch 0 0);

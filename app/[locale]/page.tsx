@@ -1,16 +1,15 @@
 // external imports
-import React from "react";
+import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 // internal imports
-import TranslatedHeader from "@/components/header/TranslatedHeader";
-import MainSection from "@/components/landing/Main";
-import CollectionsSection from "@/components/landing/Collections";
-import WaysSection from "@/components/landing/Ways";
-import ReviewsSection from "@/components/landing/Reviews";
-import FinalSection from "@/components/landing/Final";
 import Footer from "@/components/Footer";
-import { useTranslations } from "next-intl";
+import TranslatedHeader from "@/components/header/TranslatedHeader";
+import CollectionsSection from "@/components/landing/Collections";
+import FinalSection from "@/components/landing/Final";
+import MainSection from "@/components/landing/Main";
+import ReviewsSection from "@/components/landing/Reviews";
+import WaysSection from "@/components/landing/Ways";
 import { overkill } from "@/modules/internationalization/navigation";
 
 // create multilanguage dynamic metadata
@@ -19,11 +18,11 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const t = await getTranslations({ locale, namespace: "Metadata" }); // get translation for metadata
 
   return {
-    title: t("landing.title"),
-    descriptions: t("landing.description"),
+    title: t("landing.title"), // set title
+    descriptions: t("landing.description"), // set description
   };
 }
 

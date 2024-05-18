@@ -3,17 +3,20 @@
 
 // external imports
 import { ThemeProvider } from "@mui/material/styles";
-// internal imports
-
-import ReduxWrapper from "@/components/wrappers/ReduxWrapper";
-import theme from "@/ui/theming/Theme";
-import "@/public/styles/globals.scss";
-import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
+// internal imports
+import ReduxWrapper from "@/components/wrappers/ReduxWrapper";
+import "@/public/styles/globals.scss";
+import theme from "@/ui/theming/Theme";
+
+// function to get theme
 function getDefautTheme() {
+  // get theme from localStorage
   const defaultTheme = localStorage.getItem("theme");
 
+  // if theme dark or on pc dark theme
   if (
     defaultTheme === "dark" ||
     (!("theme" in localStorage) &&
@@ -21,7 +24,6 @@ function getDefautTheme() {
   ) {
     document.body.classList.add("dark");
   } else {
-    console.log(window.matchMedia("(prefers-color-scheme: dark)").matches);
     if (document.body.classList.contains("dark")) {
       document.body.classList.remove("dark");
     }
@@ -33,8 +35,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // get pathaname
   const pathname = usePathname();
 
+  // use effect which check theme on start and when pathname
+  // changing
   useEffect(() => {
     getDefautTheme();
   }, [pathname]);

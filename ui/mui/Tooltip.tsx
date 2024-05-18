@@ -1,10 +1,13 @@
 // styled needs CSR
 "use client";
 
-import { Store } from "@/modules/redux/store";
 // external imports
-import { styled } from "@mui/material/styles";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
+import { useSelector } from "react-redux";
+
+// internal imports
+import { Store } from "@/modules/redux/store";
 
 // create custom tooltip's style
 const StyleForTranslateTooltip = styled(
@@ -17,11 +20,11 @@ const StyleForTranslateTooltip = styled(
   borderRadius: "8px",
 }));
 
-import React from "react";
-import { useSelector } from "react-redux";
-
+// custom component
 const TranslateTooltip = ({ children, sx, ...props }: TooltipProps) => {
+  // get user's theme
   const theme = useSelector((state: Store) => state.theme);
+  // check is user's theme dark
   const isDark = theme === "dark";
 
   return (

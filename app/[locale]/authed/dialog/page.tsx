@@ -1,18 +1,16 @@
+// external imports
+import { Metadata } from "next";
+import { useTranslations } from "next-intl";
+
+// internal imports
 import JustDialog from "@/components/ai/chat/JustDialog";
 import { overkill } from "@/modules/internationalization/navigation";
-import { useTranslations } from "next-intl";
-import React from "react";
+import { aiTextsArray } from "@/modules/types/texts";
 
-const aiTextsArray = [
-  "texts.message",
-  "texts.startDialog",
-  "texts.stop",
-  "texts.send",
-  "texts.hint",
-  "texts.placeholder",
-  "texts.ai",
-  "texts.you",
-];
+// create static metadata
+export const metadata: Metadata = {
+  title: "Dialog",
+};
 
 const DialogPage = () => {
   const t = useTranslations("AI");

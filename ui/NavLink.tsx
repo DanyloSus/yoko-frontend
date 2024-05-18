@@ -2,7 +2,7 @@
 "use client";
 
 // external imports
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 // internal imports
 import { Link, usePathname } from "@/modules/internationalization/navigation";
@@ -13,6 +13,7 @@ type NavLinkProps = {
   link: string; // the best way start link with /
 };
 
+// custom link
 const NavLink = (props: NavLinkProps) => {
   const pathname = usePathname().split("/")[2];
 

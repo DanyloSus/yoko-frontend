@@ -20,6 +20,7 @@ const darkThemeSlice = createSlice({
   name: "theme", // slice's name
   initialState, // slice's initial values
   reducers: {
+    // action for changing theme
     changeTheme(state, action: PayloadAction<string>) {
       if (action.payload === "dark") {
         document.body.classList.add("dark");
@@ -41,6 +42,7 @@ const darkThemeSlice = createSlice({
         }
       }
     },
+    // action for load theme
     loadTheme() {
       const defaultTheme = localStorage.getItem("theme");
 

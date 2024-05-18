@@ -1,8 +1,10 @@
-import { Link } from "@/modules/internationalization/navigation";
-import StyledButton from "@/ui/Button";
-import React from "react";
-import MovingText from "../MovingText";
+// external imports
 import { useTranslations } from "next-intl";
+
+// internal imports
+import { Link } from "@/modules/internationalization/navigation";
+import StyledButton from "@/ui/mui/Button";
+import MovingText from "../MovingText";
 
 const MainSection = () => {
   const t = useTranslations("Landing"); // get page translation

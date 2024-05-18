@@ -1,36 +1,20 @@
+// hooks needs CSR
 "use client";
 
-import StyledButton from "@/ui/Button";
-import StyledTextField from "@/ui/TextField";
+// external imports
+import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
+
+// internal imports
+import { Message } from "@/modules/types/elements";
+import { ChatGptResponse } from "@/modules/types/responses";
+import { AIErrors, AITexts } from "@/modules/types/texts";
+import StyledButton from "@/ui/mui/Button";
+import StyledTextField from "@/ui/mui/TextField";
 import CheckDialog from "./CheckDialog";
-import { CircularProgress } from "@mui/material";
-
-type Message = {
-  index: number;
-  message: {
-    role: "assistant" | "user";
-    content: string;
-  };
-};
-
-export type AITexts = {
-  message: string;
-  startDialog: string;
-  stop: string;
-  send: string;
-  hint: string;
-  ai: string;
-  placeholder: string;
-  you: string;
-};
-
-export type AIErrors = {
-  required: string;
-};
 
 type ContentProps = {
   texts: AITexts;
@@ -38,16 +22,23 @@ type ContentProps = {
 };
 
 const CheckLevelContent = ({ texts, errors, ...props }: ContentProps) => {
+  // state for user's and gpt messages
   const [messages, setMessages] = useState<Message[]>([]);
+  // is dialog open state
   const [dialog, setDialog] = useState(false);
+  // state for level which needs to show
   const [level, setLevel] = useState("");
+  // loading state
   const [isLoading, setIsLoading] = useState(true);
 
+  // use effect to fetch first question from ChatGPT
   useEffect(() => {
     async function fetchFirstQuestion() {
       try {
-        const res = await axios.get("/api/ai/checkLevel");
+        // get answer from ChatGPT
+        const res: ChatGptResponse = await axios.get("/api/ai/checkLevel");
 
+        // set to messages state
         setMessages([res.data.message]);
       } catch (error) {
         console.log(error);
@@ -60,21 +51,28 @@ const CheckLevelContent = ({ texts, errors, ...props }: ContentProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // formik for better form control
   const formik = useFormik({
+    // initial values
     initialValues: {
       prompt: "",
     },
+    // validation
     validationSchema: Yup.object({
       prompt: Yup.string().required(errors.required),
     }),
     validateOnChange: false,
+    // on submit function
     onSubmit: async (value) => {
       setIsLoading(true);
-      try {
-        formik.setValues({
-          prompt: "",
-        });
 
+      // clean form
+      formik.setValues({
+        prompt: "",
+      });
+
+      try {
+        // add user's message
         setMessages((state) => [
           ...state,
           {
@@ -86,7 +84,8 @@ const CheckLevelContent = ({ texts, errors, ...props }: ContentProps) => {
           },
         ]);
 
-        const res = await axios.post("/api/ai/checkLevel", {
+        // ChatGPT answer
+        const res: ChatGptResponse = await axios.post("/api/ai/checkLevel", {
           messages: [
             ...messages,
             {
@@ -95,14 +94,16 @@ const CheckLevelContent = ({ texts, errors, ...props }: ContentProps) => {
           ],
         });
 
-        if (messages.length + 2 === 9) {
+        // if messages length more than 8
+        if (messages.length + 2 >= 9) {
+          // get ChatGPT answer
           const text = res.data.message.message.content;
 
+          // find user's level in ChatGPT answer
           const match = text.match(/(A1|A2|B1|B2|C1|C2)/);
 
           if (match) {
-            console.log("First match found:", match[0]);
-
+            // set to first found level
             setLevel(match[0]);
             setDialog(true);
 
@@ -110,6 +111,7 @@ const CheckLevelContent = ({ texts, errors, ...props }: ContentProps) => {
           }
         }
 
+        // write to message
         setMessages((state) => [...state, res.data.message]);
       } catch (error) {
         console.log(error);

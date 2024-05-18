@@ -1,39 +1,44 @@
+// hooks need CSR
 "use client";
 
-import React, { useEffect, useState } from "react";
-import TranslationBubble from "./TranslationBubble";
+// external imports
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { Store } from "@/modules/redux/store";
-import LinearProgress from "@mui/material/LinearProgress";
-import StyledLinearProgress from "@/ui/LinearProgress";
-import StyledButton from "@/ui/Button";
+import { useEffect, useState } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
+import { useSelector } from "react-redux";
 
-type Props = {
+// internal imports
+import { Store } from "@/modules/redux/store";
+import { Word } from "@/modules/types/elements";
+import { TextExerciseResponse } from "@/modules/types/responses";
+import StyledLinearProgress from "@/ui/LinearProgress";
+import StyledButton from "@/ui/mui/Button";
+import TranslationBubble from "./TranslationBubble";
+
+type ContentProps = {
   collectionId: string;
 };
 
-type Word = {
-  id: number;
-  word: string;
-  translationUk: string;
-};
-
-const TextContent = (props: Props) => {
+const TextContent = (props: ContentProps) => {
+  // state for translation words
   const [words, setWords] = useState<Word[]>([]);
+  // state of text's words
   const [text, setText] = useState<string[]>([]);
+  // state for ukrainian translation
   const [translation, setTranslation] = useState("");
+  // state for step
   const [step, setStep] = useState(0);
+  // state for confetti explosion
+  const [isExploding, setIsExploding] = useState(false);
 
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
-  const [isExploding, setIsExploding] = React.useState(false);
-
+  // use effect to fetch exerise
   useEffect(() => {
     async function fetchTexts() {
       try {
-        const res = await axios.get(
+        const res: TextExerciseResponse = await axios.get(
           `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/text`,
           {
             headers: {
@@ -42,19 +47,22 @@ const TextContent = (props: Props) => {
           }
         );
 
+        // get words
         const resWords = res.data.data.words;
         setWords(resWords);
 
-        const text: string = res.data.data.text.text;
+        // get text and break it to array
+        const text = res.data.data.text.text;
         setText(text.split(" "));
 
+        // get translation
         const translationUk: string = res.data.data.text.translationUk;
         setTranslation(translationUk);
       } catch (error) {}
     }
 
     fetchTexts();
-  }, []);
+  }, [props.collectionId, user.token]);
 
   return (
     <div className="text-center flex flex-col items-center gap-[24px] relative">

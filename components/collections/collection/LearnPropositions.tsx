@@ -2,32 +2,23 @@
 "use client";
 
 // external imports
-import React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { motion } from "framer-motion";
 
 // internal imports
-import FormWrapper from "../wrappers/FormWrapper";
-import Portal from "../wrappers/Portal";
-import StyledButton from "@/ui/Button";
+import { Link, usePathname } from "@/modules/internationalization/navigation";
+import { PropositionTexts } from "@/modules/types/texts";
+import StyledButton from "@/ui/mui/Button";
+import FormWrapper from "../../wrappers/FormWrapper";
+import Portal from "../../wrappers/Portal";
 
 // Props for element
 type Props = {
   handleClose: () => void;
+  texts: PropositionTexts;
 };
 
-type Texts = {
-  texts: {
-    propositionHeading: string;
-    textExercise: string;
-    quizExercise: string;
-    cardsExercise: string;
-  };
-};
-
-const LearnPropositions = ({ texts, ...props }: Props & Texts) => {
+const LearnPropositions = ({ texts, ...props }: Props) => {
   const pathname = usePathname();
 
   return (

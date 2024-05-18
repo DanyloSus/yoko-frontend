@@ -1,7 +1,7 @@
 // external imports
+import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { SignJWT, jwtVerify } from "jose";
 
 // secret key from .env.local
 const secretKey = process.env.SECRET;

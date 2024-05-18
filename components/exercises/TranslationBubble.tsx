@@ -1,20 +1,19 @@
-// external imports
-import React from "react";
-
 // internal imports
-import StyledButton from "@/ui/Button";
-import TranslateTooltip from "@/ui/Tooltip";
+import TranslateTooltip from "@/ui/mui/Tooltip";
 
 type BubbleProps = {
   text: string;
   translationUk: string;
 };
 
-type Texts = {
+type BubbleTexts = {
   bubbleText: string;
 };
 
-const TranslationBubble = ({ bubbleText, ...props }: BubbleProps & Texts) => {
+const TranslationBubble = ({
+  bubbleText,
+  ...props
+}: BubbleProps & BubbleTexts) => {
   return (
     <TranslateTooltip
       arrow

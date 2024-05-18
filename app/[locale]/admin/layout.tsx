@@ -1,12 +1,9 @@
 // external imports
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 // internal imports
-import "./adminStyles.scss";
 import AdminMenu from "@/components/admins/Menu";
 import TranslatedHeader from "@/components/header/TranslatedHeader";
-import { useTranslations } from "next-intl";
-import { Link } from "@/modules/internationalization/navigation";
 
 const AdminLayout = ({
   children,
@@ -15,8 +12,6 @@ const AdminLayout = ({
   children: ReactNode;
   params: { locale: string };
 }) => {
-  const t = useTranslations("Admin");
-
   return (
     <main className="dark:bg-black dark:text-white">
       <div className="">

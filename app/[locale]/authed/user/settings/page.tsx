@@ -1,12 +1,11 @@
 // external imports
-import React from "react";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 // internal imports
 import SettingsForm from "@/components/forms/settings/Form";
-import { overkill } from "@/modules/internationalization/navigation";
 import FormWrapper from "@/components/wrappers/FormWrapper";
+import { overkill } from "@/modules/internationalization/navigation";
 
 // create multilanguage dynamic metadata
 export async function generateMetadata({
@@ -14,10 +13,10 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const t = await getTranslations({ locale, namespace: "Metadata" }); // get translation for metadata
 
   return {
-    title: t("settings.title"),
+    title: t("settings.title"), // set title
   };
 }
 

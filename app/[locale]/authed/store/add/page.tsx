@@ -1,5 +1,4 @@
 // external imports
-import React from "react";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
@@ -14,11 +13,11 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const t = await getTranslations({ locale, namespace: "Metadata" }); // get translation for metadata
 
   return {
-    title: t("addCollection.title"),
-    descriptions: t("addCollection.description"),
+    title: t("addCollection.title"), // set title
+    descriptions: t("addCollection.description"), // set description
   };
 }
 

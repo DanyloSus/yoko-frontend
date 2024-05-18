@@ -1,26 +1,25 @@
+// hooks need CSR
 "use client";
 
+// external imports
+import axios from "axios";
+import { useFormik } from "formik";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import * as Yup from "yup";
+
+// internal imports
 import FormWrapper from "@/components/wrappers/FormWrapper";
 import { useRouter } from "@/modules/internationalization/navigation";
 import { Store } from "@/modules/redux/store";
-import StyledButton from "@/ui/Button";
-import StyledTextField from "@/ui/TextField";
-import axios from "axios";
-import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import * as Yup from "yup";
-import ImageModal from "./ImageModal";
+import { Word } from "@/modules/types/elements";
+import { WordResponse } from "@/modules/types/responses";
+import StyledButton from "@/ui/mui/Button";
+import StyledTextField from "@/ui/mui/TextField";
 
 type WordFormProps = {
   params: { id: string };
   texts: FormTexts;
-};
-
-type Word = {
-  id: number;
-  word: string;
-  translationUk: string;
 };
 
 type FormTexts = {
@@ -33,13 +32,16 @@ type FormTexts = {
 };
 
 const WordForm = ({ texts, ...props }: WordFormProps) => {
+  // state for word which will be in form
   const [word, setWord] = useState<Word>();
 
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
+  // use effect to fetch word on start
   useEffect(() => {
     async function fetchWord() {
-      const res = await axios.get(
+      const res: WordResponse = await axios.get(
         `http://18.212.227.5:8876/api/v1/words/${props.params.id}`,
         {
           headers: {
@@ -48,10 +50,13 @@ const WordForm = ({ texts, ...props }: WordFormProps) => {
         }
       );
 
-      const wordData: Word = res.data.data;
+      // get word data
+      const wordData = res.data.data;
 
+      // set word data to state
       setWord(wordData);
 
+      // set word data to form
       formik.setValues({
         word: wordData.word,
         translationUk: wordData.translationUk,
@@ -62,6 +67,7 @@ const WordForm = ({ texts, ...props }: WordFormProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // router for changing page by code
   const router = useRouter();
 
   const formik = useFormik({
@@ -87,6 +93,7 @@ const WordForm = ({ texts, ...props }: WordFormProps) => {
     },
   });
 
+  // if word isn't loaded then show nothing
   return !word ? (
     <></>
   ) : (

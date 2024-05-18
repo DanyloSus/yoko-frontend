@@ -1,5 +1,5 @@
 // external imports
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 // internal imports
 import TranslatedHeader from "@/components/header/TranslatedHeader";

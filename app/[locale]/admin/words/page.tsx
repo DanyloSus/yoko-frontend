@@ -1,10 +1,9 @@
 // external imports
-import React from "react";
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";
 
 // internal imports
-import WordsTable, { Word } from "@/components/admins/tables/WordsTable";
+import WordsTable from "@/components/admins/tables/WordsTable";
 
 // create static metadata
 export const metadata: Metadata = {

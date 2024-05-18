@@ -2,12 +2,13 @@
 "use effect";
 
 // external imports
-import React, { useState } from "react";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
+import { useState } from "react";
 import ReactCardFlip from "react-card-flip";
 
 // internal imports
-import StyledButton from "@/ui/Button";
+import { CardTexts } from "@/modules/types/texts";
+import StyledButton from "@/ui/mui/Button";
 
 type CardProps = {
   englishWord: string;
@@ -15,16 +16,10 @@ type CardProps = {
   forward: () => void;
   back: () => void;
   isSmall?: boolean;
+  texts: CardTexts;
 };
 
-type Texts = {
-  texts: {
-    translate: string;
-    back: string;
-  };
-};
-
-const Card = ({ texts, ...props }: CardProps & Texts) => {
+const Card = ({ texts, ...props }: CardProps) => {
   // basic card style
   const style = `card ${
     props.isSmall ? "min-h-[294px]" : "min-h-[474px]"

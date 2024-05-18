@@ -1,32 +1,24 @@
 "use client";
 
 // external imports
-import React, { useEffect, useState } from "react";
+import { CircularProgress } from "@mui/material";
+import axios from "axios";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 // internal imports
-import Cell from "./Cell";
-import axios from "axios";
-import { CircularProgress, Pagination } from "@mui/material";
-import StyledPagination from "@/ui/Pagination";
-import { useSearchParams } from "next/navigation";
 import {
   Link,
   usePathname,
   useRouter,
 } from "@/modules/internationalization/navigation";
-import { UserInfo } from "@/modules/redux/user/userSlice";
-import StyledButton from "@/ui/Button";
 import { Store } from "@/modules/redux/store";
-import { useSelector } from "react-redux";
-import Search from "@/components/collections/Search";
-
-export type Collection = {
-  id: number;
-  name: string;
-  status: string;
-  text: string;
-  userId: number;
-};
+import { Collection } from "@/modules/types/elements";
+import { RequestsResponse } from "@/modules/types/responses";
+import Search from "@/ui/Search";
+import StyledPagination from "@/ui/mui/Pagination";
+import Cell from "./Cell";
 
 type TableProps = {
   //   users: Word[];
@@ -34,7 +26,7 @@ type TableProps = {
   page?: string;
 };
 
-type Texts = {
+type TableTexts = {
   texts: {
     headings: string;
     contents: string;
@@ -44,41 +36,59 @@ type Texts = {
   };
 };
 
-const RequestsTable = ({ texts, ...props }: Texts & TableProps) => {
+const RequestsTable = ({ texts, ...props }: TableTexts & TableProps) => {
+  // state for saving requests
   const [collections, setCollections] = useState<Collection[]>([]);
+  // state for page
   const [page, setPage] = useState(props.page ? Number(props.page) : 1);
+  // state for count of pages, for pagination
   const [countOfPages, setCountOfPages] = useState(1);
+  // state for loading
   const [isLoading, setIsLoading] = useState(true);
 
+  // get user's info
   const user = useSelector((state: Store) => state.user);
 
+  // function to fetch requests
   async function fetchRequests() {
     setIsLoading(true);
     try {
-      const res = await axios.get(
+      const res: RequestsResponse = await axios.get(
         `http://18.212.227.5:8876/api/v1/collections/requests?page=${page}${
           props.query ? `&query=${props.query}` : ""
         }`,
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
 
+      // set requests
       setCollections(res.data.data.requests);
+      // set count of pages for pagination
       setCountOfPages(res.data.data.lastPage);
     } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   }
 
+  // use effect to fetch words on start and changing page
   useEffect(() => {
     fetchRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
+  // get params queries
   const searchParams = useSearchParams();
+  // get page's pathname
   const pathname = usePathname();
-  const { replace } = useRouter();
+  // router for changing page by code
+  const router = useRouter();
 
+  // function for changing page
   const handleSearch = (page: string) => {
     const params = new URLSearchParams(searchParams);
     if (page) {
@@ -86,12 +96,15 @@ const RequestsTable = ({ texts, ...props }: Texts & TableProps) => {
     } else {
       params.delete("page");
     }
-    replace(`${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
+  // use effect to change page and fetch requests when query
+  // changing
   useEffect(() => {
     setPage(1);
     fetchRequests();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.query]);
 
   return (

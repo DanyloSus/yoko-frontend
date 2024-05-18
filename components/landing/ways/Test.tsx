@@ -1,9 +1,12 @@
-import StyledButton from "@/ui/Button";
+// external imports
 import React, { ReactNode, useState } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
 
+// internal imports
+import StyledButton from "@/ui/mui/Button";
+
 const Test = () => {
-  const [isExploding, setIsExploding] = React.useState(false);
+  const [isExploding, setIsExploding] = React.useState(false); // state for confetti
   const [buttons, setButtons] = useState<ReactNode[]>([
     <StyledButton
       variant="outlined"
@@ -36,6 +39,7 @@ const Test = () => {
   ]); // state of answers' buttons
 
   function checkAnswer(answer: string, buttonIndex: number) {
+    // check answer
     if (answer === "Вітаю") {
       setIsExploding(true);
     }

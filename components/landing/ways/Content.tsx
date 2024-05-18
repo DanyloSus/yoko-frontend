@@ -1,41 +1,51 @@
-import { Link } from "@/modules/internationalization/navigation";
-import StyledButton from "@/ui/Button";
+// external imports
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
-import Text from "./Text";
+
+// internal imports
+import { Link } from "@/modules/internationalization/navigation";
+import StyledButton from "@/ui/mui/Button";
+import CardExercise from "./Card";
 import Test from "./Test";
-import CardExercise, { CardTexts } from "./Card";
+import Text from "./Text";
 
 type ContentProps = {
   page: number; //active page
 };
 
-export type WaysTexts = {
-  First: {
-    firstTitle: string;
-    firstText: string;
-    firstMobileText: string;
-  };
-  Second: {
-    secondTitle: string;
-    secondText: string;
-    secondMobileText: string;
-  };
-  Third: {
-    thirdTitle: string;
-    thirdText: string;
-    thirdMobileText: string;
-    thirdCardTranslate: string;
-    thirdCardBack: string;
-  };
-  Fourth: {
-    fourthTitle: string;
-    fourthText: string;
-    fourthSecondTitle: string;
-    fourthSecondText: string;
-    fourthSecondMobileText: string;
-    fourthButtonText: string;
-  };
+export type FirstWayTexts = {
+  firstTitle: string;
+  firstText: string;
+  firstMobileText: string;
+};
+
+export type SecondWayTexts = {
+  secondTitle: string;
+  secondText: string;
+  secondMobileText: string;
+};
+
+export type ThirdWayTexts = {
+  thirdTitle: string;
+  thirdText: string;
+  thirdMobileText: string;
+  thirdCardTranslate: string;
+  thirdCardBack: string;
+};
+
+export type FourthWayTexts = {
+  fourthTitle: string;
+  fourthText: string;
+  fourthSecondTitle: string;
+  fourthSecondText: string;
+  fourthSecondMobileText: string;
+  fourthButtonText: string;
+};
+
+type WaysTexts = {
+  First: FirstWayTexts;
+  Second: SecondWayTexts;
+  Third: ThirdWayTexts;
+  Fourth: FourthWayTexts;
 };
 
 const WaysContent = ({

@@ -1,6 +1,6 @@
 // external imports
-import { notFound } from "next/navigation";
 import { getRequestConfig } from "next-intl/server";
+import { notFound } from "next/navigation";
 
 // internal imports
 import { locales } from "./navigation";

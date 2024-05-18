@@ -1,51 +1,42 @@
+// hooks need CSR
 "use client";
 
-import React from "react";
-import Portal from "../wrappers/Portal";
+// external imports
+import { Divider } from "@mui/material";
+import axios from "axios";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+
+// internal imports
 import {
   usePathname,
   useRouter,
 } from "@/modules/internationalization/navigation";
-import MenuTitle from "../../ui/MenuTitle";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/modules/redux/user/userSlice";
-import UserElement from "../users/UserElement";
-import { Store } from "@/modules/redux/store";
-import { Divider } from "@mui/material";
 import { changeTheme } from "@/modules/redux/darkTheme/darkThemeSlice";
-import axios from "axios";
+import { Store } from "@/modules/redux/store";
+import { logout } from "@/modules/redux/user/userSlice";
+import { MobileMenuTexts } from "@/modules/types/texts";
+import MenuTitle from "../../ui/MenuTitle";
+import UserElement from "../users/UserElement";
+import Portal from "../wrappers/Portal";
 
-export type MobileMenuTexts = {
-  mmAdmUsers: string;
-  mmAdmCollections: string;
-  mmAdmWords: string;
-  mmAdmRequests: string;
-  mmUserStore: string;
-  mmUserCollections: string;
-  mmUserTheme: string;
-  mmUserThemeDark: string;
-  mmUserThemeLight: string;
-  mmUserLang: string;
-  mmUserLangUk: string;
-  mmUserLangEn: string;
-  mmExit: string;
-};
-
-type Props = {
+type MobileMenuProps = {
   locale: string;
   handleClose: () => void;
   texts: MobileMenuTexts;
 };
 
-const MobileMenu = ({ texts, ...props }: Props) => {
+const MobileMenu = ({ texts, ...props }: MobileMenuProps) => {
+  // get pathname
   const pathname = usePathname();
-
-  const dispatch = useDispatch();
-
+  // router for changing page by code
   const router = useRouter();
 
+  // dispatch for using redux actions
+  const dispatch = useDispatch();
+  // get user's info
   const user = useSelector((state: Store) => state.user);
+  // get user's theme
   const theme = useSelector((state: Store) => state.theme);
 
   return (

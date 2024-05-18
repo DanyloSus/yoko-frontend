@@ -29,7 +29,8 @@ const useAuthedReplace = (props: HookProps) => {
   function checkUser() {
     props.setIsLoading(true);
 
-    // if user exists then we go to another page
+    // if user exists or not or exits but not admin or
+    // exists and user is admin then we go to another page
     if (
       (props.user.token && props.replacePageIfUserAuthed) ||
       (!props.user.token && !props.replacePageIfUserAuthed) ||
@@ -45,7 +46,8 @@ const useAuthedReplace = (props: HookProps) => {
       return;
     }
 
-    // if user exists in local storage then we go to another page
+    // if user exists in local storage or not then we go to
+    // another page
     if (
       (localStorage.getItem("user") && props.replacePageIfUserAuthed) ||
       (!localStorage.getItem("user") && !props.replacePageIfUserAuthed)
