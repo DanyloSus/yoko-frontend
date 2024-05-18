@@ -41,7 +41,7 @@ const StoreContent = ({ texts, ...props }: StoreTexts & StoreProps) => {
   const loadMoreCollections = async () => {
     try {
       const res: CollectionsResponse = await axios.get(
-        `http://18.212.227.5:8876/api/v1/collections/public?page=${page}${
+        `/api/authed/store?page=${page}${
           props.query.trim().length ? `&query=${props.query}` : ""
         }`,
         {
@@ -85,7 +85,7 @@ const StoreContent = ({ texts, ...props }: StoreTexts & StoreProps) => {
 
     async function fetchCollections() {
       const res: CollectionsResponse = await axios.get(
-        `http://18.212.227.5:8876/api/v1/collections/public${
+        `/api/authed/store${
           props.query.trim().length ? `?query=${props.query}` : ""
         }`,
         {
