@@ -56,7 +56,7 @@ export type Message = {
 export type User = {
   id: number;
   email: string;
-  name: string;
-  surname: string;
+  name?: string;
+  surname?: string;
   isBlocked?: 0 | 1;
 };

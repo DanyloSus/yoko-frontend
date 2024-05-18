@@ -10,13 +10,37 @@ export async function POST(req: NextRequest) {
     password: string;
   } = await req.json();
 
-  const res: AuthentificationResponse = await axios.post(
-    "http://18.212.227.5:8876/api/v1/auth/login",
-    data
-  );
+  try {
+    const res: AuthentificationResponse = await axios.post(
+      "http://18.212.227.5:8876/api/v1/auth/admin-login",
+      data
+    );
 
-  // return no content
-  return NextResponse.json(res.data, {
-    status: 200,
-  });
+    return NextResponse.json(res.data, {
+      status: 200,
+    });
+  } catch (error: any) {
+    if (error.response && error.response!.status === 422) {
+      return new NextResponse(undefined, {
+        status: error.response!.status,
+      });
+    } else {
+      try {
+        // admin login
+        const res = await axios.post(
+          "http://18.212.227.5:8876/api/v1/auth/login",
+          data
+        );
+
+        console.log(res);
+        return NextResponse.json(res.data, {
+          status: 200,
+        });
+      } catch (error: any) {
+        return new NextResponse(undefined, {
+          status: error.response!.status,
+        });
+      }
+    }
+  }
 }

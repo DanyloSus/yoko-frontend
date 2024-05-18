@@ -14,6 +14,7 @@ import useAuthedReplace from "@/modules/auth/hooks/useAuthedReplace";
 import { useRouter } from "@/modules/internationalization/navigation";
 import { Store } from "@/modules/redux/store";
 import { login } from "@/modules/redux/user/userSlice";
+import { AuthentificationResponse } from "@/modules/types/responses";
 import StyledButton from "@/ui/mui/Button";
 import StyledTextField from "@/ui/mui/TextField";
 
@@ -89,87 +90,54 @@ const LoginForm = ({ texts, errors }: Texts) => {
 
       try {
         // set post method to login user
-        const res = await axios.post("/api/login", value);
+        const res: AuthentificationResponse = await axios.post(
+          "/api/login",
+          value
+        );
 
-        console.log(res);
+        // get user's token
+        const token = res.data.data.token;
+        const dataUser = res.data.data.user;
 
-        // // get user's token
-        // const token = res.data.data.token;
+        // set token to cookie
+        await axios.post("/api/cookies", JSON.stringify(token));
 
-        // // set token to cookie
-        // await axios.post("/api/cookies", JSON.stringify(token));
+        // write admin to redux
+        dispatch(
+          login({
+            id: dataUser.id,
+            email: dataUser.email,
+            name: dataUser.name,
+            surname: dataUser.surname,
+            token,
+            isAdmin: dataUser.name ? false : true,
+          })
+        );
 
-        // const dataAdmin = res.data.data.user;
-
-        // // write user to redux
-        // dispatch(
-        //   login({
-        //     id: dataAdmin.id,
-        //     email: dataAdmin.email,
-        //     token,
-        //     isAdmin: true,
-        //   })
-        // );
-
-        // // change page
-        // router.push("/admin/collections");
-        setIsLoading(false);
+        // change page
+        if (dataUser.name) {
+          router.push("/authed/collections");
+        } else {
+          router.push("/admin/collections");
+        }
       } catch (error: any) {
-        // error handling
-        if (error.response && error.response!.status === 422) {
+        if (
+          error.response &&
+          (error.response!.status === 422 || error.response!.status === 401)
+        ) {
           formik.setErrors({
             email: "",
             password: errors.loginFailed,
           });
         } else {
-          try {
-            // admin login
-            const res = await axios.post(
-              "http://18.212.227.5:8876/api/v1/auth/login",
-              value
-            );
+          console.log(error);
 
-            // admin's token
-            const token = res.data.data.token;
-            // admin's data
-            const dataUser = res.data.data.user;
-
-            // write admin to redux
-            dispatch(
-              login({
-                id: dataUser.id,
-                email: dataUser.email,
-                name: dataUser.name,
-                surname: dataUser.surname,
-                token,
-                isAdmin: false,
-              })
-            );
-
-            // change page
-            router.push("/authed/collections");
-            setIsLoading(false);
-          } catch (error: any) {
-            // error handling
-            if (
-              error.response &&
-              (error.response!.status === 422 || error.response!.status === 401)
-            ) {
-              formik.setErrors({
-                email: "",
-                password: errors.loginFailed,
-              });
-            } else {
-              console.log(error);
-
-              formik.setErrors({
-                email: "",
-                password: errors.serverError,
-              });
-            }
-          }
+          formik.setErrors({
+            email: "",
+            password: errors.serverError,
+          });
         }
-
+      } finally {
         setIsLoading(false);
       }
     },
