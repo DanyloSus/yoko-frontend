@@ -159,18 +159,16 @@ const SettingsForm = ({ texts, errors }: FormTexts) => {
 
       try {
         // request to patch our data
-        const res = await axios.patch(
-          `http://18.212.227.5:8876/api/v1/users/${user.id}`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
+        const res = await axios.patch(`/api/user/settings/${user.id}`, data, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
 
         // updated data
         const updatedData = res.data.data.user;
+        console.log(data);
+        console.log(updatedData);
 
         // write updated data
         dispatch(
@@ -184,7 +182,7 @@ const SettingsForm = ({ texts, errors }: FormTexts) => {
           })
         );
 
-        router.push("/authed/user");
+        // router.push("/authed/user");
       } catch (error) {
         console.log(error);
         formik.setErrors({
