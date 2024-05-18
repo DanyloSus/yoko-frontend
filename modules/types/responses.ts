@@ -47,3 +47,8 @@ export type WordsResponse = ResponseWithPagination<Word[], "words">;
 export type UsersResponse = ResponseWithPagination<User[], "users">;
 
 export type RequestsResponse = ResponseWithPagination<Collection[], "requests">;
+
+export type AuthentificationResponse = TypicalResponse<{
+  user: User;
+  token: string;
+}>;

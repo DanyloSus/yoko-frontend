@@ -58,5 +58,5 @@ export type User = {
   email: string;
   name: string;
   surname: string;
-  isBlocked: 0 | 1;
+  isBlocked?: 0 | 1;
 };

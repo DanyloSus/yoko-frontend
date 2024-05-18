@@ -89,31 +89,30 @@ const LoginForm = ({ texts, errors }: Texts) => {
 
       try {
         // set post method to login user
-        const res = await axios.post(
-          "http://18.212.227.5:8876/api/v1/auth/admin-login",
-          value
-        );
+        const res = await axios.post("/api/login", value);
 
-        // get user's token
-        const token = res.data.data.token;
+        console.log(res);
 
-        // set token to cookie
-        await axios.post("/api/cookies", JSON.stringify(token));
+        // // get user's token
+        // const token = res.data.data.token;
 
-        const dataAdmin = res.data.data.user;
+        // // set token to cookie
+        // await axios.post("/api/cookies", JSON.stringify(token));
 
-        // write user to redux
-        dispatch(
-          login({
-            id: dataAdmin.id,
-            email: dataAdmin.email,
-            token,
-            isAdmin: true,
-          })
-        );
+        // const dataAdmin = res.data.data.user;
 
-        // change page
-        router.push("/admin/collections");
+        // // write user to redux
+        // dispatch(
+        //   login({
+        //     id: dataAdmin.id,
+        //     email: dataAdmin.email,
+        //     token,
+        //     isAdmin: true,
+        //   })
+        // );
+
+        // // change page
+        // router.push("/admin/collections");
         setIsLoading(false);
       } catch (error: any) {
         // error handling
