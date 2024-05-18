@@ -89,7 +89,7 @@ const CreateStore = ({ texts, errors }: FormTexts) => {
 
       try {
         // post collection
-        await axios.post("http://18.212.227.5:8876/api/v1/collections", data, {
+        await axios.post("/api/authed/store/add", data, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user.token}`,
