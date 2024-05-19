@@ -167,8 +167,6 @@ const SettingsForm = ({ texts, errors }: FormTexts) => {
 
         // updated data
         const updatedData = res.data.data.user;
-        console.log(data);
-        console.log(updatedData);
 
         // write updated data
         dispatch(
@@ -182,7 +180,7 @@ const SettingsForm = ({ texts, errors }: FormTexts) => {
           })
         );
 
-        // router.push("/authed/user");
+        router.push("/authed/user");
       } catch (error) {
         console.log(error);
         formik.setErrors({
