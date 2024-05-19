@@ -55,7 +55,7 @@ const WordsTable = ({ texts, ...props }: Texts & TableProps) => {
     try {
       // get collections by query and page
       const res: CollectionsResponse = await axios.get(
-        `http://18.212.227.5:8876/api/v1/collections?page=${page}${
+        `/api/admin/collections?page=${page}${
           props.query ? `&query=${props.query}` : ""
         }`,
         {

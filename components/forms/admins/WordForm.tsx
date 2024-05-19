@@ -42,7 +42,7 @@ const WordForm = ({ texts, ...props }: WordFormProps) => {
   useEffect(() => {
     async function fetchWord() {
       const res: WordResponse = await axios.get(
-        `http://18.212.227.5:8876/api/v1/words/${props.params.id}`,
+        `/api/admin/words/${props.params.id}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -84,11 +84,11 @@ const WordForm = ({ texts, ...props }: WordFormProps) => {
     validateOnChange: false,
     // on submit function
     onSubmit: async (value) => {
-      await axios.patch(
-        `http://18.212.227.5:8876/api/v1/words/${word!.id}`,
-        value,
-        { headers: { Authorization: `Bearer ${user.token}` } }
-      );
+      await axios.patch(`/api/admin/words/${word!.id}`, value, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       router.push("/admin/words");
     },
   });

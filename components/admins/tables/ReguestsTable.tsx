@@ -54,7 +54,7 @@ const RequestsTable = ({ texts, ...props }: TableTexts & TableProps) => {
     setIsLoading(true);
     try {
       const res: RequestsResponse = await axios.get(
-        `http://18.212.227.5:8876/api/v1/collections/requests?page=${page}${
+        `/api/admin/requests${page ? `?page=${page}` : ""}${
           props.query ? `&query=${props.query}` : ""
         }`,
         {

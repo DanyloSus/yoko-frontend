@@ -57,7 +57,7 @@ const UsersTable = ({ texts, ...props }: TableTexts & TableProps) => {
     setIsLoading(true);
     try {
       const res: UsersResponse = await axios.get(
-        `http://18.212.227.5:8876/api/v1/users?page=${page}${
+        `/api/admin/users?page=${page}${
           props.query ? `&query=${props.query}` : ""
         }`,
         {
@@ -105,15 +105,11 @@ const UsersTable = ({ texts, ...props }: TableTexts & TableProps) => {
   // function for block/unblock user
   const handleBlock = async (userId: number) => {
     try {
-      await axios.patch(
-        `http://18.212.227.5:8876/api/v1/users/${userId}/blockOrUnblock`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      await axios.patch(`/api/admin/users/${userId}`, null, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       // Update the user state
       setUsers((prevUsers) =>

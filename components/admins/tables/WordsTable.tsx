@@ -54,7 +54,7 @@ const WordsTable = ({ texts, ...props }: TableTexts & TableProps) => {
     try {
       // get words by query and page
       const res: WordsResponse = await axios.get(
-        `http://18.212.227.5:8876/api/v1/words?page=${page}${
+        `/api/admin/words?page=${page}${
           props.query ? `&query=${props.query}` : ""
         }`,
         {

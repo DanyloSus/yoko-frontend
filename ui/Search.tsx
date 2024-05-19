@@ -4,11 +4,14 @@
 // external imports
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { InputAdornment } from "@mui/material";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
 // internal imports
-import { useRouter } from "@/modules/internationalization/navigation";
+import {
+  usePathname,
+  useRouter,
+} from "@/modules/internationalization/navigation";
 import StyledTextField from "@/ui/mui/TextField";
 
 type SearchText = {

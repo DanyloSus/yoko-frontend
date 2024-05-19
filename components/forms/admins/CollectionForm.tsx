@@ -58,7 +58,7 @@ const CollectionForm = ({ texts, ...props }: CollectionFormProps) => {
   useEffect(() => {
     async function fetchCollection() {
       const res: CollectionResponse = await axios.get(
-        `http://18.212.227.5:8876/api/v1/collections/${props.params.id}`,
+        `/api/admin/collections/${props.params.id}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -109,11 +109,9 @@ const CollectionForm = ({ texts, ...props }: CollectionFormProps) => {
         ...value,
         status: toStatus,
       };
-      await axios.patch(
-        `http://18.212.227.5:8876/api/v1/collections/${collection!.id}`,
-        data,
-        { headers: { Authorization: `Bearer ${user.token}` } }
-      );
+      await axios.patch(`/api/admin/collections/${collection!.id}`, data, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
       router.push("/admin/collections");
     },
   });
