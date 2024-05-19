@@ -65,8 +65,12 @@ const CollectionContent = ({ texts, errors, ...props }: CollectionProps) => {
   async function fetchCollection() {
     try {
       const res: CollectionResponse = await axios.get(
-        `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}`,
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        `/api/collection/${props.collectionId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
 
       // state for collection
@@ -87,7 +91,7 @@ const CollectionContent = ({ texts, errors, ...props }: CollectionProps) => {
   const addCollection = async () => {
     try {
       await axios.post(
-        `http://18.212.227.5:8876/api/v1/users/startCollection/${props.collectionId}`,
+        `/api/collection/${props.collectionId}/addCollection`,
         undefined,
         {
           headers: {
@@ -104,15 +108,11 @@ const CollectionContent = ({ texts, errors, ...props }: CollectionProps) => {
   // function to like collection
   const likeCollection = async () => {
     try {
-      await axios.patch(
-        `http://18.212.227.5:8876/api/v1/users/like/${collection!.id}`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      await axios.patch(`/api/collection/${collection!.id}/like`, null, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
     } catch (error) {
       console.log(error);
     }

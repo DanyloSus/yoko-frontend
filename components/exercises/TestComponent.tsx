@@ -80,8 +80,12 @@ const TestComponent = (props: ComponentProps) => {
       try {
         setButtons([]);
         const res: QuizExerciseResponse = await axios.get(
-          `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/quiz`,
-          { headers: { Authorization: `Bearer ${user.token}` } }
+          `/api/collection/${props.collectionId}/exercises/test`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
         );
 
         const questions = res.data.data;

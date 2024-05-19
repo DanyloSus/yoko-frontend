@@ -39,7 +39,7 @@ const CardComponents = ({ texts, ...props }: ComponentProps) => {
     async function fetchCards() {
       try {
         const res: CardExerciseResponse = await axios.get(
-          `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/flashCards`,
+          `/api/collection/${props.collectionId}/exercises/cards`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,

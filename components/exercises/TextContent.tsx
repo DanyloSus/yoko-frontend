@@ -39,7 +39,7 @@ const TextContent = (props: ContentProps) => {
     async function fetchTexts() {
       try {
         const res: TextExerciseResponse = await axios.get(
-          `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/text`,
+          `/api/collection/${props.collectionId}/exercises/text`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,

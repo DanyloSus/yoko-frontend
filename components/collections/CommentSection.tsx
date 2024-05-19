@@ -49,7 +49,7 @@ const CommentSection = ({ texts, errors, ...props }: SectionProps) => {
       try {
         // send comment
         const res: CommentResponse = await axios.post(
-          `http://18.212.227.5:8876/api/v1/collections/${props.collectionId}/comment`,
+          `/api/collection/${props.collectionId}/comment`,
           {
             content: value.comment,
           },
@@ -103,7 +103,7 @@ const CommentSection = ({ texts, errors, ...props }: SectionProps) => {
             {texts.submit}
           </StyledButton>
         </form>
-        {props.comments?.reverse().map((comment) => (
+        {props.comments?.map((comment) => (
           <Comment
             content={comment.content}
             name={comment.user.name}

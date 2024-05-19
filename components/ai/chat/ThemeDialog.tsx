@@ -44,7 +44,7 @@ const ThemeDialog = ({ texts, errors, ...props }: Props) => {
       try {
         // get words from collection
         const resWords: TextExerciseResponse = await axios.get(
-          `http://18.212.227.5:8876/api/v1/collections/${props.params.id}/text`,
+          `/api/collection/${props.params.id}/exercises/text`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,
