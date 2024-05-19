@@ -32,9 +32,11 @@ const DeleteDialog = ({ texts, ...props }: DialogProps) => {
 
   const handleDelete = async () => {
     try {
-      await axios.patch(
-        `http://18.212.227.5:8876/api/v1/users/${user.id}/blockOrUnblock`
-      );
+      await axios.patch(`/api/admin/users//${user.id}`, null, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       await axios.post("/api/authentification/logout", {
         headers: {
