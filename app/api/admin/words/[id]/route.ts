@@ -4,7 +4,7 @@ import axios from "axios";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-// get method to get cookies of session
+// request to get the word
 export async function GET(
   req: NextRequest,
   {
@@ -15,10 +15,12 @@ export async function GET(
     };
   }
 ) {
+  // get authorization
   const authToken = (headers().get("authorization") || "")
     .split("Bearer ")
     .at(1);
 
+  // get word
   const res: WordResponse = await axios.get(
     `http://18.212.227.5:8876/api/v1/words/${params.id}`,
     {
@@ -28,11 +30,11 @@ export async function GET(
     }
   );
 
-  // return session
+  // return word
   return NextResponse.json(res.data, { status: 200 });
 }
 
-// request to register user
+// request to update the word
 export async function PATCH(
   req: NextRequest,
   {
@@ -43,17 +45,19 @@ export async function PATCH(
     };
   }
 ) {
+  // get authorization
   const authToken = (headers().get("authorization") || "")
     .split("Bearer ")
     .at(1);
 
+  // get data
   const data: {
     word: string;
     translationUk: string;
   } = await req.json();
 
   try {
-    // send get to get user's collections
+    // send patch to update word
     const res = await axios.patch(
       `http://18.212.227.5:8876/api/v1/words/${params.id}`,
       data,

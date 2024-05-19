@@ -1,21 +1,23 @@
 // external imports
-import { WordsResponse } from "@/modules/types/responses";
 import axios from "axios";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 // internal imports
+import { WordsResponse } from "@/modules/types/responses";
 
-// request to register user
+// request to get words
 export async function GET(req: NextRequest) {
+  // get authorization
   const authToken = (headers().get("authorization") || "")
     .split("Bearer ")
     .at(1);
 
+  // get query params
   const { searchParams } = new URL(req.url);
 
   try {
-    // send get to get user's collections
+    // get words
     const res: WordsResponse = await axios.get(
       `http://18.212.227.5:8876/api/v1/words${
         searchParams.get("page") ? `?page=${searchParams.get("page")}` : ""

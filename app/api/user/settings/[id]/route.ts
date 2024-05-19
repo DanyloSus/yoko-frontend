@@ -3,7 +3,7 @@ import axios from "axios";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-// request to register user
+// request to update user
 export async function PATCH(
   req: NextRequest,
   {
@@ -14,14 +14,16 @@ export async function PATCH(
     };
   }
 ) {
+  // get authorization
   const authToken = (headers().get("authorization") || "")
     .split("Bearer ")
     .at(1);
 
+  // get data
   const data = await req.json();
 
   try {
-    // send get to get user's collections
+    // send patch to update user and get updated data
     const res = await axios.patch(
       `http://18.212.227.5:8876/api/v1/users/${params.id}`,
       data,

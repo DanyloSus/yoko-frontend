@@ -3,7 +3,7 @@ import axios from "axios";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-// request to register user
+// request to block/unblock the user
 export async function PATCH(
   req: NextRequest,
   {
@@ -14,12 +14,13 @@ export async function PATCH(
     };
   }
 ) {
+  // get authorization
   const authToken = (headers().get("authorization") || "")
     .split("Bearer ")
     .at(1);
 
   try {
-    // send get to get user's collections
+    // request to block/unblock the user
     await axios.patch(
       `http://18.212.227.5:8876/api/v1/users/${params.id}/blockOrUnblock`,
       null,
@@ -30,11 +31,11 @@ export async function PATCH(
       }
     );
 
-    // send it
+    // send nothing
     return NextResponse.json(
       {},
       {
-        status: 200,
+        status: 204,
       }
     );
   } catch (error: any) {

@@ -1,21 +1,23 @@
 // external imports
-import { CollectionsResponse } from "@/modules/types/responses";
 import axios from "axios";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 // internal imports
+import { CollectionsResponse } from "@/modules/types/responses";
 
-// request to register user
+// request to get all users
 export async function GET(req: NextRequest) {
+  // get authorization
   const authToken = (headers().get("authorization") || "")
     .split("Bearer ")
     .at(1);
 
+  // get query params
   const { searchParams } = new URL(req.url);
 
   try {
-    // send get to get user's collections
+    // get users
     const res: CollectionsResponse = await axios.get(
       `http://18.212.227.5:8876/api/v1/users${
         searchParams.get("page") ? `?page=${searchParams.get("page")}` : ""
