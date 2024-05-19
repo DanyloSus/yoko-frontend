@@ -84,7 +84,9 @@ const CollectionContent = ({ texts, ...props }: ContentTexts & StoreProps) => {
 
     async function fetchCollections() {
       const res: CollectionsResponse = await axios.get(
-        `/api/authed/collections${props.query ? `?query=${props.query}` : ""}`,
+        `/api/authed/collections?page=1${
+          props.query.trim().length ? `&query=${props.query}` : ""
+        }`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,

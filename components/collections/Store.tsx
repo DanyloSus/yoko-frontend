@@ -42,7 +42,7 @@ const StoreContent = ({ texts, ...props }: StoreTexts & StoreProps) => {
     try {
       const res: CollectionsResponse = await axios.get(
         `/api/authed/store?page=${page}${
-          props.query.trim().length ? `&query=${props.query}` : ""
+          props.query ? `&query=${props.query}` : ""
         }`,
         {
           headers: {
@@ -85,8 +85,8 @@ const StoreContent = ({ texts, ...props }: StoreTexts & StoreProps) => {
 
     async function fetchCollections() {
       const res: CollectionsResponse = await axios.get(
-        `/api/authed/store${
-          props.query.trim().length ? `?query=${props.query}` : ""
+        `/api/authed/store?page=1${
+          props.query.trim().length ? `&query=${props.query}` : ""
         }`,
         {
           headers: {
