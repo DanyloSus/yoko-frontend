@@ -54,7 +54,6 @@ export async function PATCH(
     translationUk: string;
   } = await req.json();
 
-  console.log(data);
   try {
     // send get to get user's collections
     const res = await axios.patch(
@@ -66,8 +65,6 @@ export async function PATCH(
         },
       }
     );
-
-    console.log(res.data);
 
     // send it
     return NextResponse.json(res.data, {
